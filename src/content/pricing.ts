@@ -19,6 +19,8 @@ export type Tier = {
   audience: string;
   /** Set to null for quote-only tiers. */
   price: number | null;
+  /** Billing period for a recurring price. Omit for a one-off. */
+  period?: "month" | "year";
   /** Sits under the price. */
   priceNote: string;
   description: string;
@@ -35,7 +37,8 @@ export const tiers: Tier[] = [
     name: "Starter",
     audience: "A single site that needs to look right and be findable.",
     price: 999,
-    priceNote: "starting price",
+    period: "month",
+    priceNote: "billed monthly",
     description:
       "A proper, fast, mobile-first presence for one location — designed around the two or three things your customers actually come to do.",
     features: [
@@ -156,7 +159,7 @@ export const pricingFaqs: { question: string; answer: string }[] = [
   {
     question: "Is there an ongoing cost?",
     answer:
-      "Yes, and we itemise all of it upfront: your support and hosting plan, payment processing charged by your provider, and messaging at cost. Nothing is hidden and nothing is bundled to obscure it.",
+      "Yes, and we itemise all of it upfront: the monthly package price, payment processing charged directly by your payment provider, and messaging at cost. Nothing is hidden and nothing is bundled to obscure it.",
   },
   {
     question: "Can we pay in instalments?",

@@ -66,12 +66,10 @@ Still worth a pass:
 ## 5. Pricing — `src/content/pricing.ts`
 
 Three packages — Starter, Growth and Custom. Only Starter carries a published
-price (₹999); the other two show "Custom" and ask for a scoping call.
+price (₹999/month); the other two show "On request" and ask for a scoping call.
 
-- [ ] Confirm the Starter price, and whether it is one-off or recurring — the
-      card currently says "starting price", which is deliberately neutral
 - [ ] Add prices for Growth and Custom, or leave `price: null` to keep them
-      quote-only
+      quote-only. Set `period: "month"` on any that recur; omit it for one-offs.
 - [ ] Check the Starter feature list matches what you actually deliver
 - [ ] Currency is set once, in `formatPrice` in `src/lib/utils.ts` (INR)
 - [ ] Confirm the fixed-quote promise is really how you work

@@ -38,8 +38,9 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold text-ink-950">Information on this site</h2>
             <p className="mt-2">
               We keep the content accurate and current, but it&rsquo;s provided for general
-              information. Package prices shown are starting prices; the price for your project is
-              the one in the written quote we give you, and only that quote is binding.
+              information. Package prices shown are starting prices and exclude tax; where a price
+              is shown per month it recurs until cancelled. The price for anything scoped is the one
+              in the written quote we give you, and only that quote is binding.
             </p>
           </section>
 

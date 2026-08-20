@@ -66,7 +66,16 @@ export default function PricingPage() {
                     called Custom, and the same word in both places reads as a
                     mistake. */}
                 <p className="font-display text-4xl font-extrabold text-ink-950">
-                  {tier.price === null ? "On request" : formatPrice(tier.price)}
+                  {tier.price === null ? (
+                    "On request"
+                  ) : (
+                    <>
+                      {formatPrice(tier.price)}
+                      {tier.period ? (
+                        <span className="text-lg font-bold text-ink-500">/{tier.period}</span>
+                      ) : null}
+                    </>
+                  )}
                 </p>
                 <p className="mt-1 text-sm text-ink-500">{tier.priceNote}</p>
               </div>
