@@ -1,17 +1,27 @@
+import { CheckList } from "@/components/cards";
 import { CtaBanner } from "@/components/cta-banner";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
+import { Reveal } from "@/components/reveal";
 import { ArrowIcon, ButtonLink } from "@/components/ui/button";
 import { Container, Eyebrow, Section, SectionHeading } from "@/components/ui/section";
-import { carePlans, pricingFaqs, tiers } from "@/content/pricing";
+import {
+  alwaysIncluded,
+  priceDrivers,
+  pricingFaqs,
+  pricingModel,
+  runningCosts,
+  tiers,
+} from "@/content/pricing";
+import { products } from "@/content/products";
 import { faqJsonLd } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 import { cn, formatPrice } from "@/lib/utils";
 
 export const metadata = buildMetadata({
-  title: "Pricing — Fixed-Price Packages for Local Businesses",
+  title: "Pricing — Fixed Quotes, Scoped First",
   description:
-    "Transparent, fixed-price packages: Starter from $3,500, Growth from $6,900, and custom quotes for multi-location or bespoke software. No hourly billing, no surprises.",
+    "How pricing works for our restaurant and gym management systems: scoped first, then a fixed quote. What drives the cost, what's always included, and the running costs itemised.",
   path: "/pricing",
 });
 
@@ -22,11 +32,10 @@ export default function PricingPage() {
         <Container>
           <Eyebrow>Pricing</Eyebrow>
           <h1 className="mt-3 max-w-3xl text-4xl font-extrabold sm:text-5xl">
-            You&rsquo;ll know the price before we start
+            {pricingModel.headline}
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink-600">
-            Fixed quotes, agreed upfront. If the work takes longer than we estimated, that&rsquo;s
-            our problem — not a bigger invoice.
+            {pricingModel.lede}
           </p>
         </Container>
       </header>
@@ -53,13 +62,13 @@ export default function PricingPage() {
               <p className="mt-1.5 text-sm text-ink-600">{tier.audience}</p>
 
               <div className="mt-6">
+                {/* "On request" rather than "Custom" — one of the tiers is
+                    called Custom, and the same word in both places reads as a
+                    mistake. */}
                 <p className="font-display text-4xl font-extrabold text-ink-950">
-                  {tier.price ? formatPrice(tier.price) : "Custom"}
+                  {tier.price === null ? "On request" : formatPrice(tier.price)}
                 </p>
                 <p className="mt-1 text-sm text-ink-500">{tier.priceNote}</p>
-                <p className="mt-2 inline-block rounded-full bg-ink-100 px-2.5 py-1 text-xs font-semibold text-ink-700">
-                  {tier.timeline}
-                </p>
               </div>
 
               <p className="mt-6 text-[15px] leading-relaxed text-ink-600">{tier.description}</p>
@@ -87,11 +96,7 @@ export default function PricingPage() {
 
                 {tier.notIncluded?.map((item) => (
                   <li key={item} className="flex gap-2.5 text-[15px] text-ink-400">
-                    <svg
-                      viewBox="0 0 16 16"
-                      aria-hidden="true"
-                      className="mt-1 h-4 w-4 shrink-0"
-                    >
+                    <svg viewBox="0 0 16 16" aria-hidden="true" className="mt-1 h-4 w-4 shrink-0">
                       <path
                         d="M4.5 4.5l7 7m0-7l-7 7"
                         fill="none"
@@ -119,39 +124,85 @@ export default function PricingPage() {
         </div>
 
         <p className="mt-8 text-center text-sm text-ink-500">
-          Prices in USD, excluding tax. Payment plans available — a third upfront, a third at design
-          sign-off, a third on launch.
+          Prices exclude tax. Anything beyond a package is scoped first, then quoted at a fixed
+          price.
         </p>
+      </Section>
+
+      <Section tone="tinted">
+        <SectionHeading
+          eyebrow="What moves the price"
+          title="Five things, and none of them is a surprise"
+          description="Ask any supplier to explain their price in these terms. If they can't, the number is guesswork."
+        />
+
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {priceDrivers.map((driver, index) => (
+            <Reveal key={driver.title} delay={(index % 3) * 60} className="h-full">
+              <div className="h-full rounded-card border border-line bg-surface p-6">
+                <h3 className="font-bold text-ink-950">{driver.title}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-ink-600">{driver.body}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      <Section>
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <Eyebrow>In every project</Eyebrow>
+            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
+              What the quote always covers
+            </h2>
+            <p className="mt-4 text-ink-600">
+              Regardless of size, these are never billed as extras once the work is under way.
+            </p>
+            <CheckList className="mt-6" items={alwaysIncluded} />
+          </div>
+
+          <div className="rounded-card border border-line bg-surface p-7">
+            <h2 className="text-sm font-bold uppercase tracking-wide text-ink-500">
+              Running costs, itemised
+            </h2>
+            <p className="mt-3 text-[15px] text-ink-600">
+              Costs that continue after launch. Some are ours, some are not — here&rsquo;s which
+              is which.
+            </p>
+            <dl className="mt-5 space-y-4 border-t border-line pt-5">
+              {runningCosts.map((cost) => (
+                <div key={cost.title}>
+                  <dt className="font-semibold text-ink-900">{cost.title}</dt>
+                  <dd className="mt-1 text-[15px] leading-relaxed text-ink-600">{cost.body}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
       </Section>
 
       <Section tone="surface">
         <SectionHeading
-          eyebrow="After launch"
-          title="Care plans, if you want one"
-          description="Support is included free for the first 3–12 months depending on your package. After that it's month-to-month, and you can stop any time."
+          align="center"
+          eyebrow="Get a number"
+          title="A quote takes one call and a look at your setup"
+          description="Tell us which system you need and roughly how you operate. You'll get a fixed price, in writing, with the scope it covers spelled out."
         />
 
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
-          {carePlans.map((plan) => (
-            <div key={plan.name} className="rounded-card border border-line bg-canvas p-7">
-              <div className="flex items-baseline justify-between gap-4">
-                <h3 className="text-lg font-bold">{plan.name}</h3>
-                <p className="font-display text-2xl font-bold text-ink-950">
-                  {formatPrice(plan.price)}
-                  <span className="text-sm font-medium text-ink-500">/mo</span>
-                </p>
-              </div>
-              <p className="mt-2 text-[15px] text-ink-600">{plan.description}</p>
-              <ul className="mt-5 space-y-2 border-t border-line pt-5">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex gap-2.5 text-[15px] text-ink-700">
-                    <span aria-hidden="true" className="text-clay-500">
-                      →
-                    </span>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
+        <div className="mx-auto mt-10 grid max-w-3xl gap-5 sm:grid-cols-2">
+          {products.map((product) => (
+            <div
+              key={product.slug}
+              className="rounded-card border border-line bg-canvas p-6 text-center"
+            >
+              <span aria-hidden="true" className="text-3xl">
+                {product.glyph}
+              </span>
+              <h3 className="mt-3 font-bold text-ink-950">{product.name}</h3>
+              <p className="mt-2 text-[15px] text-ink-600">{product.tagline}</p>
+              <ButtonLink href={`/${product.slug}`} variant="secondary" className="mt-5 w-full">
+                What&rsquo;s included
+              </ButtonLink>
             </div>
           ))}
         </div>
@@ -163,7 +214,7 @@ export default function PricingPage() {
             <Eyebrow>Pricing questions</Eyebrow>
             <h2 className="mt-3 text-3xl font-bold sm:text-4xl">No surprises, on purpose</h2>
             <p className="mt-4 text-ink-600">
-              If something here isn&rsquo;t clear, ask us before you commit to anything.
+              If something here isn&rsquo;t clear, ask before you commit to anything.
             </p>
           </div>
           <Faq items={pricingFaqs} />
@@ -171,8 +222,8 @@ export default function PricingPage() {
       </Section>
 
       <CtaBanner
-        title="Get a fixed quote for your project"
-        description="Thirty minutes on a call is usually enough for us to give you a real number — not a range, and not “it depends”."
+        title="Get a fixed quote for your setup"
+        description="One call and a look at how you operate is usually enough for us to give you a real number — not a range, and not “it depends”."
       />
 
       <JsonLd data={faqJsonLd(pricingFaqs)} />

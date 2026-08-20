@@ -1,22 +1,29 @@
 /**
- * Packages and pricing.
+ * Packages and how pricing works.
  *
- * PLACEHOLDER: the numbers are plausible but invented. Set your real prices
- * here — nothing else in the site hard-codes an amount.
+ * Only tiers with a price you can stand behind should carry one; set `price`
+ * to null and the card shows "Custom" with a quote CTA instead. Amounts are
+ * plain numbers rendered by `formatPrice` in src/lib/utils.ts, which sets the
+ * currency (INR) in one place.
  */
+
+export const pricingModel = {
+  headline: "You'll know the price before we start",
+  lede: "Every business we work with has a different number of locations, a different mess to migrate and a different set of modules switched on. Start with a package below, and anything beyond it is scoped and quoted at a fixed price.",
+};
 
 export type Tier = {
   slug: string;
   name: string;
   /** Who it's for, in one line. */
   audience: string;
+  /** Set to null for quote-only tiers. */
   price: number | null;
-  /** Shown under the price. */
+  /** Sits under the price. */
   priceNote: string;
-  timeline: string;
   description: string;
   features: string[];
-  /** Things this tier deliberately does not include. Honesty converts. */
+  /** What this tier deliberately leaves out. Honesty converts. */
   notIncluded?: string[];
   cta: { label: string; href: string };
   highlighted: boolean;
@@ -26,132 +33,144 @@ export const tiers: Tier[] = [
   {
     slug: "starter",
     name: "Starter",
-    audience: "One location that needs to look right and be findable.",
-    price: 3500,
-    priceNote: "one-off, fixed quote",
-    timeline: "Live in 3 weeks",
+    audience: "A single site that needs to look right and be findable.",
+    price: 999,
+    priceNote: "starting price",
     description:
-      "A proper website — fast, mobile-first, easy for you to update — plus the Google setup that makes people nearby actually find you.",
+      "A proper, fast, mobile-first presence for one location — designed around the two or three things your customers actually come to do.",
     features: [
       "Up to 6 pages, custom designed",
       "Mobile-first build, tested on real phones",
       "Menu, service list or product highlights",
       "Enquiry form straight to your inbox",
-      "Google Business Profile setup",
-      "Local SEO and analytics",
-      "Self-serve editing for hours and text",
-      "3 months of support included",
     ],
     notIncluded: ["Online payments", "Booking or ordering systems"],
-    cta: { label: "Get a free consultation", href: "/contact" },
+    cta: { label: "Get started", href: "/contact" },
     highlighted: false,
   },
   {
     slug: "growth",
     name: "Growth",
     audience: "Businesses taking orders or bookings every day.",
-    price: 6900,
-    priceNote: "one-off, fixed quote",
-    timeline: "Live in 5 weeks",
+    price: null,
+    priceNote: "quoted after a scoping call",
     description:
       "Everything in Starter, plus the system that takes the orders or the bookings — the part that pays for itself.",
     features: [
       "Everything in Starter, up to 12 pages",
-      "Online ordering *or* appointment booking",
+      "Online ordering or class and appointment booking",
       "Card payments and deposits",
       "SMS and email reminders or order updates",
       "Kitchen printer or staff calendar sync",
-      "Customer accounts and reorder/rebooking",
-      "POS integration where supported",
-      "Staff training and launch-day cover",
-      "6 months of support included",
+      "Customer accounts, reordering and rebooking",
     ],
-    cta: { label: "Get a free consultation", href: "/contact" },
+    cta: { label: "Get a quote", href: "/contact" },
     highlighted: true,
   },
   {
     slug: "custom",
     name: "Custom",
-    audience: "Multiple locations, or a process no off-the-shelf tool fits.",
+    audience: "Multiple locations, or the full management system.",
     price: null,
-    priceNote: "quoted after a free discovery session",
-    timeline: "Scoped with you",
+    priceNote: "quoted after a scoping call",
     description:
-      "When the work is inventory, rotas, loyalty, wholesale or several sites at once, we scope it properly and quote a fixed price.",
+      "The complete restaurant or gym management system — every module you need, across as many sites as you run.",
     features: [
       "Everything in Growth, no page limit",
-      "Multi-location support and per-site menus",
-      "Custom software — inventory, rotas, loyalty, CRM",
+      "The full restaurant or gym management system",
+      "Multi-location support with per-site setup",
       "Integrations with your existing tools",
-      "Data migration from spreadsheets or old systems",
-      "Dedicated project lead",
-      "Priority phone and WhatsApp support",
-      "12 months of support included",
+      "Data migration from spreadsheets or an old system",
+      "A dedicated project lead",
     ],
-    cta: { label: "Book a discovery call", href: "/contact" },
+    cta: { label: "Book a scoping call", href: "/contact" },
     highlighted: false,
   },
 ];
 
-/** Monthly care plans, sold after the included support period ends. */
-export const carePlans: { name: string; price: number; description: string; features: string[] }[] =
-  [
-    {
-      name: "Essential",
-      price: 149,
-      description: "Hosting, monitoring and the small changes you need each month.",
-      features: [
-        "Managed hosting and CDN",
-        "Uptime monitoring and daily backups",
-        "Security patches and updates",
-        "Up to 1 hour of content changes monthly",
-        "Email support, next business day",
-      ],
-    },
-    {
-      name: "Priority",
-      price: 349,
-      description: "For businesses where an hour of downtime costs real money.",
-      features: [
-        "Everything in Essential",
-        "Up to 4 hours of changes monthly",
-        "Phone and WhatsApp support",
-        "Same-day response, 7 days a week",
-        "Quarterly speed and SEO review",
-        "Seasonal menu or timetable updates",
-      ],
-    },
-  ];
+/** What actually moves a quote up or down. */
+export const priceDrivers: { title: string; body: string }[] = [
+  {
+    title: "Which modules you switch on",
+    body: "Ordering only is a different project from ordering, inventory, rotas and reporting. You pay for what you turn on, not for the full catalogue.",
+  },
+  {
+    title: "How many locations",
+    body: "A second site with its own menu, timetable and staff adds setup and training; the tenth adds much less than the second.",
+  },
+  {
+    title: "What has to be migrated",
+    body: "Moving members, balances and booking history from an existing system is real work. Starting from a spreadsheet is usually quicker than starting from a closed platform.",
+  },
+  {
+    title: "Integrations",
+    body: "Payments and printing are routine. A POS or door system with a documented API is straightforward; one without needs a workaround, and we will tell you which yours is at scoping.",
+  },
+  {
+    title: "Training and go-live cover",
+    body: "A team of four across one site is a different job from forty across three. We size this with you rather than assuming.",
+  },
+];
+
+/** True of every project regardless of size. */
+export const alwaysIncluded: string[] = [
+  "A scoping session and a written summary of what we agreed",
+  "Configuration around your real menu, timetable, plans and staff",
+  "Data migration from your current system or spreadsheets",
+  "Training for the people who will use it daily",
+  "Someone present for go-live",
+  "A fixed price agreed before any work starts",
+];
+
+/** Costs that are not ours, itemised so nothing arrives as a surprise. */
+export const runningCosts: { title: string; body: string }[] = [
+  {
+    title: "Payment processing",
+    body: "Charged by your payment provider, as a percentage of each transaction, and paid directly to them. It never passes through us.",
+  },
+  {
+    title: "Hosting and support",
+    body: "An ongoing plan covers hosting, updates, backups and support. Terms are agreed in writing before launch and are month-to-month.",
+  },
+  {
+    title: "Messaging",
+    body: "SMS reminders and notifications are billed at cost by the messaging provider. Email is usually included.",
+  },
+  {
+    title: "Hardware",
+    body: "Printers, tablets, scanners or kiosks, if you need them. We will tell you what works and let you buy it yourself rather than marking it up.",
+  },
+];
 
 export const pricingFaqs: { question: string; answer: string }[] = [
   {
-    question: "Why is the price fixed rather than hourly?",
+    question: "Why is only the Starter price published?",
     answer:
-      "Because you need to know what it costs before you commit. We scope the work in the discovery session, quote a fixed price, and that's the price — if we underestimate, that's our problem, not your invoice.",
+      "Because Starter is a known quantity, so we can put a number on it honestly. Above that, the same system can be a modest setup for one site or a migration across four with a POS integration in the middle — a published price would be either meaningless or wrong. We would rather scope it and give you a real number than advertise one we cannot honour.",
   },
   {
-    question: "What if I need something halfway between two packages?",
+    question: "What does the quote actually cover?",
     answer:
-      "That's most people. The packages are a starting point; we quote what you actually need. Tell us the situation on the call and you'll get a number for your version of it.",
+      "Everything agreed in the scoping summary — configuration, migration, training and go-live — at a fixed price. If we underestimated the work, that is our problem to absorb, not a change request aimed at you.",
   },
   {
-    question: "Are there ongoing costs?",
+    question: "Is there an ongoing cost?",
     answer:
-      "Three, and we'll tell you all of them upfront: your domain (about $15 a year), payment processing if you take money online (charged by Stripe or Square, not by us), and a care plan if you want one after the included support runs out. Nothing is hidden.",
+      "Yes, and we itemise all of it upfront: your support and hosting plan, payment processing charged by your provider, and messaging at cost. Nothing is hidden and nothing is bundled to obscure it.",
   },
   {
-    question: "Do I own it?",
+    question: "Can we pay in instalments?",
     answer:
-      "Yes — the domain, the code, the customer data, all of it, in accounts under your name. If you ever want to move to another agency, you leave with everything. We'd rather earn the renewal than trap you.",
+      "Usually, yes — typically split across the start of the project, sign-off and go-live. If a seasonal business needs it spread differently, ask us.",
   },
   {
-    question: "Can I pay in instalments?",
+    question: "What if we only want one module?",
     answer:
-      "Yes. The standard split is a third to start, a third at design sign-off, and a third on launch. If you need it spread further, ask — we've done longer terms for seasonal businesses.",
+      "That is fine and it is a smaller quote. Both systems are modular, and adding a module later is a normal, priced piece of work rather than a new project.",
   },
   {
-    question: "What if I already have a website I like?",
+    question: "What happens if we want to leave?",
     answer:
-      "Then keep it. We'll build the ordering or booking system into what you've got, or take over support for the existing site if the previous developer has gone quiet. You don't have to start over to work with us.",
+      "You take your data with you — customers, members, orders, bookings and history, exported in a usable format. The notice period and handover are written into the agreement so it is never a negotiation later.",
   },
 ];

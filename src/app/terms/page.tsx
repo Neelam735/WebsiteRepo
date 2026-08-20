@@ -38,16 +38,8 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold text-ink-950">Information on this site</h2>
             <p className="mt-2">
               We keep the content accurate and current, but it&rsquo;s provided for general
-              information. Prices shown are indicative starting points — the price for your project
-              is the one in the written quote we give you, and only that quote is binding.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-ink-950">Case studies and testimonials</h2>
-            <p className="mt-2">
-              Results described in case studies are specific to those businesses. They are not a
-              promise of what your business will achieve.
+              information. Package prices shown are starting prices; the price for your project is
+              the one in the written quote we give you, and only that quote is binding.
             </p>
           </section>
 
@@ -62,9 +54,8 @@ export default function TermsPage() {
           <section>
             <h2 className="text-2xl font-bold text-ink-950">Intellectual property</h2>
             <p className="mt-2">
-              The design, text and code of this website belong to {site.legalName}. Client names
-              and marks shown in case studies belong to their respective owners and are used with
-              permission.
+              The design, text and code of this website belong to {site.legalName}. Any
+              third-party names or marks referred to belong to their respective owners.
             </p>
           </section>
 

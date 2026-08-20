@@ -44,7 +44,7 @@ function renderEmail(lead: LeadInput): { subject: string; html: string; text: st
     ["Email", lead.email],
     ["Phone", lead.phone || "—"],
     ["Interested in", lead.interest || "—"],
-    ["Budget", lead.budget || "—"],
+    ["Locations", lead.locations || "—"],
   ];
 
   const subject = `New enquiry — ${lead.name}${lead.business ? ` (${lead.business})` : ""}`;

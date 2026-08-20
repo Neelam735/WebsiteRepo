@@ -10,29 +10,26 @@
  */
 
 export const businessTypes = [
-  "Restaurant",
-  "Cafe or coffee shop",
-  "Salon or spa",
-  "Gym or fitness studio",
-  "Bakery or food truck",
-  "Retail or boutique store",
-  "Other local business",
-] as const;
-
-export const budgetRanges = [
-  "Not sure yet",
-  "Under $5,000",
-  "$5,000 – $10,000",
-  "$10,000 – $25,000",
-  "$25,000+",
+  "Restaurant, cafe or bar",
+  "Gym, studio or fitness business",
+  "Both",
+  "Something else",
 ] as const;
 
 export const interestOptions = [
-  "A new website",
-  "Online ordering",
-  "Booking system",
-  "Custom software",
-  "Support for an existing site",
+  "Restaurant management system",
+  "Gym management system",
+  "Moving off our current system",
+  "Adding a module to what we run today",
+  "Not sure yet — need advice",
+] as const;
+
+export const locationCounts = [
+  "Not sure yet",
+  "One location",
+  "2–3 locations",
+  "4–10 locations",
+  "More than 10",
 ] as const;
 
 export type LeadInput = {
@@ -42,7 +39,7 @@ export type LeadInput = {
   email: string;
   phone: string;
   interest: string;
-  budget: string;
+  locations: string;
   message: string;
   /** Honeypot — must stay empty. Bots fill it in, humans never see it. */
   website?: string;

@@ -54,19 +54,19 @@ export default function OpengraphImage() {
               letterSpacing: "-0.02em",
             }}
           >
-            Software that works as hard as you do
+            Restaurant & gym management systems
           </div>
           <div style={{ color: "#f3d998", fontSize: "30px", marginTop: "24px", maxWidth: "900px" }}>
-            Websites, online ordering and booking systems for local businesses
+            Ordering, menus and kitchen. Memberships, classes and check-in.
           </div>
         </div>
 
         <div style={{ display: "flex", gap: "28px", color: "#e7dcd0", fontSize: "24px" }}>
           <span>Fixed quotes</span>
           <span>·</span>
-          <span>Live in weeks</span>
+          <span>Scoped first</span>
           <span>·</span>
-          <span>You own everything</span>
+          <span>Your data stays yours</span>
         </div>
       </div>
     ),

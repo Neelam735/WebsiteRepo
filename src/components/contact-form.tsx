@@ -4,12 +4,12 @@ import { useId, useState } from "react";
 
 import { trackLead } from "@/components/analytics";
 import { Button } from "@/components/ui/button";
-import { site } from "@/content/site";
+import { fallbackSentence, hasPhone, phoneLabel, site, telUrl } from "@/content/site";
 import {
-  budgetRanges,
   businessTypes,
   hasErrors,
   interestOptions,
+  locationCounts,
   validateLead,
   type LeadInput,
   type ValidationErrors,
@@ -23,7 +23,7 @@ const EMPTY: LeadInput = {
   email: "",
   phone: "",
   interest: "",
-  budget: "",
+  locations: "",
   message: "",
   website: "",
 };
@@ -89,10 +89,7 @@ export function ContactForm() {
 
       if (!response.ok || !data.ok) {
         if (data.errors) setErrors(data.errors);
-        setServerError(
-          data.error ??
-            `We couldn't send that. Please call us on ${site.contact.phoneDisplay} instead.`,
-        );
+        setServerError(data.error ?? fallbackSentence("We couldn't send that."));
         setStatus("error");
         return;
       }
@@ -102,7 +99,7 @@ export function ContactForm() {
       setValues(EMPTY);
     } catch {
       setServerError(
-        `We couldn't reach the server. Please check your connection, or call us on ${site.contact.phoneDisplay}.`,
+        fallbackSentence("We couldn't reach the server. Please check your connection."),
       );
       setStatus("error");
     }
@@ -128,11 +125,17 @@ export function ContactForm() {
         </div>
         <h2 className="mt-4 text-xl font-bold text-ink-950">Thanks — that&rsquo;s with us.</h2>
         <p className="mx-auto mt-2 max-w-md text-ink-700">
-          {site.contact.responsePromise} If it&rsquo;s urgent, call{" "}
-          <a href={`tel:${site.contact.phoneE164}`} className="font-semibold text-clay-700 underline">
-            {site.contact.phoneDisplay}
-          </a>{" "}
-          and you&rsquo;ll get a person, not a queue.
+          {site.contact.responsePromise}
+          {hasPhone ? (
+            <>
+              {" "}
+              If it&rsquo;s urgent, call{" "}
+              <a href={telUrl} className="font-semibold text-clay-700 underline">
+                {phoneLabel}
+              </a>{" "}
+              and you&rsquo;ll get a person, not a queue.
+            </>
+          ) : null}
         </p>
         <button
           type="button"
@@ -228,11 +231,11 @@ export function ContactForm() {
           </select>
         </Field>
 
-        <Field label="Rough budget" htmlFor={`${formId}-budget`} hint="Optional">
-          <select {...field("budget")} className={inputClass()}>
-            {budgetRanges.map((range) => (
-              <option key={range} value={range}>
-                {range}
+        <Field label="How many locations?" htmlFor={`${formId}-locations`} hint="Optional">
+          <select {...field("locations")} className={inputClass()}>
+            {locationCounts.map((count) => (
+              <option key={count} value={count}>
+                {count}
               </option>
             ))}
           </select>
@@ -250,7 +253,7 @@ export function ContactForm() {
           {...field("message")}
           rows={5}
           className={cn(inputClass(errors.message), "resize-y")}
-          placeholder="e.g. We're losing orders to the delivery apps and our menu is a PDF from three years ago."
+          placeholder="e.g. We run three studios on a spreadsheet and keep missing failed membership payments."
         />
       </Field>
 

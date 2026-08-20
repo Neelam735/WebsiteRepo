@@ -1,33 +1,29 @@
 import Link from "next/link";
 
-import { CaseStudyCard, IndustryCard, ServiceCard } from "@/components/cards";
+import { CheckList, ProductCard } from "@/components/cards";
 import { CtaBanner } from "@/components/cta-banner";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
-import { BookingMockup, OrderingMockup } from "@/components/mockups";
+import { ClassScheduleMockup, OrderingMockup } from "@/components/mockups";
 import { Reveal } from "@/components/reveal";
-import { LogoCloud, StatBand, TestimonialCard } from "@/components/social-proof";
 import { ArrowIcon, ButtonLink } from "@/components/ui/button";
 import { Container, Eyebrow, Section, SectionHeading } from "@/components/ui/section";
-import { faqs } from "@/content/about";
-import { featuredCaseStudies } from "@/content/case-studies";
-import { industries } from "@/content/industries";
-import { process, services } from "@/content/services";
-import { primaryCta, secondaryCta, site } from "@/content/site";
-import { testimonials } from "@/content/social-proof";
+import { faqs } from "@/content/company";
+import { process, products } from "@/content/products";
+import { primaryCta, site } from "@/content/site";
 import { faqJsonLd } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: `${site.name} — Websites & booking systems for local businesses`,
+  title: `${site.name} — Restaurant & gym management systems`,
   description: site.description,
   path: "/",
   keywords: [
-    "local business website design",
-    "restaurant online ordering system",
-    "salon booking software",
-    "gym membership software",
-    "small business web design",
+    "restaurant management system",
+    "gym management system",
+    "online ordering system",
+    "class booking software",
+    "membership management software",
   ],
 });
 
@@ -35,12 +31,9 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <LogoBand />
-      <WhoWeHelp />
+      <WhatWeDo />
       <HowItWorks />
-      <ServicesOverview />
-      <Proof />
-      <FeaturedWork />
+      <WhyUs />
       <HomeFaq />
       <CtaBanner />
       <JsonLd data={faqJsonLd(faqs.slice(0, 5))} />
@@ -66,13 +59,13 @@ function Hero() {
           <div>
             <p className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-sm font-medium text-ink-700 shadow-sm ring-1 ring-line">
               <span className="h-2 w-2 rounded-full bg-sage-500" />
-              Taking on projects for {new Date().getFullYear()}
+              Two systems. Nothing else.
             </p>
 
             <h1 className="mt-6 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
-              Software that works as hard as{" "}
+              Software that runs{" "}
               <span className="relative whitespace-nowrap text-clay-700">
-                you do
+                the whole floor
                 <svg
                   aria-hidden="true"
                   viewBox="0 0 300 12"
@@ -91,8 +84,9 @@ function Hero() {
             </h1>
 
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-600 sm:text-xl">
-              We build the websites, ordering and booking systems that local businesses actually
-              run on. Fixed quotes, live in weeks, and you own every bit of it.
+              A restaurant management system for orders, menus, tables and the kitchen. A gym
+              management system for memberships, classes and check-in. Set up around how you
+              already work, with a fixed quote before we start.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -100,29 +94,26 @@ function Hero() {
                 {primaryCta.label}
                 <ArrowIcon />
               </ButtonLink>
-              <ButtonLink href={secondaryCta.href} variant="secondary" size="lg">
-                {secondaryCta.label}
+              <ButtonLink href="#what-we-do" variant="secondary" size="lg">
+                See what&rsquo;s in each system
               </ButtonLink>
             </div>
 
             <p className="mt-5 text-sm text-ink-500">
-              Free 30-minute call · No obligation · {site.contact.responsePromise}
+              A walkthrough with your own menu or timetable · No obligation
             </p>
           </div>
 
           {/*
-            The two things people buy most, in one composition. The phone
-            overlaps the booking frame's right edge — the half carrying the
-            least information — and overhangs into the page margin, so both
-            mockups stay legible instead of one smothering the other.
-
-            It only appears from lg up: below that there isn't room to render a
-            phone at a width where its menu rows are readable, and a cramped,
-            truncated mockup undersells the product it's meant to show.
+            One mockup per system. The phone overlaps the timetable's right
+            edge — the half carrying the least information — and overhangs into
+            the page margin, so both stay legible instead of one smothering the
+            other. It only appears from lg up: below that there isn't room to
+            render a phone at a width where its rows are readable.
           */}
           <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
             <Reveal>
-              <BookingMockup />
+              <ClassScheduleMockup />
             </Reveal>
             <Reveal delay={120}>
               <div className="absolute -bottom-14 right-0 hidden w-56 lg:block">
@@ -138,32 +129,19 @@ function Hero() {
   );
 }
 
-function LogoBand() {
+function WhatWeDo() {
   return (
-    <section className="border-y border-line bg-surface py-10">
-      <Container>
-        <p className="text-center text-sm font-medium text-ink-500">
-          Trusted by independent businesses across the country
-        </p>
-        <LogoCloud className="mt-6" />
-      </Container>
-    </section>
-  );
-}
-
-function WhoWeHelp() {
-  return (
-    <Section id="who-we-help">
+    <Section id="what-we-do" tone="surface">
       <SectionHeading
-        eyebrow="Who we help"
-        title="We know your business, not just software"
-        description="Every trade has its own version of the same problem: too much admin, too many missed customers. Here's what that looks like in yours."
+        eyebrow="What we do"
+        title="Two systems, built for two trades"
+        description="We don't do a bit of everything. These are the two systems we build, and both go deep enough to run the business rather than just decorate it."
       />
 
-      <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {industries.map((industry, index) => (
-          <Reveal key={industry.slug} delay={index * 60} className="h-full">
-            <IndustryCard industry={industry} />
+      <ul className="mt-12 grid gap-6 md:grid-cols-2">
+        {products.map((product, index) => (
+          <Reveal key={product.slug} delay={index * 80} className="h-full">
+            <ProductCard product={product} />
           </Reveal>
         ))}
       </ul>
@@ -173,25 +151,20 @@ function WhoWeHelp() {
 
 function HowItWorks() {
   return (
-    <Section tone="surface" id="how-it-works">
+    <Section id="how-it-works">
       <SectionHeading
         eyebrow="How it works"
-        title="Four steps, five weeks, one fixed price"
+        title="Scoped first, quoted once"
         description="You'll know what's happening at every stage, and you'll never get an invoice you weren't expecting."
       />
 
       <ol className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {process.map((step, index) => (
           <Reveal key={step.step} delay={index * 80} className="h-full">
-            <li className="relative flex h-full flex-col rounded-card border border-line bg-canvas p-6">
-              <div className="flex items-baseline gap-3">
-                <span className="font-display text-3xl font-extrabold text-clay-200">
-                  {step.step}
-                </span>
-                <span className="text-xs font-semibold uppercase tracking-wide text-ink-400">
-                  {step.duration}
-                </span>
-              </div>
+            <li className="flex h-full flex-col rounded-card border border-line bg-surface p-6">
+              <span className="font-display text-3xl font-extrabold text-clay-200">
+                {step.step}
+              </span>
               <h3 className="mt-3 text-lg font-bold">{step.name}</h3>
               <p className="mt-2 text-[15px] leading-relaxed text-ink-600">{step.description}</p>
             </li>
@@ -202,81 +175,59 @@ function HowItWorks() {
   );
 }
 
-function ServicesOverview() {
+function WhyUs() {
   return (
-    <Section id="services">
-      <div className="flex flex-wrap items-end justify-between gap-6">
-        <SectionHeading
-          eyebrow="What we build"
-          title="Five things, done properly"
-          description="Most projects are one or two of these. We'll tell you honestly which ones you actually need."
-        />
-        <ButtonLink href="/services" variant="secondary">
-          All services
-        </ButtonLink>
-      </div>
+    <Section tone="tinted">
+      <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+        <div>
+          <Eyebrow>Why work with us</Eyebrow>
+          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
+            One system instead of four tools and a spreadsheet
+          </h2>
+          <p className="mt-4 text-lg leading-relaxed text-ink-600">
+            The cost of running on disconnected tools is not the subscriptions — it&rsquo;s the
+            hour a day someone spends copying between them, and the questions nobody can answer
+            without three exports.
+          </p>
 
-      <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((service, index) => (
-          <Reveal key={service.slug} delay={index * 60} className="h-full">
-            <ServiceCard service={service} />
-          </Reveal>
-        ))}
-      </ul>
-    </Section>
-  );
-}
+          <CheckList
+            className="mt-6"
+            items={[
+              "Set up with your real data, not a demo dataset",
+              "Modular — switch on what you need, leave the rest off",
+              "Migration from your current system is part of the job",
+              "We're there for go-live, not just for the invoice",
+            ]}
+          />
 
-function Proof() {
-  const featured = testimonials.slice(0, 3);
+          <ButtonLink href="/about" variant="secondary" className="mt-7">
+            How we work
+          </ButtonLink>
+        </div>
 
-  return (
-    <Section tone="tinted" id="results">
-      <SectionHeading
-        eyebrow="Results"
-        title="The numbers owners actually care about"
-        description="Commission saved, no-shows cut, hours handed back. Here's what our clients measure."
-        align="center"
-      />
-
-      <div className="mt-12">
-        <StatBand />
-      </div>
-
-      <div className="mt-8 grid gap-5 lg:grid-cols-3">
-        {featured.map((testimonial, index) => (
-          <Reveal key={testimonial.id} delay={index * 80} className="h-full">
-            <TestimonialCard testimonial={testimonial} featured={index === 0} />
-          </Reveal>
-        ))}
-      </div>
-    </Section>
-  );
-}
-
-function FeaturedWork() {
-  return (
-    <Section id="work">
-      <div className="flex flex-wrap items-end justify-between gap-6">
-        <SectionHeading
-          eyebrow="Case studies"
-          title="Problem, solution, result"
-          description="Three projects, with the numbers that came out the other side."
-        />
-        <ButtonLink href="/work" variant="secondary">
-          See all work
-        </ButtonLink>
-      </div>
-
-      <div className="mt-12 grid gap-6 lg:grid-cols-3">
-        {featuredCaseStudies.map((study, index) => {
-          const industry = industries.find((item) => item.slug === study.industry);
-          return (
-            <Reveal key={study.slug} delay={index * 80} className="h-full">
-              <CaseStudyCard study={study} industryName={industry?.shortName} />
-            </Reveal>
-          );
-        })}
+        <div className="grid gap-4 sm:grid-cols-2">
+          {products.map((product) => (
+            <Link
+              key={product.slug}
+              href={`/${product.slug}`}
+              className="group flex flex-col rounded-card border border-line bg-surface p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-clay-200 hover:shadow-[var(--shadow-lift)]"
+            >
+              <span aria-hidden="true" className="text-2xl">
+                {product.glyph}
+              </span>
+              <h3 className="mt-3 font-bold text-ink-950">{product.name}</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-600">
+                {product.modules.length} modules, from{" "}
+                {product.modules[0]!.name.toLowerCase()} to{" "}
+                {product.modules[product.modules.length - 1]!.name.toLowerCase()}.
+              </p>
+              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-clay-700">
+                Take a look
+                <ArrowIcon />
+              </span>
+            </Link>
+          ))}
+        </div>
       </div>
     </Section>
   );
@@ -291,7 +242,10 @@ function HomeFaq() {
           <h2 className="mt-3 text-3xl font-bold sm:text-4xl">The things everyone asks</h2>
           <p className="mt-4 text-ink-600">
             Can&rsquo;t see yours?{" "}
-            <Link href="/contact" className="font-semibold text-clay-700 underline underline-offset-4">
+            <Link
+              href="/contact"
+              className="font-semibold text-clay-700 underline underline-offset-4"
+            >
               Ask us directly
             </Link>{" "}
             — you&rsquo;ll get a straight answer, not a sales call.

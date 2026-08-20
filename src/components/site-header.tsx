@@ -6,7 +6,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 
 import { Logo } from "@/components/logo";
 import { ButtonLink } from "@/components/ui/button";
-import { mainNav, primaryCta, site, telUrl } from "@/content/site";
+import { hasPhone, mainNav, phoneLabel, primaryCta, telUrl } from "@/content/site";
 import { cn } from "@/lib/utils";
 
 /**
@@ -84,12 +84,14 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <a
-            href={telUrl}
-            className="rounded-full px-2 py-1 text-[15px] font-semibold text-ink-700 transition-colors hover:text-clay-700"
-          >
-            {site.contact.phoneDisplay}
-          </a>
+          {hasPhone ? (
+            <a
+              href={telUrl}
+              className="rounded-full px-2 py-1 text-[15px] font-semibold text-ink-700 transition-colors hover:text-clay-700"
+            >
+              {phoneLabel}
+            </a>
+          ) : null}
           <ButtonLink href={primaryCta.href} size="sm">
             {primaryCta.label}
           </ButtonLink>
@@ -158,9 +160,11 @@ export function SiteHeader() {
             <ButtonLink href={primaryCta.href} size="lg" className="w-full">
               {primaryCta.label}
             </ButtonLink>
-            <ButtonLink href={telUrl} variant="secondary" size="lg" className="w-full">
-              Call {site.contact.phoneDisplay}
-            </ButtonLink>
+            {hasPhone ? (
+              <ButtonLink href={telUrl} variant="secondary" size="lg" className="w-full">
+                Call {phoneLabel}
+              </ButtonLink>
+            ) : null}
           </div>
         </nav>
       </div>

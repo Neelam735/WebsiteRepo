@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { deliverLead } from "@/lib/leads";
 import { hasErrors, validateLead, type LeadInput } from "@/lib/lead-schema";
 import { check, clientKey } from "@/lib/rate-limit";
-import { site } from "@/content/site";
+import { contactFallbackPhrase, fallbackSentence } from "@/content/site";
 
 /** Node runtime: `deliverLead` may use provider SDKs that expect it. */
 export const runtime = "nodejs";
@@ -20,7 +20,9 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         ok: false,
-        error: `Too many messages from this connection. Try again in a few minutes, or call us on ${site.contact.phoneDisplay}.`,
+        error: contactFallbackPhrase
+          ? `Too many messages from this connection. Try again in a few minutes, or ${contactFallbackPhrase}.`
+          : "Too many messages from this connection. Please try again in a few minutes.",
       },
       { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } },
     );
@@ -46,7 +48,7 @@ export async function POST(request: Request) {
     email: trimmed(payload.email),
     phone: trimmed(payload.phone),
     interest: trimmed(payload.interest),
-    budget: trimmed(payload.budget),
+    locations: trimmed(payload.locations),
     message: trimmed(payload.message),
   };
 
@@ -63,8 +65,8 @@ export async function POST(request: Request) {
         {
           ok: false,
           error: result.unconfigured
-            ? `This form isn't connected to an inbox yet. Please email ${site.contact.email} or call ${site.contact.phoneDisplay}.`
-            : `We couldn't send that just now. Please call us on ${site.contact.phoneDisplay} or email ${site.contact.email} and we'll pick it up straight away.`,
+            ? fallbackSentence("This form isn't connected to an inbox yet.")
+            : fallbackSentence("We couldn't send that just now."),
         },
         { status: 502 },
       );
@@ -74,10 +76,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("[contact] Unexpected failure:", error);
     return NextResponse.json(
-      {
-        ok: false,
-        error: `Something went wrong on our end. Please call us on ${site.contact.phoneDisplay}.`,
-      },
+      { ok: false, error: fallbackSentence("Something went wrong on our end.") },
       { status: 500 },
     );
   }

@@ -1,41 +1,40 @@
-import { site } from "@/content/site";
-import type { Post } from "@/content/posts";
-import type { Service } from "@/content/services";
+import { hasAddress, hasEmail, hasPhone, hasSocial, site } from "@/content/site";
+import type { Product } from "@/content/products";
 
 /**
- * Structured data (schema.org). Google uses this for rich results — the
- * LocalBusiness block in particular is what surfaces hours, phone and address
- * in a knowledge panel.
+ * Structured data (schema.org).
+ *
+ * Fields are omitted when the underlying detail isn't configured — an empty
+ * telephone or a blank address in structured data is worse than none, because
+ * search engines treat it as a fact about the business.
  */
 
 export function organizationJsonLd() {
+  const socials = Object.values(site.social).filter((url) => url.length > 0);
+
   return {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
+    "@type": "Organization",
     "@id": `${site.url}/#organization`,
     name: site.name,
     legalName: site.legalName,
     url: site.url,
     description: site.description,
-    email: site.contact.email,
-    telephone: site.contact.phoneE164,
-    priceRange: "$$",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: site.contact.address.street,
-      addressLocality: site.contact.address.city,
-      addressRegion: site.contact.address.region,
-      postalCode: site.contact.address.postalCode,
-      addressCountry: site.contact.address.country,
-    },
-    openingHoursSpecification: {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "09:00",
-      closes: "18:00",
-    },
-    sameAs: [site.social.instagram, site.social.facebook, site.social.linkedin],
-    areaServed: "United States",
+    ...(hasEmail ? { email: site.contact.email } : {}),
+    ...(hasPhone ? { telephone: site.contact.phoneE164 } : {}),
+    ...(hasAddress
+      ? {
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: site.contact.address.street,
+            addressLocality: site.contact.address.city,
+            addressRegion: site.contact.address.region,
+            postalCode: site.contact.address.postalCode,
+            addressCountry: site.contact.address.country,
+          },
+        }
+      : {}),
+    ...(hasSocial ? { sameAs: socials } : {}),
   };
 }
 
@@ -51,38 +50,23 @@ export function websiteJsonLd() {
   };
 }
 
-export function serviceJsonLd(service: Service) {
+/**
+ * One of our systems, as a software product.
+ *
+ * No `offers` block: we don't publish prices, and inventing one here to win a
+ * rich result would be a claim we can't stand behind.
+ */
+export function softwareJsonLd(product: Product) {
   return {
     "@context": "https://schema.org",
-    "@type": "Service",
-    name: service.name,
-    description: service.summary,
+    "@type": "SoftwareApplication",
+    name: product.name,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web browser",
+    description: product.seo.description,
+    url: `${site.url}/${product.slug}`,
     provider: { "@id": `${site.url}/#organization` },
-    serviceType: service.name,
-    ...(service.priceFrom
-      ? {
-          offers: {
-            "@type": "Offer",
-            price: service.priceFrom,
-            priceCurrency: "USD",
-            description: service.priceNote,
-          },
-        }
-      : {}),
-  };
-}
-
-export function articleJsonLd(post: Post) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.excerpt,
-    datePublished: post.date,
-    dateModified: post.date,
-    author: { "@type": "Person", name: post.author },
-    publisher: { "@id": `${site.url}/#organization` },
-    mainEntityOfPage: `${site.url}/blog/${post.slug}`,
+    featureList: product.modules.map((module) => module.name),
   };
 }
 

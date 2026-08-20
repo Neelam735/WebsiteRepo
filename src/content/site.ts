@@ -1,120 +1,164 @@
 /**
- * Global site configuration.
+ * Company identity and contact details.
  *
- * Everything here is agency-identity content: name, contact details, nav,
- * social links. Swap these values and the whole site follows — no component
- * hard-codes a phone number or an address.
+ * ─────────────────────────────────────────────────────────────────────────
+ *  SET THESE BEFORE LAUNCH. Nothing here is invented on your behalf, which
+ *  means the placeholders below are deliberately obvious and the contact
+ *  fields are deliberately empty.
  *
- * PLACEHOLDER: name, domain, phone, email, WhatsApp and address are stand-ins.
- * Replace them with real details before launch. See CONTENT.md.
+ *  Anything left blank is HIDDEN across the site rather than rendered as an
+ *  empty link — so a missing phone number never ships as a dead "Call us"
+ *  button. Fill in what you have; leave the rest blank until you do.
+ *
+ *  Contact details can also be supplied as environment variables, so you can
+ *  go live from your host's dashboard without touching code. See .env.example.
+ * ─────────────────────────────────────────────────────────────────────────
  */
 
 export const site = {
-  name: "Storefront Studio",
-  legalName: "Storefront Studio LLC", // PLACEHOLDER
-  tagline: "Software for the businesses on your street",
-  description:
-    "We build websites, online ordering and booking systems for restaurants, cafes, salons, gyms, bakeries and local shops. Fixed quotes, launched in weeks, supported for as long as you need.",
+  /** TODO: your trading name. Appears in the logo, page titles and metadata. */
+  name: "Your Company",
+  /** TODO: your registered name. Used in the footer and legal pages. */
+  legalName: "Your Company Ltd",
 
-  /** Canonical origin, no trailing slash. Used for metadata, sitemap and JSON-LD. */
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://storefrontstudio.com",
+  tagline: "Restaurant and gym management software",
+
+  description:
+    "We build and run two systems: a restaurant management system for ordering, menus, tables and kitchen operations, and a gym management system for memberships, classes and check-in.",
+
+  /** Canonical origin, no trailing slash. Set NEXT_PUBLIC_SITE_URL in production. */
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com",
 
   contact: {
-    email: "hello@storefrontstudio.com", // PLACEHOLDER
-    /** E.164, used for tel: and WhatsApp links. */
-    phoneE164: "+15550142280", // PLACEHOLDER
-    phoneDisplay: "(555) 014-2280", // PLACEHOLDER
+    /** TODO: or set NEXT_PUBLIC_CONTACT_EMAIL. */
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
+    /** TODO: E.164, e.g. "+14155551234". Or set NEXT_PUBLIC_CONTACT_PHONE. */
+    phoneE164: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "",
+    /** How the number reads on screen. Falls back to the E.164 value. */
+    phoneDisplay: process.env.NEXT_PUBLIC_CONTACT_PHONE_DISPLAY ?? "",
+    /** Set to true once the number above can receive WhatsApp messages. */
+    whatsappEnabled: process.env.NEXT_PUBLIC_WHATSAPP_ENABLED === "true",
     whatsappMessage:
-      "Hi! I run a local business and I'd like to talk about a website or booking system.",
+      "Hi! I'd like to talk about your restaurant/gym management system.",
+    /** TODO: leave blank to hide the address entirely. */
     address: {
-      street: "218 Mercer Street, Suite 4", // PLACEHOLDER
-      city: "Austin",
-      region: "TX",
-      postalCode: "78701",
-      country: "US",
+      street: "",
+      city: "",
+      region: "",
+      postalCode: "",
+      country: "",
     },
-    hours: "Mon–Fri, 9am–6pm CT",
+    /** TODO: e.g. "Mon–Fri, 9am–6pm". Blank hides it. */
+    hours: "",
+    /** Only promise what you will actually hit. */
     responsePromise: "We reply to every enquiry within one business day.",
   },
 
+  /** TODO: add your profiles. Blank entries are not rendered. */
   social: {
-    instagram: "https://instagram.com/storefrontstudio", // PLACEHOLDER
-    facebook: "https://facebook.com/storefrontstudio", // PLACEHOLDER
-    linkedin: "https://linkedin.com/company/storefrontstudio", // PLACEHOLDER
+    linkedin: "",
+    instagram: "",
+    facebook: "",
   },
 
   /**
-   * Booking widget. Drop in a Calendly/Cal.com/SavvyCal URL and the contact
-   * page swaps its placeholder card for a real embed automatically.
+   * Booking widget. Drop in a Calendly/Cal.com URL (or set
+   * NEXT_PUBLIC_BOOKING_URL) and the contact page shows a live scheduler.
    */
   bookingUrl: process.env.NEXT_PUBLIC_BOOKING_URL ?? "",
 } as const;
 
-export const whatsappUrl = `https://wa.me/${site.contact.phoneE164.replace(
-  /\D/g,
-  "",
-)}?text=${encodeURIComponent(site.contact.whatsappMessage)}`;
+/* ------------------------------------------------------------------ *
+ * Derived helpers. Components use these to decide what to render, so  *
+ * an unset detail disappears instead of rendering as a broken link.   *
+ * ------------------------------------------------------------------ */
 
-export const telUrl = `tel:${site.contact.phoneE164}`;
-export const mailtoUrl = `mailto:${site.contact.email}`;
+export const hasEmail = site.contact.email.length > 0;
+export const hasPhone = site.contact.phoneE164.length > 0;
+export const hasWhatsapp = hasPhone && site.contact.whatsappEnabled;
+export const hasAddress = site.contact.address.street.length > 0;
+export const hasSocial = Object.values(site.social).some((url) => url.length > 0);
 
-export type NavItem = {
-  label: string;
-  href: string;
-  /** Rendered in the mobile menu and mega-menu as supporting copy. */
-  description?: string;
-};
+/** What to print for the phone number: the display form, else the raw number. */
+export const phoneLabel = site.contact.phoneDisplay || site.contact.phoneE164;
+
+export const telUrl = hasPhone ? `tel:${site.contact.phoneE164}` : "";
+export const mailtoUrl = hasEmail ? `mailto:${site.contact.email}` : "";
+export const whatsappUrl = hasWhatsapp
+  ? `https://wa.me/${site.contact.phoneE164.replace(/\D/g, "")}?text=${encodeURIComponent(
+      site.contact.whatsappMessage,
+    )}`
+  : "";
+
+/**
+ * "call us on X or email Y" — adapts to whichever details are configured, and
+ * comes back empty when none are. Used wherever the site has to offer a way
+ * through after something failed, so it never says "call us on " with nothing
+ * after it.
+ */
+export const contactFallbackPhrase = (() => {
+  if (hasPhone && hasEmail) return `call us on ${phoneLabel} or email ${site.contact.email}`;
+  if (hasPhone) return `call us on ${phoneLabel}`;
+  if (hasEmail) return `email us at ${site.contact.email}`;
+  return "";
+})();
+
+/** A complete sentence offering the fallback, or a plain retry line. */
+export function fallbackSentence(lead: string): string {
+  return contactFallbackPhrase
+    ? `${lead} Please ${contactFallbackPhrase}.`
+    : `${lead} Please try again in a few minutes.`;
+}
+
+export type NavItem = { label: string; href: string };
 
 export const mainNav: NavItem[] = [
-  { label: "Services", href: "/services" },
-  { label: "Industries", href: "/industries" },
-  { label: "Work", href: "/work" },
+  { label: "Restaurants", href: "/restaurant-management-system" },
+  { label: "Gyms", href: "/gym-management-system" },
   { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
-  { label: "Blog", href: "/blog" },
 ];
 
 export const footerNav: { title: string; items: NavItem[] }[] = [
   {
-    title: "Services",
+    title: "What we do",
     items: [
-      { label: "Website design", href: "/services#website-design" },
-      { label: "Online ordering", href: "/services#online-ordering" },
-      { label: "Booking systems", href: "/services#booking-systems" },
-      { label: "Custom software", href: "/services#custom-software" },
-      { label: "Support & maintenance", href: "/services#support-maintenance" },
-    ],
-  },
-  {
-    title: "Industries",
-    items: [
-      { label: "Restaurants", href: "/industries/restaurants" },
-      { label: "Cafes", href: "/industries/cafes" },
-      { label: "Salons & spas", href: "/industries/salons-spas" },
-      { label: "Gyms & studios", href: "/industries/gyms-fitness" },
-      { label: "Bakeries & food trucks", href: "/industries/bakeries-food-trucks" },
-      { label: "Retail & boutiques", href: "/industries/retail-boutiques" },
+      { label: "Restaurant management system", href: "/restaurant-management-system" },
+      { label: "Gym management system", href: "/gym-management-system" },
+      { label: "How pricing works", href: "/pricing" },
     ],
   },
   {
     title: "Company",
     items: [
       { label: "About us", href: "/about" },
-      { label: "Our work", href: "/work" },
-      { label: "Pricing", href: "/pricing" },
-      { label: "Blog", href: "/blog" },
       { label: "Contact", href: "/contact" },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
     ],
   },
 ];
 
-/** The one CTA phrase used everywhere, so it stays consistent. */
+/** One CTA phrase, used everywhere, so it never drifts. */
 export const primaryCta = {
-  label: "Get a free consultation",
+  label: "Book a free demo",
   href: "/contact",
 } as const;
 
 export const secondaryCta = {
-  label: "See our work",
-  href: "/work",
+  label: "See how it works",
+  href: "/restaurant-management-system",
 } as const;
+
+/**
+ * Commitments shown beside the calls to action.
+ *
+ * These are promises made in your name — read them and keep only the ones you
+ * will honour.
+ */
+export const trustPoints: string[] = [
+  "A fixed quote before any work starts",
+  "Your data stays yours, and exports on request",
+  "No lock-in contracts",
+  "Straight answers, no jargon",
+];

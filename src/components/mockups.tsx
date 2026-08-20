@@ -1,24 +1,27 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Product mockups.
+ * Interface mockups.
  *
- * These are the "screenshots" — built as markup rather than image files, so
- * they are sharp at any size, cost no network request, never shift the
- * layout, and stay editable when the product changes. Each is decorative and
- * labelled with role="img", so screen readers hear one description instead of
- * reading out fake menu items.
+ * These illustrate what each system looks like — built as markup rather than
+ * image files, so they stay sharp at any size, cost no network request, never
+ * shift the layout, and can be edited when the product changes.
  *
- * Swap for real screenshots by replacing a component's body with next/image;
- * the surrounding frames still apply.
+ * The sample rows are generic on purpose: no invented business names, no
+ * results presented as if they were a customer's. They show the shape of the
+ * interface, nothing more. Each is labelled with role="img" so a screen reader
+ * hears one description rather than a list of fake menu items.
+ *
+ * To use real screenshots instead, replace a component's body with next/image;
+ * the frames around them still apply.
  */
 
 export function BrowserFrame({
-  url = "yourbusiness.com",
+  url,
   className,
   children,
 }: {
-  url?: string;
+  url: string;
   className?: string;
   children: React.ReactNode;
 }) {
@@ -64,29 +67,32 @@ export function PhoneFrame({
   );
 }
 
-/* ---------------------------------------------------------------- ordering */
+/* -------------------------------------------------- restaurant: ordering */
 
-const menuItems = [
-  { name: "Margherita", price: "$14", note: "San Marzano, fior di latte" },
-  { name: "Diavola", price: "$17", note: "Spicy salami, chilli honey" },
-  { name: "Funghi", price: "$16", note: "Wild mushroom, taleggio" },
+const orderLines = [
+  { name: "Margherita", price: "$14", note: "Tomato, mozzarella, basil" },
+  { name: "Spicy salami", price: "$17", note: "Chilli honey", qty: "× 2" },
+  { name: "Wild mushroom", price: "$16", note: "Taleggio, thyme" },
 ];
 
 export function OrderingMockup({ className }: { className?: string }) {
   return (
     <PhoneFrame className={className}>
-      <div role="img" aria-label="Mockup of an online ordering screen with a pizza menu and a running order total">
+      <div
+        role="img"
+        aria-label="Mockup of the online ordering screen: a menu with three dishes, a running total, and a place-order button"
+      >
         <div className="bg-clay-600 px-4 pb-5 pt-6 text-white">
           <p className="text-[10px] font-semibold uppercase tracking-widest text-clay-200">
             Pickup · ready 6:40pm
           </p>
-          <p className="mt-1 text-lg font-bold">Casa Lucía</p>
+          <p className="mt-1 text-lg font-bold">Your menu</p>
         </div>
 
         <div className="space-y-2.5 px-3 py-4">
-          {menuItems.map((item, index) => (
+          {orderLines.map((line, index) => (
             <div
-              key={item.name}
+              key={line.name}
               className={cn(
                 "flex items-start gap-3 rounded-lg border p-2.5",
                 index === 1 ? "border-clay-300 bg-clay-50" : "border-line bg-white",
@@ -94,13 +100,13 @@ export function OrderingMockup({ className }: { className?: string }) {
             >
               <div className="h-9 w-9 shrink-0 rounded-md bg-gradient-to-br from-honey-200 to-clay-200" />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-[13px] font-semibold text-ink-900">{item.name}</p>
-                <p className="truncate text-[11px] text-ink-500">{item.note}</p>
+                <p className="truncate text-[13px] font-semibold text-ink-900">{line.name}</p>
+                <p className="truncate text-[11px] text-ink-500">{line.note}</p>
               </div>
               <div className="text-right">
-                <p className="text-[13px] font-bold text-ink-900">{item.price}</p>
-                {index === 1 ? (
-                  <p className="text-[10px] font-semibold text-clay-700">× 2</p>
+                <p className="text-[13px] font-bold text-ink-900">{line.price}</p>
+                {line.qty ? (
+                  <p className="text-[10px] font-semibold text-clay-700">{line.qty}</p>
                 ) : null}
               </div>
             </div>
@@ -110,9 +116,9 @@ export function OrderingMockup({ className }: { className?: string }) {
         <div className="border-t border-line px-3 pb-4 pt-3">
           <div className="flex items-center justify-between text-[13px]">
             <span className="text-ink-600">Total</span>
-            <span className="font-bold text-ink-900">$34.00</span>
+            <span className="font-bold text-ink-900">$64.00</span>
           </div>
-          <p className="mt-1 text-[10px] text-sage-700">No service fee · 0% commission</p>
+          <p className="mt-1 text-[10px] text-sage-700">Ordered direct · no platform commission</p>
           <div className="mt-3 rounded-full bg-clay-600 py-2.5 text-center text-[13px] font-semibold text-white">
             Place order
           </div>
@@ -122,155 +128,144 @@ export function OrderingMockup({ className }: { className?: string }) {
   );
 }
 
-/* ----------------------------------------------------------------- booking */
+/* ------------------------------------------------------- gym: timetable */
 
-const slots = ["9:00", "10:30", "12:00", "1:30", "3:00", "4:30"];
-const bookedSlots = new Set(["10:30", "3:00"]);
+const classes = [
+  { time: "06:30", name: "Strength", coach: "Coach A", state: "12 of 16" },
+  { time: "09:00", name: "Conditioning", coach: "Coach B", state: "Full · 3 waiting" },
+  { time: "17:30", name: "Olympic lifting", coach: "Coach A", state: "8 of 12" },
+  { time: "19:00", name: "Open gym", coach: "—", state: "5 of 20" },
+];
 
-export function BookingMockup({ className }: { className?: string }) {
+export function ClassScheduleMockup({ className }: { className?: string }) {
   return (
-    <BrowserFrame url="june-and-co.com/book" className={className}>
+    <BrowserFrame url="app.yoursite.com/timetable" className={className}>
       <div
         role="img"
-        aria-label="Mockup of a salon booking calendar showing available appointment times and a booking summary"
+        aria-label="Mockup of the gym class timetable: four classes with coach, capacity and a full class showing a waitlist"
         className="bg-white p-4 sm:p-5"
       >
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-sm font-bold text-ink-900">Colour & cut with Ana</p>
-            <p className="text-xs text-ink-500">90 minutes · $180 · 20% deposit</p>
+            <p className="text-sm font-bold text-ink-900">Today&rsquo;s timetable</p>
+            <p className="text-xs text-ink-500">4 classes · 2 coaches</p>
           </div>
           <span className="rounded-full bg-sage-100 px-2.5 py-1 text-[11px] font-semibold text-sage-700">
-            6 slots left
+            Waitlist on
           </span>
         </div>
 
-        <div className="mt-4 grid grid-cols-7 gap-1.5">
-          {["M", "T", "W", "T", "F", "S", "S"].map((day, index) => (
-            <div key={index} className="text-center text-[10px] font-semibold text-ink-400">
-              {day}
-            </div>
-          ))}
-          {Array.from({ length: 14 }).map((_, index) => (
+        <div className="mt-4 space-y-1.5">
+          {classes.map((item, index) => (
             <div
-              key={index}
+              key={item.time}
               className={cn(
-                "rounded-md py-1.5 text-center text-[11px] font-medium",
-                index === 9
-                  ? "bg-clay-600 font-bold text-white"
-                  : index < 3
-                    ? "text-ink-300"
-                    : "bg-ink-50 text-ink-700",
+                "flex items-center gap-3 rounded-lg border px-3 py-2.5",
+                index === 1 ? "border-clay-300 bg-clay-50" : "border-line bg-white",
               )}
             >
-              {index + 3}
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-4 grid grid-cols-3 gap-1.5">
-          {slots.map((slot) => {
-            const booked = bookedSlots.has(slot);
-            return (
-              <div
-                key={slot}
+              <span className="w-11 shrink-0 text-[12px] font-bold text-ink-900">{item.time}</span>
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-[12px] font-semibold text-ink-900">
+                  {item.name}
+                </span>
+                <span className="block truncate text-[11px] text-ink-500">{item.coach}</span>
+              </span>
+              <span
                 className={cn(
-                  "rounded-md border py-1.5 text-center text-[11px] font-semibold",
-                  booked
-                    ? "border-line bg-ink-50 text-ink-300 line-through"
-                    : slot === "1:30"
-                      ? "border-clay-600 bg-clay-50 text-clay-700"
-                      : "border-ink-200 bg-white text-ink-700",
+                  "shrink-0 rounded-full px-2 py-1 text-[10px] font-semibold",
+                  index === 1 ? "bg-clay-600 text-white" : "bg-ink-100 text-ink-700",
                 )}
               >
-                {slot}
-              </div>
-            );
-          })}
+                {item.state}
+              </span>
+            </div>
+          ))}
         </div>
 
         <div className="mt-4 flex items-center justify-between rounded-lg bg-ink-50 px-3 py-2.5">
-          <div className="text-[11px] text-ink-600">
-            <span className="font-semibold text-ink-900">Thu 12, 1:30pm</span> · reminder sent 24h before
-          </div>
-          <div className="rounded-full bg-clay-600 px-3 py-1.5 text-[11px] font-semibold text-white">
-            Confirm
-          </div>
+          <p className="text-[11px] text-ink-600">
+            <span className="font-semibold text-ink-900">Place opened at 09:00</span> · next member
+            notified automatically
+          </p>
         </div>
       </div>
     </BrowserFrame>
   );
 }
 
-/* ----------------------------------------------------------------- website */
+/* ------------------------------------------------------ gym: memberships */
 
-export function WebsiteMockup({ className }: { className?: string }) {
+const memberships = [
+  { plan: "Monthly unlimited", status: "Active", tone: "sage" },
+  { plan: "10-class pack", status: "3 left", tone: "ink" },
+  { plan: "Monthly unlimited", status: "Payment failed", tone: "clay" },
+];
+
+export function MembershipMockup({ className }: { className?: string }) {
   return (
-    <BrowserFrame url="northlanecoffee.com" className={className}>
+    <BrowserFrame url="app.yoursite.com/members" className={className}>
       <div
         role="img"
-        aria-label="Mockup of a cafe website home page with a hero image, opening hours and an order-ahead button"
-        className="bg-white"
+        aria-label="Mockup of the membership screen: plans with their status, including a failed payment flagged for retry"
+        className="bg-white p-4 sm:p-5"
       >
-        <div className="relative h-32 bg-gradient-to-br from-ink-800 via-clay-800 to-clay-600 sm:h-40">
-          <div className="absolute inset-0 flex flex-col justify-center px-5">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-honey-300">
-              Open until 4pm
-            </p>
-            <p className="mt-1 text-lg font-bold leading-tight text-white sm:text-xl">
-              Coffee, and a proper lunch.
-            </p>
-            <div className="mt-3 flex gap-2">
-              <span className="rounded-full bg-white px-3 py-1 text-[10px] font-semibold text-clay-700">
-                Order ahead
-              </span>
-              <span className="rounded-full px-3 py-1 text-[10px] font-semibold text-white ring-1 ring-white/40">
-                See menu
-              </span>
-            </div>
-          </div>
-        </div>
+        <p className="text-sm font-bold text-ink-900">Memberships</p>
 
-        <div className="grid grid-cols-3 gap-2 p-4">
-          {["Breakfast", "Lunch", "Coffee"].map((label) => (
-            <div key={label} className="rounded-lg border border-line p-2">
-              <div className="h-8 rounded bg-gradient-to-br from-honey-100 to-ink-100" />
-              <p className="mt-1.5 text-[11px] font-semibold text-ink-800">{label}</p>
+        <div className="mt-3 space-y-1.5">
+          {memberships.map((row, index) => (
+            <div
+              key={index}
+              className="flex items-center gap-3 rounded-lg border border-line px-3 py-2.5"
+            >
+              <span className="h-7 w-7 shrink-0 rounded-full bg-ink-100" />
+              <span className="min-w-0 flex-1">
+                <span className="block h-2 w-16 rounded bg-ink-200" />
+                <span className="mt-1.5 block truncate text-[11px] text-ink-500">{row.plan}</span>
+              </span>
+              <span
+                className={cn(
+                  "shrink-0 rounded-full px-2 py-1 text-[10px] font-semibold",
+                  row.tone === "sage" && "bg-sage-100 text-sage-700",
+                  row.tone === "ink" && "bg-ink-100 text-ink-700",
+                  row.tone === "clay" && "bg-clay-100 text-clay-800",
+                )}
+              >
+                {row.status}
+              </span>
             </div>
           ))}
         </div>
 
-        <div className="flex items-center justify-between border-t border-line px-4 py-2.5 text-[10px] text-ink-500">
-          <span>218 North Lane</span>
-          <span className="font-semibold text-sage-700">★ 4.9 · 312 Google reviews</span>
+        <div className="mt-4 rounded-lg bg-clay-50 px-3 py-2.5">
+          <p className="text-[11px] text-ink-700">
+            <span className="font-semibold text-ink-900">1 payment needs attention.</span> Retry
+            scheduled, member notified.
+          </p>
         </div>
       </div>
     </BrowserFrame>
   );
 }
 
-/* --------------------------------------------------------------- dashboard */
+/* ---------------------------------------------------------- dashboard */
 
 const bars = [38, 52, 44, 68, 84, 61, 96];
 
 export function DashboardMockup({ className }: { className?: string }) {
   return (
-    <BrowserFrame url="app.storefrontstudio.com" className={className}>
+    <BrowserFrame url="app.yoursite.com/dashboard" className={className}>
       <div
         role="img"
-        aria-label="Mockup of a business dashboard showing weekly orders, revenue and a bar chart of the last seven days"
+        aria-label="Mockup of the reporting dashboard: three summary tiles, a seven-day bar chart and two alerts"
         className="bg-white p-4 sm:p-5"
       >
         <div className="grid grid-cols-3 gap-2">
-          {[
-            { label: "Orders", value: "412", change: "+18%" },
-            { label: "Revenue", value: "$9.4k", change: "+11%" },
-            { label: "Repeat", value: "63%", change: "+6%" },
-          ].map((stat) => (
-            <div key={stat.label} className="rounded-lg border border-line p-2.5">
-              <p className="text-[10px] font-medium text-ink-500">{stat.label}</p>
-              <p className="mt-0.5 text-base font-bold text-ink-900">{stat.value}</p>
-              <p className="text-[10px] font-semibold text-sage-700">{stat.change}</p>
+          {["Today", "This week", "Repeat"].map((label) => (
+            <div key={label} className="rounded-lg border border-line p-2.5">
+              <p className="text-[10px] font-medium text-ink-500">{label}</p>
+              <p className="mt-1.5 h-3 w-12 rounded bg-ink-200" />
+              <p className="mt-1.5 h-2 w-8 rounded bg-sage-500/40" />
             </div>
           ))}
         </div>
@@ -278,7 +273,7 @@ export function DashboardMockup({ className }: { className?: string }) {
         <div className="mt-4 rounded-lg border border-line p-3">
           <div className="flex items-center justify-between">
             <p className="text-[11px] font-semibold text-ink-800">Last 7 days</p>
-            <p className="text-[10px] text-ink-500">Orders per day</p>
+            <p className="text-[10px] text-ink-500">Compared with the week before</p>
           </div>
           <div className="mt-3 flex h-20 items-end gap-1.5">
             {bars.map((height, index) => (
@@ -296,90 +291,36 @@ export function DashboardMockup({ className }: { className?: string }) {
         </div>
 
         <div className="mt-3 space-y-1.5">
-          {[
-            ["Low stock", "Oat milk — 4 left", "honey"],
-            ["Rota", "Saturday needs 1 more", "clay"],
-          ].map(([label, detail, tone]) => (
-            <div
-              key={label}
-              className={cn(
-                "flex items-center gap-2 rounded-lg px-2.5 py-2 text-[11px]",
-                tone === "honey" ? "bg-honey-50" : "bg-clay-50",
-              )}
-            >
-              <span className="font-semibold text-ink-900">{label}</span>
-              <span className="text-ink-600">{detail}</span>
-            </div>
-          ))}
+          <div className="flex items-center gap-2 rounded-lg bg-honey-50 px-2.5 py-2 text-[11px]">
+            <span className="font-semibold text-ink-900">Low stock</span>
+            <span className="text-ink-600">2 items below par</span>
+          </div>
+          <div className="flex items-center gap-2 rounded-lg bg-clay-50 px-2.5 py-2 text-[11px]">
+            <span className="font-semibold text-ink-900">Rota</span>
+            <span className="text-ink-600">Saturday needs one more</span>
+          </div>
         </div>
       </div>
     </BrowserFrame>
   );
 }
 
-/* ----------------------------------------------------------------- support */
-
-export function SupportMockup({ className }: { className?: string }) {
-  return (
-    <BrowserFrame url="status.storefrontstudio.com" className={className}>
-      <div
-        role="img"
-        aria-label="Mockup of a site status panel showing uptime, backups and recent support requests"
-        className="bg-white p-4 sm:p-5"
-      >
-        <div className="flex items-center gap-2 rounded-lg bg-sage-100 px-3 py-2.5">
-          <span className="h-2 w-2 rounded-full bg-sage-500" />
-          <p className="text-[12px] font-semibold text-sage-700">All systems operational</p>
-          <p className="ml-auto text-[11px] text-sage-700">99.98% · 90 days</p>
-        </div>
-
-        <div className="mt-3 flex gap-0.5">
-          {Array.from({ length: 40 }).map((_, index) => (
-            <div
-              key={index}
-              className={cn(
-                "h-8 flex-1 rounded-sm",
-                index === 27 ? "bg-honey-400" : "bg-sage-500/70",
-              )}
-            />
-          ))}
-        </div>
-
-        <div className="mt-4 space-y-2">
-          {[
-            ["Backup completed", "2 hours ago"],
-            ["Menu prices updated", "Yesterday"],
-            ["Security patches applied", "3 days ago"],
-          ].map(([label, when]) => (
-            <div key={label} className="flex items-center justify-between text-[11px]">
-              <span className="font-medium text-ink-800">{label}</span>
-              <span className="text-ink-500">{when}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </BrowserFrame>
-  );
-}
-
-/** Pick a mockup by name — lets content files choose their own artwork. */
+/** Pick a mockup by name, so content files can choose their own artwork. */
 export function Mockup({
   kind,
   className,
 }: {
-  kind: "ordering" | "booking" | "website" | "dashboard" | "support";
+  kind: "ordering" | "classes" | "membership" | "dashboard";
   className?: string;
 }) {
   switch (kind) {
     case "ordering":
       return <OrderingMockup className={className} />;
-    case "booking":
-      return <BookingMockup className={className} />;
-    case "website":
-      return <WebsiteMockup className={className} />;
+    case "classes":
+      return <ClassScheduleMockup className={className} />;
+    case "membership":
+      return <MembershipMockup className={className} />;
     case "dashboard":
       return <DashboardMockup className={className} />;
-    case "support":
-      return <SupportMockup className={className} />;
   }
 }

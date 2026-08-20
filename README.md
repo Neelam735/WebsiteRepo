@@ -1,16 +1,17 @@
-# Storefront Studio — agency marketing site
+# Marketing site — restaurant & gym management systems
 
-Production-ready marketing website for a software agency serving local
-businesses: restaurants, cafes, salons and spas, gyms and studios, bakeries and
-food trucks, and independent retail.
+Production-ready marketing website for a company that builds two products: a
+**restaurant management system** (ordering, menus, tables, kitchen) and a **gym
+management system** (memberships, classes, check-in).
 
-Built to convert business owners into leads — every page ends in a call to
-action, and the contact form is wired to a real delivery mechanism rather than
-a `mailto:` link.
+Built to convert operators into leads — every page ends in a call to action,
+and the contact form is wired to a real delivery mechanism rather than a
+`mailto:` link.
 
-> **Storefront Studio is a placeholder brand.** The agency name, contact
-> details, case studies, testimonials and team are all invented. See
-> [CONTENT.md](./CONTENT.md) for the swap-in checklist before you launch.
+> **No invented content.** There are no fake clients, testimonials, statistics
+> or team members anywhere in this site, and the only published price is the
+> one you supplied. What it still needs is your company name and contact
+> details — see [CONTENT.md](./CONTENT.md).
 
 ## Stack
 
@@ -47,12 +48,10 @@ npm run lint    # ESLint
 src/
 ├── app/                      Routes (App Router)
 │   ├── page.tsx              Home
-│   ├── services/             Service lines, one anchored section each
-│   ├── industries/           Index + /industries/[slug] per vertical
-│   ├── work/                 Portfolio + /work/[slug] case studies
-│   ├── pricing/              Packages, care plans, pricing FAQ
-│   ├── about/                Story, values, team, FAQ
-│   ├── blog/                 Index + /blog/[slug] posts
+│   ├── restaurant-management-system/
+│   ├── gym-management-system/
+│   ├── pricing/              How pricing works, cost drivers, FAQ
+│   ├── about/                How we work, values, process, FAQ
 │   ├── contact/              Form, direct contact, booking widget slot
 │   ├── privacy/ terms/       Legal templates — have a lawyer review
 │   ├── api/contact/route.ts  Form endpoint: validate → rate-limit → deliver
@@ -62,7 +61,8 @@ src/
 │   └── globals.css           Design tokens and base styles
 ├── components/
 │   ├── ui/                   Button, Section, Card, PlaceholderBadge
-│   ├── mockups.tsx           Product "screenshots", drawn in markup
+│   ├── mockups.tsx           Interface "screenshots", drawn in markup
+│   ├── product-page.tsx      The layout both systems share
 │   ├── contact-form.tsx      The only substantial client component
 │   └── …                     Header, footer, CTA banner, cards, FAQ
 ├── content/                  ← edit these to change the site's copy
@@ -76,17 +76,15 @@ render it. To change the site you edit data, not JSX:
 
 | File | What it controls |
 |---|---|
-| `site.ts` | Agency name, phone, email, address, nav, CTA labels |
-| `services.ts` | The five service lines and the four-step process |
-| `industries.ts` | Verticals, pain points, features (drives `/industries/[slug]`) |
-| `case-studies.ts` | Portfolio entries (drives `/work/[slug]`) |
-| `social-proof.ts` | Testimonials, headline stats, client logos |
-| `pricing.ts` | Packages, care plans, pricing FAQ |
-| `posts.ts` | Blog posts, as structured blocks |
-| `about.ts` | Story, values, team, general FAQ |
+| `site.ts` | Company name, contact details, nav, CTA labels, trust points |
+| `products.ts` | Both systems — problems, modules, outcomes, FAQs — and the four-stage process |
+| `pricing.ts` | Packages and prices, cost drivers, running costs, pricing FAQ |
+| `company.ts` | About-page copy, values, general FAQ |
 
-Adding an industry, case study or post automatically creates its page, adds it
-to the sitemap, and cross-links it — no routing changes needed.
+Both product pages render from one shared template
+(`src/components/product-page.tsx`), so they can't drift apart. Contact details
+left blank in `site.ts` are hidden site-wide rather than rendered as dead
+links — see CONTENT.md.
 
 ### Brand colours and type
 
@@ -101,9 +99,9 @@ automatically by `next/font` — no render-blocking request to Google.
 ## Wiring the contact form
 
 The form works out of the box in the sense that it validates, rate-limits and
-responds correctly — but with nothing configured it tells visitors to phone
-instead, and logs the enquiry to the server console so it isn't lost. Set one
-of these (both is fine — either succeeding counts as delivered):
+responds correctly — but with nothing configured it tells visitors to contact
+you another way, and logs the enquiry to the server console so it isn't lost.
+Set one of these (both is fine — either succeeding counts as delivered):
 
 **Email via Resend**
 
@@ -126,7 +124,8 @@ only depends on `deliverLead`.
 
 The endpoint already includes a honeypot field, per-IP rate limiting (5
 submissions per 10 minutes), server-side validation that mirrors the client's,
-and error messages that always give the visitor a phone number to fall back on.
+and error messages that offer whichever fallback contact details you've
+configured.
 
 > The rate limiter is in-memory, so on serverless each instance counts
 > separately. Fine for a contact form; back it with Upstash/Redis if you need a
@@ -164,8 +163,9 @@ Included and working:
 - Per-page titles, descriptions and canonical URLs (`src/lib/seo.ts`)
 - Open Graph and Twitter cards, with a generated share image
 - `sitemap.xml` and `robots.txt`, both generated from content
-- JSON-LD: `ProfessionalService`, `WebSite`, `Service`, `BlogPosting`,
-  `FAQPage`, `BreadcrumbList` (`src/lib/jsonld.ts`)
+- JSON-LD: `Organization`, `WebSite`, `SoftwareApplication`, `FAQPage`,
+  `BreadcrumbList` (`src/lib/jsonld.ts`), with fields omitted when the
+  underlying detail isn't configured
 - Semantic landmarks, one `<h1>` per page, descriptive internal link text
 
 Before launch: set `NEXT_PUBLIC_SITE_URL`, submit the sitemap in Google Search
@@ -185,9 +185,9 @@ and check contrast if you change the palette.
 
 ## Performance
 
-- Zero image files. Mockups, logos, icons and the hero artwork are markup, SVG
-  and CSS gradients, so there is nothing to download, nothing to lazy-load and
-  no layout shift.
+- Zero image files. Mockups, icons and the hero artwork are markup, SVG and
+  CSS gradients, so there is nothing to download, nothing to lazy-load and no
+  layout shift.
 - Only three client components ship JavaScript: the header (mobile menu), the
   contact form, and the scroll-reveal wrapper. Everything else is a server
   component.
