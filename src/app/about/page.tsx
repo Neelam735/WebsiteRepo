@@ -2,17 +2,17 @@ import { CtaBanner } from "@/components/cta-banner";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
 import { Reveal } from "@/components/reveal";
-import { StatBand } from "@/components/social-proof";
-import { Container, Eyebrow, PlaceholderBadge, Section, SectionHeading } from "@/components/ui/section";
-import { faqs, story, team, values } from "@/content/about";
-import { process } from "@/content/services";
+import { ArrowIcon, ButtonLink } from "@/components/ui/button";
+import { Container, Eyebrow, Section, SectionHeading } from "@/components/ui/section";
+import { about, faqs, values } from "@/content/company";
+import { process, products } from "@/content/products";
 import { site } from "@/content/site";
 import { faqJsonLd } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "About Us — Why Local Businesses Trust Us",
-  description: `${site.name} builds websites and business software for local businesses. Fixed quotes, plain English, and you own everything we build.`,
+  title: "About Us — How We Work",
+  description: `${site.name} builds two systems: a restaurant management system and a gym management system. Fixed quotes, plain English, and your data stays yours.`,
   path: "/about",
 });
 
@@ -23,16 +23,16 @@ export default function AboutPage() {
         <Container>
           <Eyebrow>About us</Eyebrow>
           <h1 className="mt-3 max-w-3xl text-4xl font-extrabold leading-tight sm:text-5xl">
-            {story.headline}
+            {about.headline}
           </h1>
-          <p className="mt-5 max-w-2xl text-xl leading-relaxed text-ink-700">{story.lede}</p>
+          <p className="mt-5 max-w-2xl text-xl leading-relaxed text-ink-700">{about.lede}</p>
         </Container>
       </header>
 
       <Section>
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
           <div className="space-y-5">
-            {story.paragraphs.map((paragraph) => (
+            {about.paragraphs.map((paragraph) => (
               <p key={paragraph} className="text-[17px] leading-[1.75] text-ink-700">
                 {paragraph}
               </p>
@@ -41,21 +41,33 @@ export default function AboutPage() {
 
           <aside className="rounded-card border border-line bg-surface p-7">
             <h2 className="text-sm font-bold uppercase tracking-wide text-ink-500">
-              How we work
+              What we build
             </h2>
-            <ol className="mt-5 space-y-5">
-              {process.map((step) => (
-                <li key={step.step} className="flex gap-4">
-                  <span className="font-display text-lg font-extrabold text-clay-300">
-                    {step.step}
-                  </span>
-                  <div>
-                    <p className="font-bold text-ink-950">{step.name}</p>
-                    <p className="text-sm text-ink-500">{step.duration}</p>
-                  </div>
+            <ul className="mt-4 space-y-4">
+              {products.map((product) => (
+                <li key={product.slug}>
+                  <a
+                    href={`/${product.slug}`}
+                    className="group flex gap-3 rounded-lg p-2 transition-colors hover:bg-clay-50"
+                  >
+                    <span aria-hidden="true" className="text-xl">
+                      {product.glyph}
+                    </span>
+                    <span>
+                      <span className="block font-bold text-ink-950">{product.name}</span>
+                      <span className="block text-sm text-ink-600">{product.tagline}</span>
+                    </span>
+                  </a>
                 </li>
               ))}
-            </ol>
+            </ul>
+
+            <div className="mt-6 border-t border-line pt-5">
+              <ButtonLink href="/contact" className="group w-full">
+                Book a free demo
+                <ArrowIcon />
+              </ButtonLink>
+            </div>
           </aside>
         </div>
       </Section>
@@ -64,7 +76,7 @@ export default function AboutPage() {
         <SectionHeading
           eyebrow="What we stand for"
           title="Four promises we don't break"
-          description="These aren't values on a wall — they're the specific things clients tell us other agencies got wrong."
+          description="These aren't values on a wall — they're the specific things operators tell us other suppliers got wrong."
         />
 
         <div className="mt-12 grid gap-5 sm:grid-cols-2">
@@ -81,40 +93,24 @@ export default function AboutPage() {
 
       <Section tone="tinted">
         <SectionHeading
-          align="center"
-          eyebrow="By the numbers"
-          title="What we've done so far"
+          eyebrow="How a project runs"
+          title="Four stages, agreed upfront"
         />
-        <div className="mt-12">
-          <StatBand />
-        </div>
-      </Section>
 
-      <Section>
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <SectionHeading
-            eyebrow="The team"
-            title="Small on purpose"
-            description="The person who scopes your project builds it, and picks up the phone two years later."
-          />
-          <PlaceholderBadge label="Sample team" />
-        </div>
-
-        <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {team.map((member) => (
-            <li key={member.name} className="rounded-card border border-line bg-surface p-6">
-              <span
-                aria-hidden="true"
-                className="flex h-14 w-14 items-center justify-center rounded-full bg-ink-950 font-display text-lg font-bold text-honey-300"
-              >
-                {member.initials}
+        <ol className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {process.map((step) => (
+            <li
+              key={step.step}
+              className="flex h-full flex-col rounded-card border border-line bg-surface p-6"
+            >
+              <span className="font-display text-3xl font-extrabold text-clay-200">
+                {step.step}
               </span>
-              <h3 className="mt-4 font-bold">{member.name}</h3>
-              <p className="text-sm font-medium text-clay-700">{member.role}</p>
-              <p className="mt-2.5 text-[15px] leading-relaxed text-ink-600">{member.bio}</p>
+              <h3 className="mt-3 text-lg font-bold">{step.name}</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-ink-600">{step.description}</p>
             </li>
           ))}
-        </ul>
+        </ol>
       </Section>
 
       <Section tone="surface">

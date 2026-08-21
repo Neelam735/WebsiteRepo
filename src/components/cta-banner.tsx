@@ -1,16 +1,26 @@
 import { ArrowIcon, ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/section";
-import { site, telUrl, whatsappUrl } from "@/content/site";
-import { trustPoints } from "@/content/social-proof";
+import {
+  hasPhone,
+  hasWhatsapp,
+  phoneLabel,
+  primaryCta,
+  site,
+  telUrl,
+  trustPoints,
+  whatsappUrl,
+} from "@/content/site";
 
 /**
- * The closing CTA. Appears at the foot of every marketing page, so a visitor
- * who has read to the bottom never has to scroll back up to act.
+ * The closing call to action, at the foot of every page — so someone who has
+ * read to the bottom never has to scroll back up to act.
+ *
+ * Phone and WhatsApp buttons appear only when those details are configured.
  */
 export function CtaBanner({
-  title = "Let's talk about your business",
-  description = "A free 30-minute call. We'll tell you what we'd build, what it would cost, and whether it's worth doing at all — no pitch, no obligation.",
-  primaryLabel = "Get a free consultation",
+  title = "See it running on your own menu or timetable",
+  description = "Book a free demo and we'll walk through the system with your dishes, your classes and your plans in it — not a generic sandbox. No obligation, no pitch.",
+  primaryLabel = primaryCta.label,
 }: {
   title?: string;
   description?: string;
@@ -55,24 +65,31 @@ export function CtaBanner({
             </div>
 
             <div className="flex flex-col gap-3">
-              <ButtonLink href="/contact" variant="inverse" size="lg" className="group w-full">
+              <ButtonLink href={primaryCta.href} variant="inverse" size="lg" className="group w-full">
                 {primaryLabel}
                 <ArrowIcon />
               </ButtonLink>
-              <ButtonLink
-                href={telUrl}
-                size="lg"
-                className="w-full bg-white/10 text-white ring-1 ring-white/20 hover:bg-white/15"
-              >
-                Call {site.contact.phoneDisplay}
-              </ButtonLink>
-              <ButtonLink
-                href={whatsappUrl}
-                size="lg"
-                className="w-full bg-transparent text-ink-300 ring-1 ring-white/15 hover:bg-white/5 hover:text-white"
-              >
-                WhatsApp us
-              </ButtonLink>
+
+              {hasPhone ? (
+                <ButtonLink
+                  href={telUrl}
+                  size="lg"
+                  className="w-full bg-white/10 text-white ring-1 ring-white/20 hover:bg-white/15"
+                >
+                  Call {phoneLabel}
+                </ButtonLink>
+              ) : null}
+
+              {hasWhatsapp ? (
+                <ButtonLink
+                  href={whatsappUrl}
+                  size="lg"
+                  className="w-full bg-transparent text-ink-300 ring-1 ring-white/15 hover:bg-white/5 hover:text-white"
+                >
+                  WhatsApp us
+                </ButtonLink>
+              ) : null}
+
               <p className="mt-1 text-center text-xs text-ink-500">
                 {site.contact.responsePromise}
               </p>

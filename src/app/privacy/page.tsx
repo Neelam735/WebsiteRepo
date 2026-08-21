@@ -1,5 +1,5 @@
 import { Container, PlaceholderBadge, Section } from "@/components/ui/section";
-import { site } from "@/content/site";
+import { hasAddress, hasEmail, mailtoUrl, site } from "@/content/site";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -31,9 +31,9 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold text-ink-950">What we collect</h2>
             <p className="mt-2">
               When you submit the contact form we collect your name, business name, business type,
-              email address, phone number (if you give one), what you&rsquo;re interested in, your
-              rough budget, and your message. That&rsquo;s it — we don&rsquo;t ask for anything we
-              don&rsquo;t need to reply to you properly.
+              email address, phone number (if you give one), which system you&rsquo;re interested in,
+              how many locations you run, and your message. That&rsquo;s it — we don&rsquo;t ask for
+              anything we don&rsquo;t need to reply to you properly.
             </p>
           </section>
 
@@ -81,22 +81,41 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold text-ink-950">Your rights</h2>
             <p className="mt-2">
               You can ask us for a copy of what we hold about you, ask us to correct it, or ask us
-              to delete it. Email{" "}
-              <a
-                href={`mailto:${site.contact.email}`}
-                className="font-semibold text-clay-700 underline underline-offset-2"
-              >
-                {site.contact.email}
-              </a>{" "}
-              and we&rsquo;ll action it within 30 days.
+              to delete it.{" "}
+              {hasEmail ? (
+                <>
+                  Email{" "}
+                  <a
+                    href={mailtoUrl}
+                    className="font-semibold text-clay-700 underline underline-offset-2"
+                  >
+                    {site.contact.email}
+                  </a>{" "}
+                  and we&rsquo;ll action it within 30 days.
+                </>
+              ) : (
+                <>Contact us and we&rsquo;ll action it within 30 days.</>
+              )}
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-bold text-ink-950">Contact</h2>
             <p className="mt-2">
-              {site.legalName}, {site.contact.address.street}, {site.contact.address.city},{" "}
-              {site.contact.address.region} {site.contact.address.postalCode}.
+              {/* Only the parts that are configured — no stray commas for blanks. */}
+              {[
+                site.legalName,
+                ...(hasAddress
+                  ? [
+                      site.contact.address.street,
+                      site.contact.address.city,
+                      `${site.contact.address.region} ${site.contact.address.postalCode}`.trim(),
+                    ]
+                  : []),
+                ...(hasEmail ? [site.contact.email] : []),
+              ]
+                .filter(Boolean)
+                .join(" · ")}
             </p>
           </section>
         </div>

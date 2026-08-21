@@ -2,31 +2,44 @@ import { ContactForm } from "@/components/contact-form";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
 import { Container, Eyebrow, Section } from "@/components/ui/section";
-import { faqs } from "@/content/about";
-import { mailtoUrl, site, telUrl, whatsappUrl } from "@/content/site";
-import { trustPoints } from "@/content/social-proof";
+import { faqs } from "@/content/company";
+import { products } from "@/content/products";
+import {
+  hasAddress,
+  hasEmail,
+  hasPhone,
+  hasWhatsapp,
+  mailtoUrl,
+  phoneLabel,
+  site,
+  telUrl,
+  trustPoints,
+  whatsappUrl,
+} from "@/content/site";
 import { faqJsonLd } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Contact — Book a Free Consultation",
-  description: `Tell us what's going wrong and we'll tell you what would fix it. Free 30-minute consultation, no obligation. Call ${site.contact.phoneDisplay} or send a message.`,
+  title: "Contact — Book a Free Demo",
+  description:
+    "Tell us how you run today and we'll show you the system with your own menu or timetable in it. Free demo, no obligation.",
   path: "/contact",
 });
 
 export default function ContactPage() {
+  const hasAnyDirectContact = hasPhone || hasEmail || hasWhatsapp;
+
   return (
     <>
       <header className="border-b border-line bg-surface py-14 sm:py-18">
         <Container>
           <Eyebrow>Contact</Eyebrow>
           <h1 className="mt-3 max-w-3xl text-4xl font-extrabold sm:text-5xl">
-            Tell us what&rsquo;s going wrong
+            Tell us how you run today
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink-600">
-            You&rsquo;ll get a straight answer about whether we can help, what we&rsquo;d build, and
-            what it would cost. If we&rsquo;re not the right fit, we&rsquo;ll say so and point you
-            somewhere better.
+            We&rsquo;ll show you the system with your own dishes, classes or plans in it, and give
+            you a straight answer on whether it fits. If it doesn&rsquo;t, we&rsquo;ll say so.
           </p>
         </Container>
       </header>
@@ -45,62 +58,90 @@ export default function ContactPage() {
           </div>
 
           <aside className="space-y-6">
-            <div className="rounded-card border border-line bg-surface p-6">
-              <h2 className="text-sm font-bold uppercase tracking-wide text-ink-500">
-                Rather talk now?
-              </h2>
+            {/* Direct contact renders only for details that are configured. */}
+            {hasAnyDirectContact ? (
+              <div className="rounded-card border border-line bg-surface p-6">
+                <h2 className="text-sm font-bold uppercase tracking-wide text-ink-500">
+                  Rather talk now?
+                </h2>
 
-              <div className="mt-4 space-y-3">
-                <a
-                  href={telUrl}
-                  className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-clay-300 hover:bg-clay-50"
-                >
-                  <span aria-hidden="true" className="text-lg">
-                    📞
-                  </span>
-                  <span>
-                    <span className="block font-bold text-ink-950">
-                      {site.contact.phoneDisplay}
-                    </span>
-                    <span className="text-sm text-ink-500">{site.contact.hours}</span>
-                  </span>
-                </a>
+                <div className="mt-4 space-y-3">
+                  {hasPhone ? (
+                    <a
+                      href={telUrl}
+                      className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-clay-300 hover:bg-clay-50"
+                    >
+                      <span aria-hidden="true" className="text-lg">
+                        📞
+                      </span>
+                      <span>
+                        <span className="block font-bold text-ink-950">{phoneLabel}</span>
+                        {site.contact.hours ? (
+                          <span className="text-sm text-ink-500">{site.contact.hours}</span>
+                        ) : null}
+                      </span>
+                    </a>
+                  ) : null}
 
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-clay-300 hover:bg-clay-50"
-                >
-                  <span aria-hidden="true" className="text-lg">
-                    💬
-                  </span>
-                  <span>
-                    <span className="block font-bold text-ink-950">WhatsApp</span>
-                    <span className="text-sm text-ink-500">Usually the fastest reply</span>
-                  </span>
-                </a>
+                  {hasWhatsapp ? (
+                    <a
+                      href={whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-clay-300 hover:bg-clay-50"
+                    >
+                      <span aria-hidden="true" className="text-lg">
+                        💬
+                      </span>
+                      <span>
+                        <span className="block font-bold text-ink-950">WhatsApp</span>
+                        <span className="text-sm text-ink-500">Usually the fastest reply</span>
+                      </span>
+                    </a>
+                  ) : null}
 
-                <a
-                  href={mailtoUrl}
-                  className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-clay-300 hover:bg-clay-50"
-                >
-                  <span aria-hidden="true" className="text-lg">
-                    ✉️
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block truncate font-bold text-ink-950">
-                      {site.contact.email}
-                    </span>
-                    <span className="text-sm text-ink-500">
-                      {site.contact.responsePromise}
-                    </span>
-                  </span>
-                </a>
+                  {hasEmail ? (
+                    <a
+                      href={mailtoUrl}
+                      className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-clay-300 hover:bg-clay-50"
+                    >
+                      <span aria-hidden="true" className="text-lg">
+                        ✉️
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block truncate font-bold text-ink-950">
+                          {site.contact.email}
+                        </span>
+                        <span className="text-sm text-ink-500">
+                          {site.contact.responsePromise}
+                        </span>
+                      </span>
+                    </a>
+                  ) : null}
+                </div>
               </div>
-            </div>
+            ) : null}
 
             <BookingCard />
+
+            <div className="rounded-card border border-line bg-surface p-6">
+              <h2 className="text-sm font-bold uppercase tracking-wide text-ink-500">
+                What we build
+              </h2>
+              <ul className="mt-4 space-y-3">
+                {products.map((product) => (
+                  <li key={product.slug}>
+                    <a
+                      href={`/${product.slug}`}
+                      className="flex gap-3 text-[15px] text-ink-700 transition-colors hover:text-clay-700"
+                    >
+                      <span aria-hidden="true">{product.glyph}</span>
+                      {product.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             <div className="rounded-card border border-line bg-surface p-6">
               <h2 className="text-sm font-bold uppercase tracking-wide text-ink-500">
@@ -129,23 +170,24 @@ export default function ContactPage() {
               </ul>
             </div>
 
-            <div className="rounded-card border border-line bg-surface p-6">
-              <h2 className="text-sm font-bold uppercase tracking-wide text-ink-500">Studio</h2>
-              <address className="mt-3 text-[15px] not-italic leading-relaxed text-ink-700">
-                {site.contact.address.street}
-                <br />
-                {site.contact.address.city}, {site.contact.address.region}{" "}
-                {site.contact.address.postalCode}
-              </address>
-              <p className="mt-3 text-sm text-ink-500">
-                Visits by appointment — we&rsquo;re usually out in someone&rsquo;s kitchen or salon.
-              </p>
-              {/*
-                A map embed is deliberately omitted: third-party iframes are the
-                heaviest thing on a typical contact page and they set cookies.
-                If you need one, add it here behind a click-to-load button.
-              */}
-            </div>
+            {hasAddress ? (
+              <div className="rounded-card border border-line bg-surface p-6">
+                <h2 className="text-sm font-bold uppercase tracking-wide text-ink-500">Office</h2>
+                <address className="mt-3 text-[15px] not-italic leading-relaxed text-ink-700">
+                  {site.contact.address.street}
+                  <br />
+                  {site.contact.address.city}
+                  {site.contact.address.region ? `, ${site.contact.address.region}` : ""}{" "}
+                  {site.contact.address.postalCode}
+                </address>
+                {/*
+                  A map embed is deliberately omitted: third-party iframes are
+                  the heaviest thing on a typical contact page and they set
+                  cookies. If you need one, add it here behind a
+                  click-to-load button.
+                */}
+              </div>
+            ) : null}
           </aside>
         </div>
       </Section>
@@ -167,8 +209,8 @@ export default function ContactPage() {
 
 /**
  * Booking widget slot. Set NEXT_PUBLIC_BOOKING_URL to a Calendly/Cal.com link
- * and this becomes a live embed; until then it's an honest placeholder that
- * still routes people to the phone.
+ * and this becomes a live embed; until then it's an honest placeholder rather
+ * than a broken widget.
  */
 function BookingCard() {
   if (site.bookingUrl) {
@@ -176,15 +218,13 @@ function BookingCard() {
       <div className="overflow-hidden rounded-card border border-line bg-surface">
         <div className="border-b border-line p-6 pb-4">
           <h2 className="text-sm font-bold uppercase tracking-wide text-ink-500">
-            Book a free consultation
+            Book a free demo
           </h2>
-          <p className="mt-1.5 text-[15px] text-ink-600">
-            Pick a 30-minute slot that suits you.
-          </p>
+          <p className="mt-1.5 text-[15px] text-ink-600">Pick a slot that suits you.</p>
         </div>
         <iframe
           src={site.bookingUrl}
-          title="Book a free consultation"
+          title="Book a free demo"
           loading="lazy"
           className="h-[620px] w-full border-0"
         />
@@ -198,16 +238,11 @@ function BookingCard() {
         Booking widget slot
       </h2>
       <p className="mt-2 text-[15px] leading-relaxed text-ink-700">
-        Set <code className="rounded bg-white px-1.5 py-0.5 text-[13px]">NEXT_PUBLIC_BOOKING_URL</code>{" "}
+        Set{" "}
+        <code className="rounded bg-white px-1.5 py-0.5 text-[13px]">NEXT_PUBLIC_BOOKING_URL</code>{" "}
         to your Calendly or Cal.com link and a live scheduler appears here.
       </p>
-      <p className="mt-3 text-sm text-ink-600">
-        Until then, the form and{" "}
-        <a href={telUrl} className="font-semibold text-clay-700 underline underline-offset-2">
-          {site.contact.phoneDisplay}
-        </a>{" "}
-        both work fine.
-      </p>
+      <p className="mt-3 text-sm text-ink-600">Until then, the form works fine.</p>
     </div>
   );
 }

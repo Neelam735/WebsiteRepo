@@ -126,9 +126,9 @@ export function Card({
 }
 
 /**
- * Marks invented content. Every case study, testimonial and team member is a
- * placeholder until someone sets `placeholder: false` in src/content — at
- * which point these badges vanish on their own.
+ * Marks content that is template wording rather than a statement of fact —
+ * currently the privacy notice and terms of use, which need a lawyer's review.
+ * Delete the badge from a page once its content is genuinely yours.
  */
 export function PlaceholderBadge({
   label = "Sample",

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/section";
-import { mainNav, site, telUrl } from "@/content/site";
+import { hasPhone, mainNav, phoneLabel, telUrl } from "@/content/site";
 
 export const metadata = {
   title: "Page not found",
@@ -22,9 +22,15 @@ export default function NotFound() {
         <ButtonLink href="/" size="lg">
           Back to home
         </ButtonLink>
-        <ButtonLink href={telUrl} variant="secondary" size="lg">
-          Call {site.contact.phoneDisplay}
-        </ButtonLink>
+        {hasPhone ? (
+          <ButtonLink href={telUrl} variant="secondary" size="lg">
+            Call {phoneLabel}
+          </ButtonLink>
+        ) : (
+          <ButtonLink href="/contact" variant="secondary" size="lg">
+            Contact us
+          </ButtonLink>
+        )}
       </div>
 
       <nav aria-label="Site pages" className="mt-12">

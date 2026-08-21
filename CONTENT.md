@@ -1,117 +1,120 @@
-# Swapping in real content
+# Before you launch
 
-Everything invented in this site is marked, in two ways:
+This site contains **no invented clients, quotes, statistics or team members**,
+and the only published price is the one you supplied. What it does contain is a
+small number of placeholders that only you can fill in, and a set of claims
+made in your name that you should read and agree with.
 
-1. **In the code** — a `// PLACEHOLDER` comment at the top of the file or on
-   the line, and a `placeholder: true` field on records that have one.
-2. **On the page** — a small ✱ **Sample** badge next to anything fabricated.
-
-Setting `placeholder: false` removes the badge for that record. There is no
-global switch on purpose: the badge disappears when the content is genuinely
-real, one item at a time.
-
-Work top to bottom and the site is launch-ready.
+Work through this list and the site is ready to go live.
 
 ---
 
-## 1. Agency identity — `src/content/site.ts`
+## 1. Who you are — `src/content/site.ts`
 
-Required before launch. Everything else in the site reads from here.
+The only genuinely blocking items.
 
-- [ ] `name`, `legalName`, `tagline`, `description`
-- [ ] `contact.email`, `phoneE164` (E.164 format, e.g. `+14155551234`),
-      `phoneDisplay`
-- [ ] `contact.address` — used in the footer, contact page and JSON-LD
-- [ ] `contact.hours` and `responsePromise` — **only promise what you'll hit**
-- [ ] `social` — delete any you don't have rather than leaving a dead link
-- [ ] `NEXT_PUBLIC_SITE_URL` in your host's environment variables
+- [ ] `name` — currently **"Your Company"**. Appears in the logo, every page
+      title, the metadata and the social share card.
+- [ ] `legalName` — currently **"Your Company Ltd"**. Footer and legal pages.
+- [ ] `tagline` and `description` — accurate, but make them yours.
 
-The logo mark is an inline SVG in `src/components/logo.tsx`; the favicon is
-`src/app/icon.svg`. Replace both with your own.
+## 2. How to reach you
 
-## 2. Case studies — `src/content/case-studies.ts`
+Set these either in `src/content/site.ts` or as environment variables (see
+`.env.example`) so you can go live from your host's dashboard.
 
-All six are fabricated. Each needs:
+- [ ] Email — `NEXT_PUBLIC_CONTACT_EMAIL`
+- [ ] Phone — `NEXT_PUBLIC_CONTACT_PHONE` (E.164, e.g. `+14155551234`) and
+      `NEXT_PUBLIC_CONTACT_PHONE_DISPLAY`
+- [ ] WhatsApp — `NEXT_PUBLIC_WHATSAPP_ENABLED=true`, only if that number
+      actually receives WhatsApp
+- [ ] Address and opening hours — in `site.ts`, or leave blank
+- [ ] Social profiles — in `site.ts`, or leave blank
 
-- [ ] Real client name, location and industry slug
-- [ ] `problem` → `solution` → `result`, in the owner's language
-- [ ] `metrics` — the first one is displayed large on the card, so lead with
-      your strongest number
-- [ ] `quote` — with the client's written permission to publish it
-- [ ] `placeholder: false`
+**Anything left blank is hidden**, not rendered empty. A missing phone number
+removes the call buttons rather than shipping a dead link, and the error
+messages on the contact form adapt to whichever details exist. So it is safe to
+launch with only an email address.
 
-**Two or three real case studies beat six invented ones.** Delete the rest;
-every page that references them degrades gracefully.
+## 3. Claims made in your name
 
-If you have client screenshots, replace the `mockup` field's generated artwork
-by swapping the component body in `src/components/mockups.tsx` for a
-`next/image`.
+These are not facts about clients — they're promises. Read them and keep only
+the ones you will honour.
 
-## 3. Testimonials, stats and logos — `src/content/social-proof.ts`
+- [ ] `trustPoints` in `site.ts` — shown beside every call to action
+      ("fixed quote", "your data stays yours", "no lock-in contracts")
+- [ ] `values` in `src/content/company.ts` — the four promises on the About page
+- [ ] `faqs` in `company.ts` — several answers commit you to specific
+      behaviour (parallel-run migrations, written support terms, data export
+      on request)
+- [ ] `process` in `src/content/products.ts` — says you spend time on site
+      during a busy period, and that you're present for go-live
 
-- [ ] `testimonials` — real quotes only, with permission, then
-      `placeholder: false`
-- [ ] `stats` — the four headline numbers on the home page. **Do not guess.**
-      An unverifiable "$1.2M saved" is a legal and reputational risk; use
-      numbers you can evidence, or cut the band to two you can.
-- [ ] `clientLogos` — currently text wordmarks. Only use a client's name or
-      logo with permission.
-- [ ] `trustPoints` — appear beside every CTA. Keep them literally true.
+## 4. What the systems actually do — `src/content/products.ts`
 
-## 4. Pricing — `src/content/pricing.ts`
+Both systems are described by capability, with no results or numbers attached.
+Still worth a pass:
 
-- [ ] Tier prices, or set `price: null` for quote-only
-- [ ] `carePlans` monthly rates
-- [ ] `pricingFaqs` — particularly the ownership and ongoing-cost answers,
-      which currently make specific promises on your behalf
+- [ ] `modules` — remove anything you don't build, add anything missing. The
+      counts on the home page and product pages update themselves.
+- [ ] `integrations` — currently generic categories ("POS systems that expose
+      an API"). Name specific providers only where you've actually built and
+      tested the integration.
+- [ ] `faqs` per product — the offline-behaviour and POS answers promise an
+      honest conversation at scoping; make sure that's how you sell.
 
-Prices also appear on `/services` (from `services.ts` `priceFrom`) — keep the
-two consistent.
+## 5. Pricing — `src/content/pricing.ts`
 
-## 5. Services and industries
+Three packages — Starter, Growth and Custom. Only Starter carries a published
+price (₹999/month); the other two show "On request" and ask for a scoping call.
 
-- [ ] `src/content/services.ts` — `includes`, `timeline` and `priceNote` should
-      match what you actually deliver
-- [ ] `src/content/industries.ts` — `stat` on each industry hero is invented;
-      the pain points and features are generic enough to keep, but sharpen them
-      with what you hear on real calls
-- [ ] Delete any vertical you don't serve — its page, nav entry and sitemap
-      entry all disappear with it
+- [ ] Add prices for Growth and Custom, or leave `price: null` to keep them
+      quote-only. Set `period: "month"` on any that recur; omit it for one-offs.
+- [ ] Check the Starter feature list matches what you actually deliver
+- [ ] Currency is set once, in `formatPrice` in `src/lib/utils.ts` (INR)
+- [ ] Confirm the fixed-quote promise is really how you work
+- [ ] Check `runningCosts` matches your commercial setup — particularly that
+      payment processing goes direct to the provider and never through you
 
-## 6. About — `src/content/about.ts`
+## 6. Legal — `src/app/privacy/page.tsx`, `src/app/terms/page.tsx`
 
-- [ ] `story` — the founding story is fiction, replace it entirely
-- [ ] `team` — real people and roles, then `placeholder: false`. Delete the
-      array if you'd rather not show a team.
-- [ ] `values` and `faqs` — these make commitments (fixed quotes, you own
-      everything, plain English). Keep only the ones you'll honour.
+Both are template wording carrying a visible ✱ Template badge.
 
-## 7. Blog — `src/content/posts.ts`
-
-The three posts are genuine advice and safe to publish as-is, but:
-
-- [ ] Change `author` to a real person
-- [ ] Check the claims against your own experience — the no-show and commission
-      figures are industry-typical, not measured
-- [ ] The quote in the restaurant post is attributed to a placeholder client;
-      remove it or replace with a real one
-
-## 8. Legal — `src/app/privacy/page.tsx`, `src/app/terms/page.tsx`
-
-- [ ] Have a lawyer review both against the regimes you operate under
+- [ ] Have a lawyer review them against the regimes you operate under
 - [ ] Name your actual processors in the privacy notice (email provider, CRM,
       host, analytics)
 - [ ] Update the "Last updated" dates
 - [ ] Remove the `PlaceholderBadge` from each page once reviewed
 
-## 9. Before you flip the switch
+## 7. Brand
+
+- [ ] Logo mark — inline SVG in `src/components/logo.tsx`
+- [ ] Favicon — `src/app/icon.svg`
+- [ ] Colours — the palette is defined once at the top of
+      `src/app/globals.css` as `clay` / `honey` / `ink` tokens
+
+## 8. Interface mockups
+
+The mockups in `src/components/mockups.tsx` show generic sample rows — no
+invented business names, and no results presented as a customer's. Replace them
+with real screenshots when you have them by swapping a component's body for a
+`next/image`; the frames still apply.
+
+## 9. Final checks
 
 - [ ] Contact form delivers to a real inbox — **submit a test enquiry and
       confirm it arrives**
 - [ ] `NEXT_PUBLIC_SITE_URL` matches the live domain
 - [ ] `NEXT_PUBLIC_NOINDEX=true` on preview, absent in production
-- [ ] Analytics IDs set, and a consent banner if you serve EU/UK visitors
-- [ ] `grep -rn "PLACEHOLDER" src/` returns nothing you haven't dealt with
+- [ ] Analytics IDs set, plus a consent banner if you serve EU/UK visitors
+- [ ] `grep -rn "Your Company" src/` returns nothing
 - [ ] Every phone, email and WhatsApp link opens the right thing on a real phone
 - [ ] Lighthouse pass on mobile
 - [ ] Submit `sitemap.xml` to Google Search Console
+
+## Adding things back later
+
+Case studies, testimonials and a blog were deliberately left out rather than
+filled with invented content. When you have real material, each is a
+self-contained addition: a content module plus a route, following the same
+pattern as `products.ts` and the product pages.
