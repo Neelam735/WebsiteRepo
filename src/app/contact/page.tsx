@@ -17,6 +17,7 @@ import {
   whatsappUrl,
 } from "@/content/site";
 import { faqJsonLd } from "@/lib/jsonld";
+import { hasDeliveryChannel } from "@/lib/leads";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -47,6 +48,7 @@ export default function ContactPage() {
       <Section className="py-12 sm:py-16">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-14">
           <div className="rounded-card border border-line bg-surface p-6 sm:p-8">
+            <DeliveryWarning />
             <h2 className="text-xl font-bold">Send us a message</h2>
             <p className="mt-1.5 text-[15px] text-ink-600">
               Fields marked <span className="text-clay-600">*</span> are required. Everything else
@@ -204,6 +206,36 @@ export default function ContactPage() {
 
       <JsonLd data={faqJsonLd(faqs)} />
     </>
+  );
+}
+
+/**
+ * Warns the site owner — never the public — that the form has nowhere to send
+ * enquiries. Shown in development and on preview deployments only, because
+ * that is where it can still be fixed before a real visitor hits it. On the
+ * live site the form's own error message handles it honestly instead.
+ */
+function DeliveryWarning() {
+  const isLive =
+    process.env.NODE_ENV === "production" && process.env.VERCEL_ENV !== "preview";
+
+  if (isLive || hasDeliveryChannel()) return null;
+
+  return (
+    <div className="mb-6 rounded-lg border border-clay-300 bg-clay-50 p-4 text-sm leading-relaxed text-ink-800">
+      <p className="font-bold text-clay-800">No delivery channel configured</p>
+      <p className="mt-1">
+        Submissions will fail. Set{" "}
+        <code className="rounded bg-white px-1 py-0.5 text-[13px]">RESEND_API_KEY</code>,{" "}
+        <code className="rounded bg-white px-1 py-0.5 text-[13px]">LEAD_TO_EMAIL</code> and{" "}
+        <code className="rounded bg-white px-1 py-0.5 text-[13px]">LEAD_FROM_EMAIL</code>, or{" "}
+        <code className="rounded bg-white px-1 py-0.5 text-[13px]">LEAD_WEBHOOK_URL</code>. See{" "}
+        <code className="rounded bg-white px-1 py-0.5 text-[13px]">.env.example</code>.
+      </p>
+      <p className="mt-2 text-ink-600">
+        This notice is not shown on the live site.
+      </p>
+    </div>
   );
 }
 

@@ -104,10 +104,17 @@ export const contactFallbackPhrase = (() => {
 })();
 
 /** A complete sentence offering the fallback, or a plain retry line. */
-export function fallbackSentence(lead: string): string {
-  return contactFallbackPhrase
-    ? `${lead} Please ${contactFallbackPhrase}.`
-    : `${lead} Please try again in a few minutes.`;
+export function fallbackSentence(
+  lead: string,
+  { retryable = true }: { retryable?: boolean } = {},
+): string {
+  // A configured phone or email is always the best next step.
+  if (contactFallbackPhrase) return `${lead} Please ${contactFallbackPhrase}.`;
+
+  // Otherwise only suggest retrying when retrying could actually work. Telling
+  // someone to try again in a few minutes when the form has no inbox wired up
+  // sends them round a loop that can never succeed.
+  return retryable ? `${lead} Please try again in a few minutes.` : lead;
 }
 
 export type NavItem = { label: string; href: string };

@@ -65,7 +65,12 @@ export async function POST(request: Request) {
         {
           ok: false,
           error: result.unconfigured
-            ? fallbackSentence("This form isn't connected to an inbox yet.")
+            ? // Not retryable: the form has no delivery channel configured, so
+              // trying again changes nothing until someone sets one up.
+              fallbackSentence(
+                "This form isn't connected to an inbox yet, so your message wasn't sent.",
+                { retryable: false },
+              )
             : fallbackSentence("We couldn't send that just now."),
         },
         { status: 502 },
