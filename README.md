@@ -111,6 +111,17 @@ LEAD_TO_EMAIL=hello@yourdomain.com      # comma-separated for multiple
 LEAD_FROM_EMAIL=website@yourdomain.com  # must be a domain verified with Resend
 ```
 
+No domain yet? Sign up to Resend with the address you want enquiries sent to,
+and send from `onboarding@resend.dev`. Resend's sandbox delivers only to the
+address the account was created with — which is exactly what you want when that
+address is your own inbox, and it needs no DNS setup. Switch the sender to your
+own verified domain once you have one; until then you cannot deliver anywhere
+else, and sandbox mail is more likely to be filtered as spam.
+
+`LEAD_TO_EMAIL` is read server-side only and never reaches the browser, so the
+destination inbox stays private even though the site is public. Set it in your
+host's dashboard rather than committing it, especially if this repo is public.
+
 **Webhook to a CRM / Zapier / Slack**
 
 ```bash
