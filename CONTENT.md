@@ -57,9 +57,14 @@ Still worth a pass:
 
 - [ ] `modules` — remove anything you don't build, add anything missing. The
       counts on the home page and product pages update themselves.
-- [ ] `integrations` — currently generic categories ("POS systems that expose
-      an API"). Name specific providers only where you've actually built and
-      tested the integration.
+- [ ] `integrations` — deliberately kept as categories ("food-delivery
+      aggregator order sync", "accounting exports for your CA"). **Name a
+      specific platform — an aggregator, a payment provider, Tally — only once
+      you have actually built and tested that integration.** Naming one you
+      have not built is the fastest way to lose a deal at demo stage.
+- [ ] **Aggregator sync, captain app, KOT printing, GST invoicing and UPI
+      AutoPay are claims about what you ship.** They are standard for this
+      market, which is why they are here — delete any you do not build yet.
 - [ ] `faqs` per product — the offline-behaviour and POS answers promise an
       honest conversation at scoping; make sure that's how you sell.
 

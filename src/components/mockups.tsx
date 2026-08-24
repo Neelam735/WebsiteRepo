@@ -70,9 +70,9 @@ export function PhoneFrame({
 /* -------------------------------------------------- restaurant: ordering */
 
 const orderLines = [
-  { name: "Margherita", price: "$14", note: "Tomato, mozzarella, basil" },
-  { name: "Spicy salami", price: "$17", note: "Chilli honey", qty: "× 2" },
-  { name: "Wild mushroom", price: "$16", note: "Taleggio, thyme" },
+  { name: "Paneer tikka", price: "₹280", note: "Starter · half plate" },
+  { name: "Butter chicken", price: "₹380", note: "Main · medium", qty: "× 2" },
+  { name: "Dal makhani", price: "₹260", note: "Main" },
 ];
 
 export function OrderingMockup({ className }: { className?: string }) {
@@ -80,7 +80,7 @@ export function OrderingMockup({ className }: { className?: string }) {
     <PhoneFrame className={className}>
       <div
         role="img"
-        aria-label="Mockup of the online ordering screen: a menu with three dishes, a running total, and a place-order button"
+        aria-label="Mockup of the online ordering screen: a menu with three dishes, a subtotal with GST, and a place-order button"
       >
         <div className="bg-clay-600 px-4 pb-5 pt-6 text-white">
           <p className="text-[10px] font-semibold uppercase tracking-widest text-clay-200">
@@ -114,9 +114,17 @@ export function OrderingMockup({ className }: { className?: string }) {
         </div>
 
         <div className="border-t border-line px-3 pb-4 pt-3">
-          <div className="flex items-center justify-between text-[13px]">
+          <div className="flex items-center justify-between text-[12px] text-ink-600">
+            <span>Subtotal</span>
+            <span>₹1,300</span>
+          </div>
+          <div className="mt-1 flex items-center justify-between text-[12px] text-ink-600">
+            <span>GST</span>
+            <span>₹65</span>
+          </div>
+          <div className="mt-1.5 flex items-center justify-between border-t border-line pt-1.5 text-[13px]">
             <span className="text-ink-600">Total</span>
-            <span className="font-bold text-ink-900">$64.00</span>
+            <span className="font-bold text-ink-900">₹1,365</span>
           </div>
           <p className="mt-1 text-[10px] text-sage-700">Ordered direct · no platform commission</p>
           <div className="mt-3 rounded-full bg-clay-600 py-2.5 text-center text-[13px] font-semibold text-white">
