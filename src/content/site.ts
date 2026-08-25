@@ -2,9 +2,8 @@
  * Company identity and contact details.
  *
  * ─────────────────────────────────────────────────────────────────────────
- *  SET THESE BEFORE LAUNCH. Nothing here is invented on your behalf, which
- *  means the placeholders below are deliberately obvious and the contact
- *  fields are deliberately empty.
+ *  The name and domain are set. The contact fields are deliberately empty —
+ *  nothing here is invented on your behalf.
  *
  *  Anything left blank is HIDDEN across the site rather than rendered as an
  *  empty link — so a missing phone number never ships as a dead "Call us"
@@ -16,10 +15,15 @@
  */
 
 export const site = {
-  /** TODO: your trading name. Appears in the logo, page titles and metadata. */
-  name: "Your Company",
-  /** TODO: your registered name. Used in the footer and legal pages. */
-  legalName: "Your Company Ltd",
+  /** Trading name. Appears in the logo, page titles and metadata. */
+  name: "BizWise Tech",
+  /**
+   * TODO: replace with the registered entity name once you incorporate —
+   * "BizWise Tech" is the trading name, not a legal one. Shown in the footer
+   * copyright line and both legal pages, where it needs to be the entity a
+   * customer would actually be contracting with.
+   */
+  legalName: "BizWise Tech",
 
   tagline: "Restaurant and gym management software",
 
@@ -27,7 +31,7 @@ export const site = {
     "We build and run two systems: a restaurant management system for ordering, menus, tables and kitchen operations, and a gym management system for memberships, classes and check-in.",
 
   /** Canonical origin, no trailing slash. Set NEXT_PUBLIC_SITE_URL in production. */
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://bizwisetech.com",
 
   contact: {
     /** TODO: or set NEXT_PUBLIC_CONTACT_EMAIL. */

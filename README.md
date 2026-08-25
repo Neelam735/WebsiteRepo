@@ -107,8 +107,8 @@ Set one of these (both is fine — either succeeding counts as delivered):
 
 ```bash
 RESEND_API_KEY=re_xxxxxxxx
-LEAD_TO_EMAIL=hello@yourdomain.com      # comma-separated for multiple
-LEAD_FROM_EMAIL=website@yourdomain.com  # must be a domain verified with Resend
+LEAD_TO_EMAIL=hello@bizwisetech.com     # comma-separated for multiple
+LEAD_FROM_EMAIL=website@bizwisetech.com # must be a domain verified with Resend
 ```
 
 No domain yet? Sign up to Resend with the address you want enquiries sent to,
