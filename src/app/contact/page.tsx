@@ -17,6 +17,7 @@ import {
   whatsappUrl,
 } from "@/content/site";
 import { faqJsonLd } from "@/lib/jsonld";
+import { hasDeliveryChannel } from "@/lib/leads";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -47,9 +48,10 @@ export default function ContactPage() {
       <Section className="py-12 sm:py-16">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-14">
           <div className="rounded-card border border-line bg-surface p-6 sm:p-8">
+            <DeliveryWarning />
             <h2 className="text-xl font-bold">Send us a message</h2>
             <p className="mt-1.5 text-[15px] text-ink-600">
-              Fields marked <span className="text-clay-600">*</span> are required. Everything else
+              Fields marked <span className="text-carbon-600">*</span> are required. Everything else
               helps us come back with something useful.
             </p>
             <div className="mt-7">
@@ -69,7 +71,7 @@ export default function ContactPage() {
                   {hasPhone ? (
                     <a
                       href={telUrl}
-                      className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-clay-300 hover:bg-clay-50"
+                      className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-carbon-300 hover:bg-carbon-50"
                     >
                       <span aria-hidden="true" className="text-lg">
                         📞
@@ -88,7 +90,7 @@ export default function ContactPage() {
                       href={whatsappUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-clay-300 hover:bg-clay-50"
+                      className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-carbon-300 hover:bg-carbon-50"
                     >
                       <span aria-hidden="true" className="text-lg">
                         💬
@@ -103,7 +105,7 @@ export default function ContactPage() {
                   {hasEmail ? (
                     <a
                       href={mailtoUrl}
-                      className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-clay-300 hover:bg-clay-50"
+                      className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-carbon-300 hover:bg-carbon-50"
                     >
                       <span aria-hidden="true" className="text-lg">
                         ✉️
@@ -133,7 +135,7 @@ export default function ContactPage() {
                   <li key={product.slug}>
                     <a
                       href={`/${product.slug}`}
-                      className="flex gap-3 text-[15px] text-ink-700 transition-colors hover:text-clay-700"
+                      className="flex gap-3 text-[15px] text-ink-700 transition-colors hover:text-carbon-700"
                     >
                       <span aria-hidden="true">{product.glyph}</span>
                       {product.name}
@@ -153,7 +155,7 @@ export default function ContactPage() {
                     <svg
                       viewBox="0 0 16 16"
                       aria-hidden="true"
-                      className="mt-1 h-4 w-4 shrink-0 text-sage-500"
+                      className="mt-1 h-4 w-4 shrink-0 text-steel-500"
                     >
                       <path
                         d="m3.5 8.5 3 3 6-7"
@@ -208,6 +210,36 @@ export default function ContactPage() {
 }
 
 /**
+ * Warns the site owner — never the public — that the form has nowhere to send
+ * enquiries. Shown in development and on preview deployments only, because
+ * that is where it can still be fixed before a real visitor hits it. On the
+ * live site the form's own error message handles it honestly instead.
+ */
+function DeliveryWarning() {
+  const isLive =
+    process.env.NODE_ENV === "production" && process.env.VERCEL_ENV !== "preview";
+
+  if (isLive || hasDeliveryChannel()) return null;
+
+  return (
+    <div className="mb-6 rounded-lg border border-carbon-300 bg-carbon-50 p-4 text-sm leading-relaxed text-ink-800">
+      <p className="font-bold text-carbon-800">No delivery channel configured</p>
+      <p className="mt-1">
+        Submissions will fail. Set{" "}
+        <code className="rounded bg-white px-1 py-0.5 text-[13px]">RESEND_API_KEY</code>,{" "}
+        <code className="rounded bg-white px-1 py-0.5 text-[13px]">LEAD_TO_EMAIL</code> and{" "}
+        <code className="rounded bg-white px-1 py-0.5 text-[13px]">LEAD_FROM_EMAIL</code>, or{" "}
+        <code className="rounded bg-white px-1 py-0.5 text-[13px]">LEAD_WEBHOOK_URL</code>. See{" "}
+        <code className="rounded bg-white px-1 py-0.5 text-[13px]">.env.example</code>.
+      </p>
+      <p className="mt-2 text-ink-600">
+        This notice is not shown on the live site.
+      </p>
+    </div>
+  );
+}
+
+/**
  * Booking widget slot. Set NEXT_PUBLIC_BOOKING_URL to a Calendly/Cal.com link
  * and this becomes a live embed; until then it's an honest placeholder rather
  * than a broken widget.
@@ -233,8 +265,8 @@ function BookingCard() {
   }
 
   return (
-    <div className="rounded-card border border-dashed border-clay-300 bg-clay-50/60 p-6">
-      <h2 className="text-sm font-bold uppercase tracking-wide text-clay-700">
+    <div className="rounded-card border border-dashed border-carbon-300 bg-carbon-50/60 p-6">
+      <h2 className="text-sm font-bold uppercase tracking-wide text-carbon-700">
         Booking widget slot
       </h2>
       <p className="mt-2 text-[15px] leading-relaxed text-ink-700">

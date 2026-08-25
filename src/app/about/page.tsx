@@ -48,7 +48,7 @@ export default function AboutPage() {
                 <li key={product.slug}>
                   <a
                     href={`/${product.slug}`}
-                    className="group flex gap-3 rounded-lg p-2 transition-colors hover:bg-clay-50"
+                    className="group flex gap-3 rounded-lg p-2 transition-colors hover:bg-carbon-50"
                   >
                     <span aria-hidden="true" className="text-xl">
                       {product.glyph}
@@ -103,7 +103,7 @@ export default function AboutPage() {
               key={step.step}
               className="flex h-full flex-col rounded-card border border-line bg-surface p-6"
             >
-              <span className="font-display text-3xl font-extrabold text-clay-200">
+              <span className="font-display text-3xl font-extrabold text-carbon-200">
                 {step.step}
               </span>
               <h3 className="mt-3 text-lg font-bold">{step.name}</h3>

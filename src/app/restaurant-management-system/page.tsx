@@ -13,10 +13,12 @@ export const metadata = product
       path: `/${product.slug}`,
       keywords: [
         "restaurant management system",
-        "online ordering system for restaurants",
-        "restaurant POS integration",
-        "table reservation software",
+        "restaurant billing software",
+        "restaurant POS software",
+        "KOT software",
+        "captain ordering app",
         "kitchen display system",
+        "restaurant inventory management software",
       ],
     })
   : {};

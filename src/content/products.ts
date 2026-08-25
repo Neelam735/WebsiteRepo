@@ -49,20 +49,24 @@ export const products: Product[] = [
     name: "Restaurant management system",
     shortName: "Restaurants",
     glyph: "🍽️",
-    tagline: "Orders, menus, tables and the kitchen — in one system you control.",
-    headline: "Run the whole restaurant from one system",
+    tagline: "Billing, KOT, aggregator orders and inventory — in one system.",
+    headline: "Billing, KOT and every order channel in one screen",
     subheadline:
-      "Online ordering on your own site, menus you can change in seconds, tables and reservations, and tickets that reach the kitchen the same way every time.",
+      "GST-compliant billing that prints a KOT in a few taps, aggregator orders landing in the same queue as your own, and stock that moves as you sell.",
     intro:
-      "Most restaurants end up running on four or five disconnected tools: a delivery app, a reservation widget, a spreadsheet for stock and a phone that rings during service. Our restaurant management system replaces that with one system, so the menu you edit is the menu customers see, and the order they place is the ticket your kitchen prints.",
+      "A busy restaurant runs on four order channels — dine-in, takeaway, your own online ordering and the delivery aggregators — and most systems only handle one or two well. Everything else gets punched in twice, or lands on a pad the kitchen has to decipher. This system puts all four on one screen, bills them under one GST-compliant invoice series, and deducts the stock as the food goes out.",
     problems: [
       {
-        title: "Commission takes a bite out of every order",
-        body: "Third-party delivery platforms charge a share of each ticket and keep the customer relationship. You pay to reach people who were already yours.",
+        title: "Aggregator orders get punched in twice",
+        body: "An order lands on a tablet from one platform, another on a second tablet, and someone re-types both into the billing machine. At peak, that is where mistakes and missed orders come from.",
       },
       {
-        title: "The phone is a second job during service",
-        body: "Someone leaves the floor to take an order, reads the menu out loud, and writes it on a pad the kitchen then has to decipher.",
+        title: "Commission is the cost of every order you did not own",
+        body: "Aggregators reach people who have never heard of you, and that is worth paying for. Paying it again on the regular who orders every Friday is not — but without a direct channel there is no alternative to offer them.",
+      },
+      {
+        title: "Billing and the kitchen are separate steps",
+        body: "The bill gets made at the counter, the KOT gets written by hand, and the two disagree often enough that someone is always walking to the kitchen to check.",
       },
       {
         title: "The menu is out of date the moment it is published",
@@ -75,9 +79,27 @@ export const products: Product[] = [
     ],
     modules: [
       {
+        name: "Billing & KOT",
+        description:
+          "Take the order, print the KOT and print the bill in a few taps. GST, taxes and discounts calculated on the invoice, with a compliant invoice series behind them.",
+        glyph: "🧾",
+      },
+      {
+        name: "Captain ordering app",
+        description:
+          "Staff take orders at the table on an Android phone — items, modifiers and KOT straight to the kitchen, without walking to the counter.",
+        glyph: "📲",
+      },
+      {
+        name: "Aggregator order sync",
+        description:
+          "Orders from the delivery platforms you already work with arrive in the same queue as your own, so nothing is re-typed into the billing machine at peak.",
+        glyph: "🔗",
+      },
+      {
         name: "Online ordering",
         description:
-          "Pickup and delivery ordering on your own domain, with card payments and scheduled orders. No per-order commission to a third party.",
+          "Pickup and delivery ordering on your own domain, with UPI and card payments. No per-order commission on the customers you brought yourself.",
         glyph: "🛒",
       },
       {
@@ -99,9 +121,9 @@ export const products: Product[] = [
         glyph: "🗓️",
       },
       {
-        name: "Kitchen display & printing",
+        name: "Kitchen display & tokens",
         description:
-          "Every order reaches the kitchen the same way — a printed ticket or a screen — with prep timings and course grouping.",
+          "Every order reaches the kitchen the same way — a printed ticket or a screen — with prep timings, course grouping and token numbers for counter pickup.",
         glyph: "🔔",
       },
       {
@@ -123,31 +145,33 @@ export const products: Product[] = [
         glyph: "⭐",
       },
       {
-        name: "Reporting",
+        name: "Reporting & GST returns",
         description:
-          "Sales by daypart, dish and channel, in a dashboard an owner can read in a minute — not a spreadsheet export.",
+          "Sales by daypart, dish and channel in a dashboard an owner can read in a minute, plus the tax summaries your accountant asks for at the end of the month.",
         glyph: "📈",
       },
     ],
     outcomes: [
-      "Orders you own, on a channel that charges you no commission",
+      "Every order channel billed from one screen",
+      "GST calculated on the invoice, not in a spreadsheet afterwards",
+      "Nothing re-typed between an aggregator tablet and the till",
       "One menu, correct everywhere, changed in seconds",
-      "Tickets the kitchen can read, every time",
       "The numbers for last week without three exports",
     ],
     integrations: [
-      "Card payments and payouts",
-      "POS systems that expose an API",
-      "Receipt and kitchen printers",
-      "Accounting exports",
-      "SMS and email notifications",
+      "UPI, card and wallet payments",
+      "Food-delivery aggregator order sync",
+      "GST-compliant invoicing and e-bills",
+      "Thermal receipt and KOT printers",
+      "Accounting exports for your CA",
+      "WhatsApp and SMS notifications",
     ],
     mockup: "ordering",
     faqs: [
       {
-        question: "Do we have to stop using the delivery apps?",
+        question: "Do we have to stop using the delivery aggregators?",
         answer:
-          "No, and most restaurants shouldn't. The apps are good at reaching people who have never heard of you. The system gives your regulars a cheaper, faster way to order direct, so you keep the margin on the orders you had already earned.",
+          "No, and most restaurants shouldn't. Aggregators are good at reaching people who have never heard of you, and their orders come into the same queue as everything else. What the system adds is a direct channel for your regulars, so you are not paying commission twice on the customer who already knows you.",
       },
       {
         question: "Will it work with our POS?",
@@ -166,9 +190,9 @@ export const products: Product[] = [
       },
     ],
     seo: {
-      title: "Restaurant Management System — Ordering, Menus, Tables & Kitchen",
+      title: "Restaurant Management System — Billing, KOT, Inventory & Online Orders",
       description:
-        "A restaurant management system covering online ordering, menu management, QR table ordering, reservations, kitchen display, inventory, rotas and reporting.",
+        "Restaurant billing and POS software with GST invoicing, KOT printing, a captain ordering app, aggregator order sync, inventory, reservations and reporting.",
     },
   },
   {
@@ -204,7 +228,7 @@ export const products: Product[] = [
       {
         name: "Memberships & billing",
         description:
-          "Recurring plans, class packs and drop-ins, with automatic retries and a nudge to the member when a payment fails.",
+          "Recurring plans, class packs and drop-ins on UPI AutoPay or card mandates, with automatic retries, GST-compliant invoices and a nudge to the member when a payment fails.",
         glyph: "💳",
       },
       {
@@ -263,11 +287,12 @@ export const products: Product[] = [
       "An early warning when a regular stops showing up",
     ],
     integrations: [
-      "Card payments, direct debit and recurring billing",
+      "UPI AutoPay, card mandates and recurring billing",
+      "GST-compliant invoicing",
       "Access control and door systems that expose an API",
       "Calendar sync for trainers",
-      "Accounting exports",
-      "SMS and email notifications",
+      "Accounting exports for your CA",
+      "WhatsApp and SMS notifications",
     ],
     mockup: "classes",
     faqs: [

@@ -33,11 +33,11 @@ export function CtaBanner({
           {/* Warm glow, drawn with gradients so there's no image to load. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-clay-600/25 blur-3xl"
+            className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-carbon-600/25 blur-3xl"
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-32 -left-16 h-72 w-72 rounded-full bg-honey-500/15 blur-3xl"
+            className="pointer-events-none absolute -bottom-32 -left-16 h-72 w-72 rounded-full bg-chrome-500/15 blur-3xl"
           />
 
           <div className="relative grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:items-center">
@@ -48,7 +48,7 @@ export function CtaBanner({
               <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
                 {trustPoints.map((point) => (
                   <li key={point} className="flex items-center gap-2 text-sm text-ink-300">
-                    <svg viewBox="0 0 16 16" aria-hidden="true" className="h-4 w-4 text-honey-400">
+                    <svg viewBox="0 0 16 16" aria-hidden="true" className="h-4 w-4 text-chrome-400">
                       <path
                         d="m3.5 8.5 3 3 6-7"
                         fill="none"

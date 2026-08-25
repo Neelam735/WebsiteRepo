@@ -13,6 +13,7 @@ export const metadata = product
       path: `/${product.slug}`,
       keywords: [
         "gym management system",
+        "gym management software",
         "gym membership software",
         "class booking software",
         "fitness studio management software",

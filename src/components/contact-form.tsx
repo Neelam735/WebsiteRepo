@@ -109,9 +109,9 @@ export function ContactForm() {
     return (
       <div
         role="status"
-        className="rounded-card border border-sage-500/30 bg-sage-100 p-8 text-center"
+        className="rounded-card border border-steel-500/30 bg-steel-100 p-8 text-center"
       >
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-sage-500">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-steel-500">
           <svg viewBox="0 0 20 20" aria-hidden="true" className="h-6 w-6 text-white">
             <path
               d="m5 10.5 3.5 3.5L15 7"
@@ -130,7 +130,7 @@ export function ContactForm() {
             <>
               {" "}
               If it&rsquo;s urgent, call{" "}
-              <a href={telUrl} className="font-semibold text-clay-700 underline">
+              <a href={telUrl} className="font-semibold text-carbon-700 underline">
                 {phoneLabel}
               </a>{" "}
               and you&rsquo;ll get a person, not a queue.
@@ -140,7 +140,7 @@ export function ContactForm() {
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="mt-6 text-sm font-semibold text-clay-700 underline underline-offset-4"
+          className="mt-6 text-sm font-semibold text-carbon-700 underline underline-offset-4"
         >
           Send another message
         </button>
@@ -260,7 +260,7 @@ export function ContactForm() {
       {serverError ? (
         <p
           role="alert"
-          className="rounded-lg border border-clay-300 bg-clay-50 px-4 py-3 text-sm text-clay-800"
+          className="rounded-lg border border-carbon-300 bg-carbon-50 px-4 py-3 text-sm text-carbon-800"
         >
           {serverError}
         </p>
@@ -289,8 +289,8 @@ function inputClass(error?: string) {
   return cn(
     "w-full rounded-lg border bg-white px-3.5 py-2.5 text-[15px] text-ink-900",
     "placeholder:text-ink-400 transition-colors",
-    "focus:outline-none focus:ring-2 focus:ring-clay-600/30",
-    error ? "border-clay-500 focus:border-clay-600" : "border-ink-200 focus:border-clay-500",
+    "focus:outline-none focus:ring-2 focus:ring-carbon-600/30",
+    error ? "border-carbon-500 focus:border-carbon-600" : "border-ink-200 focus:border-carbon-500",
   );
 }
 
@@ -315,7 +315,7 @@ function Field({
         <label htmlFor={htmlFor} className="text-sm font-semibold text-ink-800">
           {label}
           {required ? (
-            <span className="text-clay-600" aria-hidden="true">
+            <span className="text-carbon-600" aria-hidden="true">
               {" "}
               *
             </span>
@@ -326,7 +326,7 @@ function Field({
       </div>
       {children}
       {error ? (
-        <p id={`${htmlFor}-error`} className="mt-1.5 text-sm font-medium text-clay-700">
+        <p id={`${htmlFor}-error`} className="mt-1.5 text-sm font-medium text-carbon-700">
           {error}
         </p>
       ) : null}

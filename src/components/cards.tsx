@@ -9,11 +9,11 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <Card
       as="li"
-      className="group relative flex h-full flex-col transition-all duration-200 hover:-translate-y-0.5 hover:border-clay-200 hover:shadow-[var(--shadow-lift)]"
+      className="card-3d group relative flex h-full flex-col hover:border-carbon-200"
     >
       <span
         aria-hidden="true"
-        className="flex h-12 w-12 items-center justify-center rounded-xl bg-clay-50 text-2xl"
+        className="flex h-12 w-12 items-center justify-center rounded-xl bg-carbon-50 text-2xl"
       >
         {product.glyph}
       </span>
@@ -32,7 +32,7 @@ export function ProductCard({ product }: { product: Product }) {
             <svg
               viewBox="0 0 16 16"
               aria-hidden="true"
-              className="mt-1 h-3.5 w-3.5 shrink-0 text-sage-500"
+              className="mt-1 h-3.5 w-3.5 shrink-0 text-steel-500"
             >
               <path
                 d="m3.5 8.5 3 3 6-7"
@@ -51,7 +51,7 @@ export function ProductCard({ product }: { product: Product }) {
         </li>
       </ul>
 
-      <p className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-clay-700">
+      <p className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-carbon-700">
         Explore the system
         <ArrowIcon />
       </p>
@@ -62,7 +62,7 @@ export function ProductCard({ product }: { product: Product }) {
 /** One module of a system, on its product page. */
 export function ModuleCard({ module }: { module: Module }) {
   return (
-    <li className="flex h-full flex-col rounded-card border border-line bg-surface p-5">
+    <li className="card-3d flex h-full flex-col rounded-card border border-line bg-surface p-5 hover:border-carbon-200">
       <span aria-hidden="true" className="text-xl">
         {module.glyph}
       </span>
@@ -86,7 +86,7 @@ export function ProblemCard({
     <div className="flex h-full gap-4 rounded-card border border-line bg-surface p-6">
       <span
         aria-hidden="true"
-        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-clay-50 font-display text-sm font-bold text-clay-700"
+        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-carbon-50 font-display text-sm font-bold text-carbon-700"
       >
         {index + 1}
       </span>
@@ -113,7 +113,7 @@ export function CheckList({
           <svg
             viewBox="0 0 16 16"
             aria-hidden="true"
-            className="mt-1 h-4 w-4 shrink-0 text-sage-500"
+            className="mt-1 h-4 w-4 shrink-0 text-steel-500"
           >
             <path
               d="m3.5 8.5 3 3 6-7"

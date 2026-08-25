@@ -25,12 +25,12 @@ export function ProductPage({ product }: { product: Product }) {
       <header className="relative overflow-hidden border-b border-line bg-surface py-14 sm:py-18">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-honey-100/60 blur-3xl"
+          className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-chrome-100/60 blur-3xl"
         />
         <Container className="relative">
           <div className="grid items-center gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
             <div>
-              <p className="inline-flex items-center gap-2 rounded-full bg-clay-50 px-3 py-1.5 text-sm font-semibold text-clay-700">
+              <p className="inline-flex items-center gap-2 rounded-full bg-carbon-50 px-3 py-1.5 text-sm font-semibold text-carbon-700">
                 <span aria-hidden="true" className="text-base">
                   {product.glyph}
                 </span>
@@ -55,8 +55,10 @@ export function ProductPage({ product }: { product: Product }) {
               </div>
             </div>
 
-            <Reveal className="mx-auto w-full max-w-md">
-              <Mockup kind={product.mockup} className="mx-auto" />
+            <Reveal className="scene scene-floor relative mx-auto w-full max-w-md">
+              <div className="scene-layer scene-back">
+                <Mockup kind={product.mockup} className="mx-auto" />
+              </div>
             </Reveal>
           </div>
         </Container>
@@ -121,8 +123,10 @@ export function ProductPage({ product }: { product: Product }) {
             </div>
           </div>
 
-          <Reveal className="lg:pt-4">
-            <DashboardMockup />
+          <Reveal className="scene scene-floor relative lg:pt-4">
+            <div className="scene-layer scene-back">
+              <DashboardMockup />
+            </div>
           </Reveal>
         </div>
       </Section>
@@ -146,7 +150,7 @@ export function ProductPage({ product }: { product: Product }) {
         <Section className="py-12 sm:py-14">
           <Link
             href={`/${other.slug}`}
-            className="group flex flex-col gap-4 rounded-card border border-line bg-surface p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-clay-200 hover:shadow-[var(--shadow-lift)] sm:flex-row sm:items-center sm:justify-between"
+            className="group flex flex-col gap-4 rounded-card border border-line bg-surface p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-carbon-200 hover:shadow-[var(--shadow-lift)] sm:flex-row sm:items-center sm:justify-between"
           >
             <div className="flex items-center gap-4">
               <span aria-hidden="true" className="text-3xl">
@@ -157,7 +161,7 @@ export function ProductPage({ product }: { product: Product }) {
                 <p className="text-lg font-bold text-ink-950">{other.name}</p>
               </div>
             </div>
-            <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-clay-700">
+            <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-carbon-700">
               Take a look
               <ArrowIcon />
             </span>

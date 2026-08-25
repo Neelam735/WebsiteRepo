@@ -72,7 +72,7 @@ export function SiteHeader() {
                   className={cn(
                     "rounded-full px-3.5 py-2 text-[15px] font-medium transition-colors",
                     isActive(item.href)
-                      ? "bg-clay-50 text-clay-700"
+                      ? "bg-carbon-50 text-carbon-700"
                       : "text-ink-700 hover:bg-ink-100 hover:text-ink-950",
                   )}
                 >
@@ -87,7 +87,7 @@ export function SiteHeader() {
           {hasPhone ? (
             <a
               href={telUrl}
-              className="rounded-full px-2 py-1 text-[15px] font-semibold text-ink-700 transition-colors hover:text-clay-700"
+              className="rounded-full px-2 py-1 text-[15px] font-semibold text-ink-700 transition-colors hover:text-carbon-700"
             >
               {phoneLabel}
             </a>
@@ -146,7 +146,7 @@ export function SiteHeader() {
                   className={cn(
                     "block rounded-lg px-3 py-3 text-base font-medium transition-colors",
                     isActive(item.href)
-                      ? "bg-clay-50 text-clay-700"
+                      ? "bg-carbon-50 text-carbon-700"
                       : "text-ink-800 hover:bg-ink-100",
                   )}
                 >

@@ -131,6 +131,14 @@ async function sendViaWebhook(lead: LeadInput): Promise<void> {
   }
 }
 
+/** True when at least one delivery channel is fully configured. */
+export function hasDeliveryChannel(): boolean {
+  const emailReady = Boolean(
+    process.env.RESEND_API_KEY && process.env.LEAD_TO_EMAIL && process.env.LEAD_FROM_EMAIL,
+  );
+  return emailReady || Boolean(process.env.LEAD_WEBHOOK_URL);
+}
+
 export async function deliverLead(lead: LeadInput): Promise<DeliveryResult> {
   const tasks: { channel: string; run: () => Promise<void> }[] = [];
 
