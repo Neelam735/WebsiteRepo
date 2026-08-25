@@ -142,6 +142,36 @@ configured.
 > separately. Fine for a contact form; back it with Upstash/Redis if you need a
 > hard guarantee. Keep the `check()` signature and nothing else changes.
 
+## Payments (Razorpay)
+
+Optional, and off unless configured — with no keys set, the pricing page keeps
+its "talk to us" buttons and no payment code runs.
+
+| File | Role |
+|---|---|
+| `src/lib/razorpay.ts` | REST calls and both HMACs. `server-only`, so importing it from a client component is a build error rather than a leaked secret |
+| `api/checkout` | Creates a subscription from a tier slug |
+| `api/checkout/verify` | Verifies the signature Checkout hands the browser |
+| `api/razorpay/webhook` | The reliable record — fires even if the tab is closed |
+| `src/components/checkout-button.tsx` | Loads Checkout on click, not on page load |
+
+Set `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET` and a
+plan id per tier — see `.env.example`.
+
+Three things worth knowing:
+
+- **Plans live in the Razorpay dashboard.** The client sends a tier slug and
+  never an amount, so a tampered request cannot change what is charged.
+- **Subscription signatures are `payment_id|subscription_id`** — the reverse of
+  the one-off order flow. Backwards produces a signature that never matches.
+- **The pricing page is prerendered**, so which tiers show a Subscribe button
+  is decided at build time. Adding keys requires a rebuild, not just a restart
+  — a Vercel redeploy does this for you.
+- **There is no database.** Payments succeed and notifications are sent through
+  the same channels as contact-form leads, but nothing is stored, so the site
+  cannot tell you who is currently subscribed. Razorpay's dashboard is your
+  source of truth until you add persistence. See CONTENT.md.
+
 ## Deployment
 
 ### Vercel (recommended)

@@ -112,7 +112,26 @@ invented business names, and no results presented as a customer's. Replace them
 with real screenshots when you have them by swapping a component's body for a
 `next/image`; the frames still apply.
 
-## 9. Final checks
+## 9. Payments, if you switch them on
+
+Razorpay is wired up but dormant until the keys are set. Before taking real
+money:
+
+- [ ] Test with `rzp_test_` keys end to end, including a renewal
+- [ ] Complete Razorpay KYC, and confirm e-mandate/UPI AutoPay is enabled —
+      recurring subscriptions are rejected without it
+- [ ] Create the plans in the dashboard at the prices the site advertises, and
+      check they match `src/content/pricing.ts`
+- [ ] Register the webhook and set `RAZORPAY_WEBHOOK_SECRET`
+- [ ] **Add a refund and cancellation policy page.** Payment providers expect
+      one, and a recurring charge without a stated cancellation route invites
+      chargebacks. This site does not have one yet.
+- [ ] Decide what happens after payment — right now you get a notification and
+      nothing is recorded. **There is no database**, so the site cannot tell
+      who is subscribed, cannot gate anything behind a subscription, and cannot
+      show a customer their own billing. Razorpay's dashboard is the record.
+
+## 10. Final checks
 
 - [ ] Contact form delivers to a real inbox — **submit a test enquiry and
       confirm it arrives**

@@ -1,4 +1,5 @@
 import { CheckList } from "@/components/cards";
+import { CheckoutButton } from "@/components/checkout-button";
 import { CtaBanner } from "@/components/cta-banner";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
@@ -14,7 +15,9 @@ import {
   tiers,
 } from "@/content/pricing";
 import { products } from "@/content/products";
+import { site } from "@/content/site";
 import { faqJsonLd } from "@/lib/jsonld";
+import { payableTiers } from "@/lib/razorpay";
 import { buildMetadata } from "@/lib/seo";
 import { cn, formatPrice } from "@/lib/utils";
 
@@ -26,6 +29,16 @@ export const metadata = buildMetadata({
 });
 
 export default function PricingPage() {
+  // Which tiers have a Razorpay plan behind them. Anything not payable keeps
+  // its ordinary "talk to us" link, so the page works with payments switched
+  // off entirely.
+  //
+  // This page is statically prerendered, so this runs at BUILD time. Adding
+  // Razorpay keys to a host without rebuilding leaves the buttons as they were
+  // — on Vercel a redeploy rebuilds, so the normal flow is fine, but setting
+  // the variables alone is not enough.
+  const payable = payableTiers();
+
   return (
     <>
       <header className="border-b border-line bg-surface py-14 sm:py-18">
@@ -119,15 +132,26 @@ export default function PricingPage() {
                 ))}
               </ul>
 
-              <ButtonLink
-                href={tier.cta.href}
-                variant={tier.highlighted ? "primary" : "secondary"}
-                size="lg"
-                className="group mt-7 w-full"
-              >
-                {tier.cta.label}
-                <ArrowIcon />
-              </ButtonLink>
+              <div className="mt-7">
+                {payable.includes(tier.slug) ? (
+                  <CheckoutButton
+                    tier={tier.slug}
+                    label={`Subscribe${tier.price ? ` — ${formatPrice(tier.price)}/mo` : ""}`}
+                    companyName={site.name}
+                    variant={tier.highlighted ? "primary" : "secondary"}
+                  />
+                ) : (
+                  <ButtonLink
+                    href={tier.cta.href}
+                    variant={tier.highlighted ? "primary" : "secondary"}
+                    size="lg"
+                    className="group w-full"
+                  >
+                    {tier.cta.label}
+                    <ArrowIcon />
+                  </ButtonLink>
+                )}
+              </div>
             </div>
           ))}
         </div>
