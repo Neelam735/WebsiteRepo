@@ -191,3 +191,95 @@ export async function deliverLead(lead: LeadInput): Promise<DeliveryResult> {
 
   return { delivered: succeeded.length > 0, channels: succeeded, unconfigured: false };
 }
+
+/**
+ * Sends a plain notice through whichever lead channels are configured.
+ *
+ * Used for events that are not enquiries — a payment, for instance. There is
+ * no database in this project, so a notification is how anyone finds out that
+ * something happened. Returns true if at least one channel accepted it.
+ */
+export async function deliverNotice({
+  subject,
+  lines,
+  payload,
+}: {
+  subject: string;
+  lines: [string, string][];
+  payload?: Record<string, unknown>;
+}): Promise<boolean> {
+  const tasks: Promise<void>[] = [];
+
+  const apiKey = process.env.RESEND_API_KEY;
+  const to = process.env.LEAD_TO_EMAIL;
+  const from = process.env.LEAD_FROM_EMAIL;
+
+  if (apiKey && to && from) {
+    const html = `
+      <div style="font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:#171717;max-width:640px">
+        <h2 style="margin:0 0 16px">${escapeHtml(subject)}</h2>
+        <table cellpadding="6" style="border-collapse:collapse;width:100%">
+          ${lines
+            .map(
+              ([label, value]) =>
+                `<tr><td style="color:#5c5c5c;width:180px;vertical-align:top">${escapeHtml(label)}</td>` +
+                `<td style="font-weight:600">${escapeHtml(value)}</td></tr>`,
+            )
+            .join("")}
+        </table>
+      </div>
+    `.trim();
+
+    tasks.push(
+      (async () => {
+        const response = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            from,
+            to: to.split(",").map((address) => address.trim()),
+            subject,
+            html,
+            text: lines.map(([label, value]) => `${label}: ${value}`).join("\n"),
+          }),
+        });
+        if (!response.ok) throw new Error(`Resend responded ${response.status}`);
+      })(),
+    );
+  }
+
+  const url = process.env.LEAD_WEBHOOK_URL;
+  if (url) {
+    const secret = process.env.LEAD_WEBHOOK_SECRET;
+    tasks.push(
+      (async () => {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(secret ? { "X-Webhook-Secret": secret } : {}),
+          },
+          body: JSON.stringify({
+            source: "website-notice",
+            subject,
+            at: new Date().toISOString(),
+            ...Object.fromEntries(lines),
+            ...payload,
+          }),
+        });
+        if (!response.ok) throw new Error(`Webhook responded ${response.status}`);
+      })(),
+    );
+  }
+
+  if (tasks.length === 0) {
+    console.warn(`[notice] No delivery channel configured. ${subject}`, lines);
+    return false;
+  }
+
+  const results = await Promise.allSettled(tasks);
+  results.forEach((result) => {
+    if (result.status === "rejected") console.error("[notice] delivery failed:", result.reason);
+  });
+  return results.some((result) => result.status === "fulfilled");
+}
