@@ -55,8 +55,10 @@ export function ProductPage({ product }: { product: Product }) {
               </div>
             </div>
 
-            <Reveal className="mx-auto w-full max-w-md">
-              <Mockup kind={product.mockup} className="mx-auto" />
+            <Reveal className="scene scene-floor relative mx-auto w-full max-w-md">
+              <div className="scene-layer scene-back">
+                <Mockup kind={product.mockup} className="mx-auto" />
+              </div>
             </Reveal>
           </div>
         </Container>
@@ -121,8 +123,10 @@ export function ProductPage({ product }: { product: Product }) {
             </div>
           </div>
 
-          <Reveal className="lg:pt-4">
-            <DashboardMockup />
+          <Reveal className="scene scene-floor relative lg:pt-4">
+            <div className="scene-layer scene-back">
+              <DashboardMockup />
+            </div>
           </Reveal>
         </div>
       </Section>

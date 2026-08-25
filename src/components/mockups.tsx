@@ -94,11 +94,11 @@ export function OrderingMockup({ className }: { className?: string }) {
             <div
               key={line.name}
               className={cn(
-                "flex items-start gap-3 rounded-lg border p-2.5",
+                "flex items-start gap-2.5 rounded-lg border p-2.5",
                 index === 1 ? "border-clay-300 bg-clay-50" : "border-line bg-white",
               )}
             >
-              <div className="h-9 w-9 shrink-0 rounded-md bg-gradient-to-br from-honey-200 to-clay-200" />
+              <div className="h-8 w-8 shrink-0 rounded-md bg-gradient-to-br from-honey-200 to-clay-200" />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[13px] font-semibold text-ink-900">{line.name}</p>
                 <p className="truncate text-[11px] text-ink-500">{line.note}</p>
@@ -173,19 +173,25 @@ export function ClassScheduleMockup({ className }: { className?: string }) {
               )}
             >
               <span className="w-11 shrink-0 text-[12px] font-bold text-ink-900">{item.time}</span>
+              {/* Capacity sits with the class name rather than at the far right
+                  edge. In the hero the phone overlaps that edge, and this is
+                  the detail worth seeing — a class that is full with people
+                  waiting is the whole argument for the waitlist. */}
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-[12px] font-semibold text-ink-900">
                   {item.name}
                 </span>
-                <span className="block truncate text-[11px] text-ink-500">{item.coach}</span>
-              </span>
-              <span
-                className={cn(
-                  "shrink-0 rounded-full px-2 py-1 text-[10px] font-semibold",
-                  index === 1 ? "bg-clay-600 text-white" : "bg-ink-100 text-ink-700",
-                )}
-              >
-                {item.state}
+                <span className="mt-0.5 flex items-center gap-1.5">
+                  <span className="truncate text-[11px] text-ink-500">{item.coach}</span>
+                  <span
+                    className={cn(
+                      "shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-semibold",
+                      index === 1 ? "bg-clay-600 text-white" : "bg-ink-100 text-ink-700",
+                    )}
+                  >
+                    {item.state}
+                  </span>
+                </span>
               </span>
             </div>
           ))}

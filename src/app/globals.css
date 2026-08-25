@@ -59,6 +59,10 @@
 
   --shadow-soft: 0 1px 2px rgb(36 29 24 / 0.04), 0 8px 24px -12px rgb(36 29 24 / 0.12);
   --shadow-lift: 0 2px 4px rgb(36 29 24 / 0.05), 0 20px 40px -20px rgb(36 29 24 / 0.22);
+  /* Stacked layers read as height. One big blur just reads as a smudge. */
+  --shadow-float:
+    0 2px 4px rgb(36 29 24 / 0.05), 0 10px 20px -8px rgb(36 29 24 / 0.14),
+    0 30px 60px -25px rgb(36 29 24 / 0.3), 0 50px 90px -45px rgb(36 29 24 / 0.24);
 }
 
 /* next/font injects these on <html>; `inline` keeps the var reference intact. */
@@ -111,6 +115,81 @@
 }
 
 @layer components {
+  /*
+   * Depth, done in CSS rather than WebGL.
+   *
+   * Real perspective and Z-axis layering, at no JavaScript cost — the page
+   * still ships no 3D library, no canvas and no image files. The compositor
+   * handles transforms on its own thread, so this stays smooth on the
+   * mid-range phones most of these visitors are using.
+   *
+   * The tilt only applies from lg up. On a narrow screen a rotated mockup
+   * loses legibility and eats horizontal room, so small screens stay flat.
+   */
+  .scene {
+    perspective: 1800px;
+    perspective-origin: 65% 35%;
+  }
+
+  .scene-layer {
+    transform-style: preserve-3d;
+    transition:
+      transform 0.4s cubic-bezier(0.2, 0.7, 0.3, 1),
+      box-shadow 0.4s ease;
+  }
+
+  /* A soft contact shadow on the ground plane, so panels sit in space rather
+     than float in a void. Drawn with a gradient — nothing to download. */
+  .scene-floor::after {
+    content: "";
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    bottom: -2.5rem;
+    height: 3rem;
+    background: radial-gradient(ellipse at center, rgb(36 29 24 / 0.18), transparent 70%);
+    filter: blur(12px);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  @media (min-width: 64rem) {
+    .scene-back {
+      transform: rotateY(8deg) rotateX(3deg) translateZ(-15px);
+    }
+
+    /* Pulled toward the viewer, so the two panels read as separate planes.
+       Kept small: perspective magnifies whatever comes forward, and a large
+       offset grows the front panel until it covers the one behind it. */
+    .scene-front {
+      transform: rotateY(8deg) rotateX(3deg) translateZ(25px);
+    }
+
+    /* Straightens on hover — the page rewards attention rather than demanding it. */
+    .scene:hover .scene-back {
+      transform: rotateY(3deg) rotateX(1deg) translateZ(-8px);
+    }
+
+    .scene:hover .scene-front {
+      transform: rotateY(3deg) rotateX(1deg) translateZ(32px);
+    }
+  }
+
+  /* Cards that lift off the page on hover. */
+  .card-3d {
+    transition:
+      transform 0.25s cubic-bezier(0.2, 0.7, 0.3, 1),
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  @media (hover: hover) and (min-width: 48rem) {
+    .card-3d:hover {
+      transform: translateY(-6px) scale(1.012);
+      box-shadow: var(--shadow-float);
+    }
+  }
+
   /* Reveal-on-scroll. Elements start hidden only when JS can un-hide them,
      so no-JS and reduced-motion visitors always see the content. */
   .js .reveal {
@@ -137,6 +216,17 @@
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  /* Depth is decoration. Anyone who asked for less motion gets a flat page,
+     including on hover — no tilt, no lift, no transition. */
+  .scene-back,
+  .scene-front,
+  .scene:hover .scene-back,
+  .scene:hover .scene-front,
+  .card-3d:hover {
+    transform: none !important;
+    transition: none !important;
   }
 
   *,

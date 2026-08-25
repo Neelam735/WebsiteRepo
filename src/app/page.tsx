@@ -111,12 +111,14 @@ function Hero() {
             other. It only appears from lg up: below that there isn't room to
             render a phone at a width where its rows are readable.
           */}
-          <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
+          <div className="scene scene-floor relative mx-auto w-full max-w-lg lg:max-w-none">
             <Reveal>
-              <ClassScheduleMockup />
+              <div className="scene-layer scene-back">
+                <ClassScheduleMockup />
+              </div>
             </Reveal>
             <Reveal delay={120}>
-              <div className="absolute -bottom-14 right-0 hidden w-56 lg:block">
+              <div className="scene-layer scene-front absolute -bottom-14 right-0 hidden w-60 lg:block">
                 <OrderingMockup className="max-w-none" />
               </div>
             </Reveal>

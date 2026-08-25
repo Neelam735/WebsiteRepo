@@ -9,7 +9,7 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <Card
       as="li"
-      className="group relative flex h-full flex-col transition-all duration-200 hover:-translate-y-0.5 hover:border-clay-200 hover:shadow-[var(--shadow-lift)]"
+      className="card-3d group relative flex h-full flex-col hover:border-clay-200"
     >
       <span
         aria-hidden="true"
@@ -62,7 +62,7 @@ export function ProductCard({ product }: { product: Product }) {
 /** One module of a system, on its product page. */
 export function ModuleCard({ module }: { module: Module }) {
   return (
-    <li className="flex h-full flex-col rounded-card border border-line bg-surface p-5">
+    <li className="card-3d flex h-full flex-col rounded-card border border-line bg-surface p-5 hover:border-clay-200">
       <span aria-hidden="true" className="text-xl">
         {module.glyph}
       </span>
