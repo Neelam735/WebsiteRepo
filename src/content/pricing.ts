@@ -55,8 +55,9 @@ export const tiers: Tier[] = [
     slug: "growth",
     name: "Growth",
     audience: "Businesses taking orders or bookings every day.",
-    price: null,
-    priceNote: "quoted after a scoping call",
+    price: 1999,
+    period: "month",
+    priceNote: "billed monthly",
     description:
       "Everything in Starter, plus the system that takes the orders or the bookings — the part that pays for itself.",
     features: [
@@ -67,7 +68,7 @@ export const tiers: Tier[] = [
       "Kitchen printer or staff calendar sync",
       "Customer accounts, reordering and rebooking",
     ],
-    cta: { label: "Get a quote", href: "/contact" },
+    cta: { label: "Get started", href: "/contact" },
     highlighted: true,
   },
   {
@@ -147,9 +148,9 @@ export const runningCosts: { title: string; body: string }[] = [
 
 export const pricingFaqs: { question: string; answer: string }[] = [
   {
-    question: "Why is only the Starter price published?",
+    question: "Why isn't the Custom price published?",
     answer:
-      "Because Starter is a known quantity, so we can put a number on it honestly. Above that, the same system can be a modest setup for one site or a migration across four with a POS integration in the middle — a published price would be either meaningless or wrong. We would rather scope it and give you a real number than advertise one we cannot honour.",
+      "Starter and Growth are known quantities, so we can put a number on them honestly. Custom is not: the same system can be a single site with a few modules or a migration across four locations with a POS integration in the middle. A published price there would be either meaningless or wrong, so we scope it and give you a real number instead.",
   },
   {
     question: "What does the quote actually cover?",

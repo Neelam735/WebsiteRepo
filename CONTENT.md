@@ -1,7 +1,7 @@
 # Before you launch
 
 This site contains **no invented clients, quotes, statistics or team members**,
-and the only published price is the one you supplied. What it does contain is a
+and the only published prices are the ones you supplied. What it does contain is a
 small number of placeholders that only you can fill in, and a set of claims
 made in your name that you should read and agree with.
 
@@ -70,11 +70,12 @@ Still worth a pass:
 
 ## 5. Pricing — `src/content/pricing.ts`
 
-Three packages — Starter, Growth and Custom. Only Starter carries a published
-price (₹999/month); the other two show "On request" and ask for a scoping call.
+Three packages. Starter (₹999/month) and Growth (₹1,999/month) carry published
+prices; Custom shows "On request" and asks for a scoping call.
 
-- [ ] Add prices for Growth and Custom, or leave `price: null` to keep them
-      quote-only. Set `period: "month"` on any that recur; omit it for one-offs.
+- [ ] Confirm both monthly prices, and what each tier includes at that price
+- [ ] Add a price for Custom, or leave `price: null` to keep it quote-only.
+      Set `period: "month"` on any tier that recurs; omit it for a one-off.
 - [ ] Check the Starter feature list matches what you actually deliver
 - [ ] Currency is set once, in `formatPrice` in `src/lib/utils.ts` (INR)
 - [ ] Confirm the fixed-quote promise is really how you work
@@ -95,8 +96,14 @@ Both are template wording carrying a visible ✱ Template badge.
 
 - [ ] Logo mark — inline SVG in `src/components/logo.tsx`
 - [ ] Favicon — `src/app/icon.svg`
-- [ ] Colours — the palette is defined once at the top of
-      `src/app/globals.css` as `clay` / `honey` / `ink` tokens
+- [ ] Colours — monochrome by default. The palette is defined once at the top
+      of `src/app/globals.css` (`carbon` primary, `chrome` accent, `ink` text,
+      `steel` positive). Redefine those hex values to introduce a brand colour;
+      no component hard-codes one.
+- [ ] The 3D hero object (`src/components/hero-scene.tsx`) is decoration and
+      costs ~178KB gzipped, on desktop only — never on phones or under
+      reduced motion. Remove `<HeroScene />` from `src/app/page.tsx` and run
+      `npm uninstall three` if you would rather have the bytes.
 
 ## 8. Interface mockups
 
