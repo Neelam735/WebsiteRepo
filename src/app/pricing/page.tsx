@@ -48,12 +48,12 @@ export default function PricingPage() {
               className={cn(
                 "relative flex flex-col rounded-card border bg-surface p-7",
                 tier.highlighted
-                  ? "border-clay-300 shadow-[var(--shadow-lift)] ring-1 ring-clay-200 lg:-my-3 lg:py-10"
+                  ? "border-carbon-300 shadow-[var(--shadow-lift)] ring-1 ring-carbon-200 lg:-my-3 lg:py-10"
                   : "border-line shadow-[var(--shadow-soft)]",
               )}
             >
               {tier.highlighted ? (
-                <span className="absolute -top-3 left-7 rounded-full bg-clay-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
+                <span className="absolute -top-3 left-7 rounded-full bg-carbon-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
                   Most popular
                 </span>
               ) : null}
@@ -88,7 +88,7 @@ export default function PricingPage() {
                     <svg
                       viewBox="0 0 16 16"
                       aria-hidden="true"
-                      className="mt-1 h-4 w-4 shrink-0 text-sage-500"
+                      className="mt-1 h-4 w-4 shrink-0 text-steel-500"
                     >
                       <path
                         d="m3.5 8.5 3 3 6-7"

@@ -29,7 +29,7 @@ export function Section({
   const tones = {
     canvas: "bg-canvas",
     surface: "bg-surface",
-    tinted: "bg-clay-50/60",
+    tinted: "bg-carbon-50/60",
     dark: "bg-ink-950 text-ink-100",
   } as const;
 
@@ -44,7 +44,7 @@ export function Eyebrow({ children, className }: { children: ReactNode; classNam
   return (
     <p
       className={cn(
-        "text-xs font-bold uppercase tracking-[0.14em] text-clay-700",
+        "text-xs font-bold uppercase tracking-[0.14em] text-carbon-700",
         className,
       )}
     >
@@ -79,7 +79,7 @@ export function SectionHeading({
       )}
     >
       {eyebrow ? (
-        <Eyebrow className={tone === "dark" ? "text-honey-300" : undefined}>{eyebrow}</Eyebrow>
+        <Eyebrow className={tone === "dark" ? "text-chrome-300" : undefined}>{eyebrow}</Eyebrow>
       ) : null}
       <Tag
         className={cn(
@@ -140,7 +140,7 @@ export function PlaceholderBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full bg-honey-100 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-honey-900 ring-1 ring-honey-200",
+        "inline-flex items-center gap-1 rounded-full bg-chrome-100 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-chrome-900 ring-1 ring-chrome-200",
         className,
       )}
       title="Placeholder content — replace with a real client before launch"

@@ -21,7 +21,7 @@ and the contact form is wired to a real delivery mechanism rather than a
 | Styling | Tailwind CSS v4 — tokens defined in `src/app/globals.css` |
 | Content | Typed data modules in `src/content` — no CMS, no database |
 | Forms | Route handler at `/api/contact` → Resend and/or a webhook |
-| Runtime deps | `next`, `react`, `react-dom`. That's the whole list. |
+| Runtime deps | `next`, `react`, `react-dom`, `three` (lazy, desktop only) |
 
 Every page except `/api/contact` is prerendered as static HTML at build time,
 so it can be served from a CDN edge.
@@ -194,13 +194,34 @@ with `aria-invalid`/`aria-describedby` on errors, `aria-current` on active nav,
 Not automated — re-test with a screen reader after you swap in real content,
 and check contrast if you change the palette.
 
+## The 3D hero
+
+`src/components/hero-scene.tsx` renders an animated Three.js object behind the
+hero: a rotating icosahedron in a wireframe cage, with an orbiting point ring,
+lit from one side and leaning toward the cursor.
+
+Three.js costs about **178KB gzipped**, which is more than the rest of the site
+put together — so it is quarantined:
+
+- imported dynamically **inside** the effect, so it is a separate chunk that is
+  only fetched once we have decided to render at all
+- **never loaded** below 1024px, under `prefers-reduced-motion`, on devices
+  reporting two cores or fewer, with data saver on, or without WebGL
+- capped at 30fps and pixel ratio 1.5, and it stops completely when scrolled
+  out of view or the tab is hidden
+
+Measured: a 390px viewport downloads **4KB** of this (the component, not the
+library); desktop downloads the full 712KB uncompressed. The hero is entirely
+readable without it — delete the `<HeroScene />` line in `src/app/page.tsx` and
+`npm uninstall three` if you would rather have the bytes back.
+
 ## Performance
 
 - Zero image files. Mockups, icons and the hero artwork are markup, SVG and
   CSS gradients, so there is nothing to download, nothing to lazy-load and no
   layout shift.
-- Only three client components ship JavaScript: the header (mobile menu), the
-  contact form, and the scroll-reveal wrapper. Everything else is a server
+- Four client components ship JavaScript: the header (mobile menu), the
+  contact form, the scroll-reveal wrapper, and the 3D hero. Everything else is a server
   component.
 - No analytics, fonts-from-CDN, chat widget or map iframe loads unless you
   explicitly configure it.

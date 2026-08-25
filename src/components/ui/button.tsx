@@ -13,13 +13,13 @@ const base =
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-clay-600 text-white shadow-sm hover:bg-clay-700 hover:shadow-md active:bg-clay-800 focus-visible:outline-clay-700",
+    "bg-carbon-600 text-white shadow-sm hover:bg-carbon-700 hover:shadow-md active:bg-carbon-800 focus-visible:outline-carbon-700",
   secondary:
-    "bg-white text-ink-900 ring-1 ring-ink-200 hover:ring-ink-300 hover:bg-ink-50 active:bg-ink-100 focus-visible:outline-clay-600",
+    "bg-white text-ink-900 ring-1 ring-ink-200 hover:ring-ink-300 hover:bg-ink-50 active:bg-ink-100 focus-visible:outline-carbon-600",
   ghost:
-    "text-clay-700 hover:bg-clay-50 active:bg-clay-100 focus-visible:outline-clay-600",
+    "text-carbon-700 hover:bg-carbon-50 active:bg-carbon-100 focus-visible:outline-carbon-600",
   inverse:
-    "bg-white text-clay-700 hover:bg-clay-50 active:bg-clay-100 focus-visible:outline-white",
+    "bg-white text-carbon-700 hover:bg-carbon-50 active:bg-carbon-100 focus-visible:outline-white",
 };
 
 const sizes: Record<Size, string> = {

@@ -41,7 +41,7 @@ export function SiteFooter() {
                 {hasPhone ? (
                   <a
                     href={telUrl}
-                    className="block font-semibold text-white transition-colors hover:text-honey-300"
+                    className="block font-semibold text-white transition-colors hover:text-chrome-300"
                   >
                     {phoneLabel}
                   </a>
@@ -49,7 +49,7 @@ export function SiteFooter() {
                 {hasEmail ? (
                   <a
                     href={mailtoUrl}
-                    className="block text-ink-300 transition-colors hover:text-honey-300"
+                    className="block text-ink-300 transition-colors hover:text-chrome-300"
                   >
                     {site.contact.email}
                   </a>
@@ -59,7 +59,7 @@ export function SiteFooter() {
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-ink-300 transition-colors hover:text-honey-300"
+                    className="inline-flex items-center gap-1.5 text-ink-300 transition-colors hover:text-chrome-300"
                   >
                     Message us on WhatsApp
                     <span aria-hidden="true">→</span>
@@ -90,7 +90,7 @@ export function SiteFooter() {
           <div className="grid gap-8 sm:grid-cols-2">
             {footerNav.map((group) => (
               <div key={group.title}>
-                <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-honey-300">
+                <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-chrome-300">
                   {group.title}
                 </h2>
                 <ul className="mt-4 space-y-2.5">

@@ -82,8 +82,8 @@ export function OrderingMockup({ className }: { className?: string }) {
         role="img"
         aria-label="Mockup of the online ordering screen: a menu with three dishes, a subtotal with GST, and a place-order button"
       >
-        <div className="bg-clay-600 px-4 pb-5 pt-6 text-white">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-clay-200">
+        <div className="bg-carbon-600 px-4 pb-5 pt-6 text-white">
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-carbon-200">
             Pickup · ready 6:40pm
           </p>
           <p className="mt-1 text-lg font-bold">Your menu</p>
@@ -95,10 +95,10 @@ export function OrderingMockup({ className }: { className?: string }) {
               key={line.name}
               className={cn(
                 "flex items-start gap-2.5 rounded-lg border p-2.5",
-                index === 1 ? "border-clay-300 bg-clay-50" : "border-line bg-white",
+                index === 1 ? "border-carbon-300 bg-carbon-50" : "border-line bg-white",
               )}
             >
-              <div className="h-8 w-8 shrink-0 rounded-md bg-gradient-to-br from-honey-200 to-clay-200" />
+              <div className="h-8 w-8 shrink-0 rounded-md bg-gradient-to-br from-chrome-200 to-carbon-200" />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[13px] font-semibold text-ink-900">{line.name}</p>
                 <p className="truncate text-[11px] text-ink-500">{line.note}</p>
@@ -106,7 +106,7 @@ export function OrderingMockup({ className }: { className?: string }) {
               <div className="text-right">
                 <p className="text-[13px] font-bold text-ink-900">{line.price}</p>
                 {line.qty ? (
-                  <p className="text-[10px] font-semibold text-clay-700">{line.qty}</p>
+                  <p className="text-[10px] font-semibold text-carbon-700">{line.qty}</p>
                 ) : null}
               </div>
             </div>
@@ -126,8 +126,8 @@ export function OrderingMockup({ className }: { className?: string }) {
             <span className="text-ink-600">Total</span>
             <span className="font-bold text-ink-900">₹1,365</span>
           </div>
-          <p className="mt-1 text-[10px] text-sage-700">Ordered direct · no platform commission</p>
-          <div className="mt-3 rounded-full bg-clay-600 py-2.5 text-center text-[13px] font-semibold text-white">
+          <p className="mt-1 text-[10px] text-steel-700">Ordered direct · no platform commission</p>
+          <div className="mt-3 rounded-full bg-carbon-600 py-2.5 text-center text-[13px] font-semibold text-white">
             Place order
           </div>
         </div>
@@ -158,7 +158,7 @@ export function ClassScheduleMockup({ className }: { className?: string }) {
             <p className="text-sm font-bold text-ink-900">Today&rsquo;s timetable</p>
             <p className="text-xs text-ink-500">4 classes · 2 coaches</p>
           </div>
-          <span className="rounded-full bg-sage-100 px-2.5 py-1 text-[11px] font-semibold text-sage-700">
+          <span className="rounded-full bg-steel-100 px-2.5 py-1 text-[11px] font-semibold text-steel-700">
             Waitlist on
           </span>
         </div>
@@ -169,7 +169,7 @@ export function ClassScheduleMockup({ className }: { className?: string }) {
               key={item.time}
               className={cn(
                 "flex items-center gap-3 rounded-lg border px-3 py-2.5",
-                index === 1 ? "border-clay-300 bg-clay-50" : "border-line bg-white",
+                index === 1 ? "border-carbon-300 bg-carbon-50" : "border-line bg-white",
               )}
             >
               <span className="w-11 shrink-0 text-[12px] font-bold text-ink-900">{item.time}</span>
@@ -186,7 +186,7 @@ export function ClassScheduleMockup({ className }: { className?: string }) {
                   <span
                     className={cn(
                       "shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-semibold",
-                      index === 1 ? "bg-clay-600 text-white" : "bg-ink-100 text-ink-700",
+                      index === 1 ? "bg-carbon-600 text-white" : "bg-ink-100 text-ink-700",
                     )}
                   >
                     {item.state}
@@ -240,9 +240,9 @@ export function MembershipMockup({ className }: { className?: string }) {
               <span
                 className={cn(
                   "shrink-0 rounded-full px-2 py-1 text-[10px] font-semibold",
-                  row.tone === "sage" && "bg-sage-100 text-sage-700",
+                  row.tone === "sage" && "bg-steel-100 text-steel-700",
                   row.tone === "ink" && "bg-ink-100 text-ink-700",
-                  row.tone === "clay" && "bg-clay-100 text-clay-800",
+                  row.tone === "clay" && "bg-carbon-100 text-carbon-800",
                 )}
               >
                 {row.status}
@@ -251,7 +251,7 @@ export function MembershipMockup({ className }: { className?: string }) {
           ))}
         </div>
 
-        <div className="mt-4 rounded-lg bg-clay-50 px-3 py-2.5">
+        <div className="mt-4 rounded-lg bg-carbon-50 px-3 py-2.5">
           <p className="text-[11px] text-ink-700">
             <span className="font-semibold text-ink-900">1 payment needs attention.</span> Retry
             scheduled, member notified.
@@ -279,7 +279,7 @@ export function DashboardMockup({ className }: { className?: string }) {
             <div key={label} className="rounded-lg border border-line p-2.5">
               <p className="text-[10px] font-medium text-ink-500">{label}</p>
               <p className="mt-1.5 h-3 w-12 rounded bg-ink-200" />
-              <p className="mt-1.5 h-2 w-8 rounded bg-sage-500/40" />
+              <p className="mt-1.5 h-2 w-8 rounded bg-steel-500/40" />
             </div>
           ))}
         </div>
@@ -295,7 +295,7 @@ export function DashboardMockup({ className }: { className?: string }) {
                 <div
                   className={cn(
                     "rounded-t",
-                    index === bars.length - 1 ? "bg-clay-600" : "bg-clay-200",
+                    index === bars.length - 1 ? "bg-carbon-600" : "bg-carbon-200",
                   )}
                   style={{ height: `${height}%` }}
                 />
@@ -305,11 +305,11 @@ export function DashboardMockup({ className }: { className?: string }) {
         </div>
 
         <div className="mt-3 space-y-1.5">
-          <div className="flex items-center gap-2 rounded-lg bg-honey-50 px-2.5 py-2 text-[11px]">
+          <div className="flex items-center gap-2 rounded-lg bg-chrome-50 px-2.5 py-2 text-[11px]">
             <span className="font-semibold text-ink-900">Low stock</span>
             <span className="text-ink-600">2 items below par</span>
           </div>
-          <div className="flex items-center gap-2 rounded-lg bg-clay-50 px-2.5 py-2 text-[11px]">
+          <div className="flex items-center gap-2 rounded-lg bg-carbon-50 px-2.5 py-2 text-[11px]">
             <span className="font-semibold text-ink-900">Rota</span>
             <span className="text-ink-600">Saturday needs one more</span>
           </div>

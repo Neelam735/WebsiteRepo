@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { CheckList, ProductCard } from "@/components/cards";
 import { CtaBanner } from "@/components/cta-banner";
+import { HeroScene } from "@/components/hero-scene";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
 import { ClassScheduleMockup, OrderingMockup } from "@/components/mockups";
@@ -43,34 +44,44 @@ export default function HomePage() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden bg-canvas pt-12 sm:pt-16 lg:pt-20">
-      {/* Warm wash behind the hero. Gradients, not images — nothing to download. */}
+    <section className="relative overflow-hidden bg-carbon-950 pt-12 text-white sm:pt-16 lg:pt-20">
+      {/* Soft falloff so the black panel doesn't end as a hard band. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-40 -top-40 h-[32rem] w-[32rem] rounded-full bg-honey-200/40 blur-3xl"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-carbon-900"
       />
+
+      {/*
+        The 3D object. Decoration only — see hero-scene.tsx for the conditions
+        under which it never loads Three.js at all. Sitting behind the content
+        at low opacity keeps the headline the thing you read first.
+      */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-32 top-40 h-96 w-96 rounded-full bg-clay-100/50 blur-3xl"
-      />
+        className="pointer-events-none absolute inset-y-0 right-0 hidden w-3/5 opacity-70 lg:block"
+      >
+        <HeroScene />
+      </div>
 
       <Container className="relative">
         <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
           <div>
-            <p className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-sm font-medium text-ink-700 shadow-sm ring-1 ring-line">
-              <span className="h-2 w-2 rounded-full bg-sage-500" />
+            <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-sm font-medium text-white ring-1 ring-white/20 backdrop-blur-sm">
+              <span className="h-2 w-2 rounded-full bg-white" />
               Two systems. Nothing else.
             </p>
 
-            <h1 className="mt-6 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
+            {/* text-white is load-bearing: the base stylesheet colours headings
+                near-black, which is invisible on this panel. */}
+            <h1 className="mt-6 text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
               Software that runs{" "}
-              <span className="relative whitespace-nowrap text-clay-700">
+              <span className="relative whitespace-nowrap text-white">
                 the whole floor
                 <svg
                   aria-hidden="true"
                   viewBox="0 0 300 12"
                   preserveAspectRatio="none"
-                  className="absolute -bottom-1 left-0 h-2.5 w-full text-honey-300"
+                  className="absolute -bottom-1 left-0 h-2.5 w-full text-white/45"
                 >
                   <path
                     d="M2 8c60-5 120-6 180-4s90 4 116 2"
@@ -83,23 +94,27 @@ function Hero() {
               </span>
             </h1>
 
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-600 sm:text-xl">
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-300 sm:text-xl">
               A restaurant management system for orders, menus, tables and the kitchen. A gym
               management system for memberships, classes and check-in. Set up around how you
               already work, with a fixed quote before we start.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href={primaryCta.href} size="lg" className="group">
+              <ButtonLink href={primaryCta.href} variant="inverse" size="lg" className="group">
                 {primaryCta.label}
                 <ArrowIcon />
               </ButtonLink>
-              <ButtonLink href="#what-we-do" variant="secondary" size="lg">
+              <ButtonLink
+                href="#what-we-do"
+                size="lg"
+                className="bg-white/10 text-white ring-1 ring-white/25 hover:bg-white/15"
+              >
                 See what&rsquo;s in each system
               </ButtonLink>
             </div>
 
-            <p className="mt-5 text-sm text-ink-500">
+            <p className="mt-5 text-sm text-ink-400">
               A walkthrough with your own menu or timetable · No obligation
             </p>
           </div>
@@ -164,7 +179,7 @@ function HowItWorks() {
         {process.map((step, index) => (
           <Reveal key={step.step} delay={index * 80} className="h-full">
             <li className="flex h-full flex-col rounded-card border border-line bg-surface p-6">
-              <span className="font-display text-3xl font-extrabold text-clay-200">
+              <span className="font-display text-3xl font-extrabold text-carbon-200">
                 {step.step}
               </span>
               <h3 className="mt-3 text-lg font-bold">{step.name}</h3>
@@ -212,7 +227,7 @@ function WhyUs() {
             <Link
               key={product.slug}
               href={`/${product.slug}`}
-              className="group flex flex-col rounded-card border border-line bg-surface p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-clay-200 hover:shadow-[var(--shadow-lift)]"
+              className="group flex flex-col rounded-card border border-line bg-surface p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-carbon-200 hover:shadow-[var(--shadow-lift)]"
             >
               <span aria-hidden="true" className="text-2xl">
                 {product.glyph}
@@ -223,7 +238,7 @@ function WhyUs() {
                 {product.modules[0]!.name.toLowerCase()} to{" "}
                 {product.modules[product.modules.length - 1]!.name.toLowerCase()}.
               </p>
-              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-clay-700">
+              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-carbon-700">
                 Take a look
                 <ArrowIcon />
               </span>
@@ -246,7 +261,7 @@ function HomeFaq() {
             Can&rsquo;t see yours?{" "}
             <Link
               href="/contact"
-              className="font-semibold text-clay-700 underline underline-offset-4"
+              className="font-semibold text-carbon-700 underline underline-offset-4"
             >
               Ask us directly
             </Link>{" "}

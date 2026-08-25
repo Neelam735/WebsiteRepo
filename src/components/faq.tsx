@@ -11,7 +11,7 @@ export function Faq({ items }: { items: { question: string; answer: string }[] }
       {items.map((item) => (
         <details key={item.question} className="group py-5">
           <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-left">
-            <h3 className="text-[17px] font-semibold text-ink-900 group-hover:text-clay-700">
+            <h3 className="text-[17px] font-semibold text-ink-900 group-hover:text-carbon-700">
               {item.question}
             </h3>
             <span

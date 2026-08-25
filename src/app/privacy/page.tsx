@@ -21,7 +21,7 @@ export default function PrivacyPage() {
         <h1 className="text-4xl font-extrabold">Privacy notice</h1>
         <p className="mt-3 text-sm text-ink-500">Last updated: 1 January 2026</p>
 
-        <p className="mt-6 inline-flex flex-wrap items-center gap-2 rounded-lg border border-honey-200 bg-honey-50 px-4 py-3 text-sm text-ink-700">
+        <p className="mt-6 inline-flex flex-wrap items-center gap-2 rounded-lg border border-chrome-200 bg-chrome-50 px-4 py-3 text-sm text-ink-700">
           <PlaceholderBadge label="Template" />
           Draft wording — have this reviewed by a lawyer before you launch.
         </p>
@@ -87,7 +87,7 @@ export default function PrivacyPage() {
                   Email{" "}
                   <a
                     href={mailtoUrl}
-                    className="font-semibold text-clay-700 underline underline-offset-2"
+                    className="font-semibold text-carbon-700 underline underline-offset-2"
                   >
                     {site.contact.email}
                   </a>{" "}

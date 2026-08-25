@@ -51,7 +51,7 @@ export default function ContactPage() {
             <DeliveryWarning />
             <h2 className="text-xl font-bold">Send us a message</h2>
             <p className="mt-1.5 text-[15px] text-ink-600">
-              Fields marked <span className="text-clay-600">*</span> are required. Everything else
+              Fields marked <span className="text-carbon-600">*</span> are required. Everything else
               helps us come back with something useful.
             </p>
             <div className="mt-7">
@@ -71,7 +71,7 @@ export default function ContactPage() {
                   {hasPhone ? (
                     <a
                       href={telUrl}
-                      className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-clay-300 hover:bg-clay-50"
+                      className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-carbon-300 hover:bg-carbon-50"
                     >
                       <span aria-hidden="true" className="text-lg">
                         📞
@@ -90,7 +90,7 @@ export default function ContactPage() {
                       href={whatsappUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-clay-300 hover:bg-clay-50"
+                      className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-carbon-300 hover:bg-carbon-50"
                     >
                       <span aria-hidden="true" className="text-lg">
                         💬
@@ -105,7 +105,7 @@ export default function ContactPage() {
                   {hasEmail ? (
                     <a
                       href={mailtoUrl}
-                      className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-clay-300 hover:bg-clay-50"
+                      className="flex items-center gap-3 rounded-lg border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-carbon-300 hover:bg-carbon-50"
                     >
                       <span aria-hidden="true" className="text-lg">
                         ✉️
@@ -135,7 +135,7 @@ export default function ContactPage() {
                   <li key={product.slug}>
                     <a
                       href={`/${product.slug}`}
-                      className="flex gap-3 text-[15px] text-ink-700 transition-colors hover:text-clay-700"
+                      className="flex gap-3 text-[15px] text-ink-700 transition-colors hover:text-carbon-700"
                     >
                       <span aria-hidden="true">{product.glyph}</span>
                       {product.name}
@@ -155,7 +155,7 @@ export default function ContactPage() {
                     <svg
                       viewBox="0 0 16 16"
                       aria-hidden="true"
-                      className="mt-1 h-4 w-4 shrink-0 text-sage-500"
+                      className="mt-1 h-4 w-4 shrink-0 text-steel-500"
                     >
                       <path
                         d="m3.5 8.5 3 3 6-7"
@@ -222,8 +222,8 @@ function DeliveryWarning() {
   if (isLive || hasDeliveryChannel()) return null;
 
   return (
-    <div className="mb-6 rounded-lg border border-clay-300 bg-clay-50 p-4 text-sm leading-relaxed text-ink-800">
-      <p className="font-bold text-clay-800">No delivery channel configured</p>
+    <div className="mb-6 rounded-lg border border-carbon-300 bg-carbon-50 p-4 text-sm leading-relaxed text-ink-800">
+      <p className="font-bold text-carbon-800">No delivery channel configured</p>
       <p className="mt-1">
         Submissions will fail. Set{" "}
         <code className="rounded bg-white px-1 py-0.5 text-[13px]">RESEND_API_KEY</code>,{" "}
@@ -265,8 +265,8 @@ function BookingCard() {
   }
 
   return (
-    <div className="rounded-card border border-dashed border-clay-300 bg-clay-50/60 p-6">
-      <h2 className="text-sm font-bold uppercase tracking-wide text-clay-700">
+    <div className="rounded-card border border-dashed border-carbon-300 bg-carbon-50/60 p-6">
+      <h2 className="text-sm font-bold uppercase tracking-wide text-carbon-700">
         Booking widget slot
       </h2>
       <p className="mt-2 text-[15px] leading-relaxed text-ink-700">
