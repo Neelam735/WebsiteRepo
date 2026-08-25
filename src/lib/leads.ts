@@ -151,10 +151,22 @@ export async function deliverLead(lead: LeadInput): Promise<DeliveryResult> {
   }
 
   if (tasks.length === 0) {
-    // Nothing wired up yet. Log it so the enquiry isn't lost, and tell the caller.
+    // Nothing wired up yet. Name exactly which variables the server can and
+    // cannot see: "configure something" sends people hunting, while a list of
+    // set/MISSING turns it into one obvious fix. Only presence is logged, never
+    // a value, so the API key never reaches the log.
+    const seen = (name: string) => (process.env[name] ? "set" : "MISSING");
     console.warn(
-      "[leads] No delivery channel configured. Set RESEND_API_KEY + LEAD_TO_EMAIL + " +
-        "LEAD_FROM_EMAIL, or LEAD_WEBHOOK_URL. Lead follows:\n",
+      "[leads] No delivery channel configured, so this enquiry was not sent.\n" +
+        "  Email channel needs all three:\n" +
+        `    RESEND_API_KEY   ${seen("RESEND_API_KEY")}\n` +
+        `    LEAD_TO_EMAIL    ${seen("LEAD_TO_EMAIL")}\n` +
+        `    LEAD_FROM_EMAIL  ${seen("LEAD_FROM_EMAIL")}\n` +
+        "  Or the webhook channel needs:\n" +
+        `    LEAD_WEBHOOK_URL ${seen("LEAD_WEBHOOK_URL")}\n` +
+        "  Note: these are server-side variables — a NEXT_PUBLIC_ prefix will " +
+        "not work, and Vercel needs a redeploy after adding them.\n" +
+        "  The enquiry follows so it is not lost:\n",
       JSON.stringify(lead, null, 2),
     );
     return { delivered: false, channels: [], unconfigured: true };
