@@ -147,7 +147,7 @@ const classes = [
 
 export function ClassScheduleMockup({ className }: { className?: string }) {
   return (
-    <BrowserFrame url="app.yoursite.com/timetable" className={className}>
+    <BrowserFrame url="app.bizwisetech.com/timetable" className={className}>
       <div
         role="img"
         aria-label="Mockup of the gym class timetable: four classes with coach, capacity and a full class showing a waitlist"
@@ -218,7 +218,7 @@ const memberships = [
 
 export function MembershipMockup({ className }: { className?: string }) {
   return (
-    <BrowserFrame url="app.yoursite.com/members" className={className}>
+    <BrowserFrame url="app.bizwisetech.com/members" className={className}>
       <div
         role="img"
         aria-label="Mockup of the membership screen: plans with their status, including a failed payment flagged for retry"
@@ -268,7 +268,7 @@ const bars = [38, 52, 44, 68, 84, 61, 96];
 
 export function DashboardMockup({ className }: { className?: string }) {
   return (
-    <BrowserFrame url="app.yoursite.com/dashboard" className={className}>
+    <BrowserFrame url="app.bizwisetech.com/dashboard" className={className}>
       <div
         role="img"
         aria-label="Mockup of the reporting dashboard: three summary tiles, a seven-day bar chart and two alerts"

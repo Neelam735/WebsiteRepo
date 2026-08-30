@@ -13,9 +13,11 @@ Work through this list and the site is ready to go live.
 
 The only genuinely blocking items.
 
-- [ ] `name` — currently **"Your Company"**. Appears in the logo, every page
-      title, the metadata and the social share card.
-- [ ] `legalName` — currently **"Your Company Ltd"**. Footer and legal pages.
+- [x] `name` — **BizWise Tech**, matching the bizwisetech.com domain.
+- [ ] `legalName` — currently also "BizWise Tech", which is a trading name.
+      Replace it with your registered entity once you incorporate (sole
+      proprietorship, OPC or Pvt Ltd) — it appears in the footer copyright and
+      both legal pages, where it should name who a customer contracts with.
 - [ ] `tagline` and `description` — accurate, but make them yours.
 
 ## 2. How to reach you
@@ -135,10 +137,9 @@ money:
 
 - [ ] Contact form delivers to a real inbox — **submit a test enquiry and
       confirm it arrives**
-- [ ] `NEXT_PUBLIC_SITE_URL` matches the live domain
+- [ ] `NEXT_PUBLIC_SITE_URL` set to `https://bizwisetech.com` in production
 - [ ] `NEXT_PUBLIC_NOINDEX=true` on preview, absent in production
 - [ ] Analytics IDs set, plus a consent banner if you serve EU/UK visitors
-- [ ] `grep -rn "Your Company" src/` returns nothing
 - [ ] Every phone, email and WhatsApp link opens the right thing on a real phone
 - [ ] Lighthouse pass on mobile
 - [ ] Submit `sitemap.xml` to Google Search Console
