@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import { TrialHighlight } from "@/components/trial-highlight";
+import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/section";
 import { freeTrial } from "@/content/pricing";
 import { primaryCta } from "@/content/site";
@@ -28,12 +27,12 @@ export function TrialBar() {
             <TrialHighlight text={freeTrial.headline} tone="dark" />
           </p>
 
-          <Link
-            href={primaryCta.href}
-            className="shrink-0 rounded-full px-1 text-sm font-semibold text-ink-300 underline decoration-ink-500 underline-offset-4 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-          >
-            {primaryCta.label}
-          </Link>
+          {/* primaryCta.href is /contact#message — the enquiry form itself, not
+              the top of the contact page. Someone who clicked this has already
+              decided and should land on the fields, not on a heading. */}
+          <ButtonLink href={primaryCta.href} variant="inverse" size="sm" className="shrink-0">
+            {freeTrial.ctaLabel}
+          </ButtonLink>
         </div>
       </Container>
     </div>

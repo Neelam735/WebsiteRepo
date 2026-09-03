@@ -31,6 +31,7 @@ export type FreeTrial = {
   days: number;
   label: string;
   headline: string;
+  ctaLabel: string;
   terms: string[];
 };
 
@@ -43,6 +44,12 @@ export const freeTrial: FreeTrial = {
   /** The headline promise. Rendered as the highlighted line. */
   headline:
     "Use our software free of cost for a 2 week trial — without any prepayment. Pay only if you like it.",
+  /**
+   * Wording on the trial's button. The destination is not stored here — it is
+   * `primaryCta.href` in src/content/site.ts, so there is one definition of
+   * where the enquiry form lives and this cannot drift away from it.
+   */
+  ctaLabel: "Book your free trial now",
   /** The reassurances printed under the headline. Keep them literally true. */
   terms: [
     "No card details to start",

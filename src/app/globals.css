@@ -216,15 +216,41 @@
     transform: none;
   }
 
-  /* Highlighter sweep. Same contract as .reveal: the hidden start state only
-     exists under `.js`, so without scripting the marker is simply painted. */
+  /* Highlighter sweep, on a loop.
+     
+     A pen stroke that runs once is over in under a second and is missed by
+     anyone who blinks or arrives mid-load, so the stroke repeats: draw in
+     from the left, hold for four seconds, wipe off to the left, pause, again.
+     The hold is most of the cycle — this is an accent, not a blinking sign.
+     
+     Both ends of the loop are fully clipped (`inset(0 100% 0 0)` hides from
+     the right, `inset(0 0 0 100%)` from the left), so the wrap from 100% back
+     to 0% happens while nothing is painted and never shows as a jump.
+     
+     Same contract as .reveal: the clipped start state exists only under
+     `.js`, so without scripting the marker is simply painted. */
   .js .trial-highlight__fill {
     clip-path: inset(0 100% 0 0);
-    transition: clip-path 0.9s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .js .trial-highlight[data-visible="true"] .trial-highlight__fill {
-    clip-path: inset(0 0 0 0);
+    animation: trial-stroke 6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  @keyframes trial-stroke {
+    0% {
+      clip-path: inset(0 100% 0 0);
+    }
+    15% {
+      clip-path: inset(0 0 0 0);
+    }
+    78% {
+      clip-path: inset(0 0 0 0);
+    }
+    90%,
+    100% {
+      clip-path: inset(0 0 0 100%);
+    }
   }
 }
 
@@ -244,7 +270,7 @@
   .js .trial-highlight__fill,
   .js .trial-highlight[data-visible="true"] .trial-highlight__fill {
     clip-path: none;
-    transition: none;
+    animation: none;
   }
 
   /* Depth is decoration. Anyone who asked for less motion gets a flat page,

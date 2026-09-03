@@ -1,5 +1,7 @@
 import { TrialHighlight } from "@/components/trial-highlight";
+import { ArrowIcon, ButtonLink } from "@/components/ui/button";
 import { freeTrial } from "@/content/pricing";
+import { primaryCta } from "@/content/site";
 import { cn } from "@/lib/utils";
 
 /**
@@ -57,6 +59,16 @@ export function TrialBanner({ className }: { className?: string }) {
             </li>
           ))}
         </ul>
+
+        <ButtonLink
+          href={primaryCta.href}
+          variant="inverse"
+          size="lg"
+          className="group mt-8"
+        >
+          {freeTrial.ctaLabel}
+          <ArrowIcon />
+        </ButtonLink>
       </div>
     </div>
   );
