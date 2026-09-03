@@ -10,13 +10,14 @@
 /**
  * Free trial.
  *
- * Read this before changing it — the wording makes two commitments that the
- * rest of the code has to keep:
+ * Read this before changing it — `terms` makes two commitments that the rest
+ * of the code has to keep:
  *
- *   "without any prepayment"  no card is taken to start the trial. There is
- *                             no checkout, no mandate, no ₹0 authorisation.
- *   "pay if you like"         nothing charges itself at the end. The trial
- *                             lapses unless the customer chooses to subscribe.
+ *   "No card details to start"    nothing is taken to begin the trial: no
+ *                                 checkout, no mandate, no ₹0 authorisation.
+ *   "No auto-charge when it ends" the trial lapses unless the customer
+ *                                 chooses to subscribe. Hence "pay only if
+ *                                 you stay" in the headline.
  *
  * That is why src/lib/razorpay.ts does NOT set a trial `start_at`: by the time
  * anyone reaches checkout they have already had their free fortnight and have
@@ -30,7 +31,6 @@ export type FreeTrial = {
   days: number;
   label: string;
   headline: string;
-  blurb: string;
   terms: string[];
 };
 
@@ -41,10 +41,7 @@ export const freeTrial: FreeTrial = {
   days: 14,
   label: "2 weeks free",
   /** The headline promise. Rendered as the highlighted line. */
-  headline:
-    "Use our software free of cost for a 2 week trial — without any prepayment. Pay only if you like it.",
-  /** The same promise in one plain sentence, for tighter spaces. */
-  blurb: "2 weeks free, no card needed. Pay only if you decide to stay.",
+  headline: "Try it free for 2 weeks. Pay only if you stay.",
   /** The reassurances printed under the headline. Keep them literally true. */
   terms: [
     "No card details to start",
