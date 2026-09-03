@@ -5,6 +5,7 @@ import { Analytics } from "@/components/analytics";
 import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { TrialBar } from "@/components/trial-bar";
 import { site } from "@/content/site";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/jsonld";
 
@@ -57,7 +58,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#b9481d",
+  // Matches TrialBar, which is now the topmost element on every page — the
+  // phone's status bar continues it instead of butting an old warm-palette
+  // orange against black.
+  themeColor: "#0a0a0a",
   width: "device-width",
   initialScale: 1,
 };
@@ -85,6 +89,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
+
+        <TrialBar />
 
         <SiteHeader />
 
