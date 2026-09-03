@@ -8,18 +8,50 @@
  */
 
 /**
- * Free trial, offered on the priced plans.
+ * Free trial.
  *
- * `days` is not just copy — src/lib/razorpay.ts reads it to delay the first
- * charge by the same amount, so the checkout honours what the page promises.
- * Change it here and both move together. Set `days: 0` to withdraw the offer
- * everywhere at once.
+ * Read this before changing it — the wording makes two commitments that the
+ * rest of the code has to keep:
+ *
+ *   "without any prepayment"  no card is taken to start the trial. There is
+ *                             no checkout, no mandate, no ₹0 authorisation.
+ *   "pay if you like"         nothing charges itself at the end. The trial
+ *                             lapses unless the customer chooses to subscribe.
+ *
+ * That is why src/lib/razorpay.ts does NOT set a trial `start_at`: by the time
+ * anyone reaches checkout they have already had their free fortnight and have
+ * decided to pay, so billing begins then. Delaying it there would hand out a
+ * second free trial on top of the first.
+ *
+ * Set `days: 0` to withdraw the offer from every page at once.
  */
-export const freeTrial = {
+export type FreeTrial = {
+  /** Length of the trial. 0 withdraws the offer everywhere. */
+  days: number;
+  label: string;
+  headline: string;
+  blurb: string;
+  terms: string[];
+};
+
+// Annotated rather than `as const`: the literal type would narrow `days` to
+// 14, and every `days === 0` guard in the components would become a type
+// error for comparing against a value it "can never" hold.
+export const freeTrial: FreeTrial = {
   days: 14,
   label: "2 weeks free",
-  blurb: "Try it free for 2 weeks. You are only charged when the trial ends.",
-} as const;
+  /** The headline promise. Rendered as the highlighted line. */
+  headline:
+    "Use our software free of cost for a 2 week trial — without any prepayment. Pay only if you like it.",
+  /** The same promise in one plain sentence, for tighter spaces. */
+  blurb: "2 weeks free, no card needed. Pay only if you decide to stay.",
+  /** The reassurances printed under the headline. Keep them literally true. */
+  terms: [
+    "No card details to start",
+    "No auto-charge when it ends",
+    "Set up with your own menu or timetable",
+  ],
+};
 
 export const pricingModel = {
   headline: "You'll know the price before we start",
