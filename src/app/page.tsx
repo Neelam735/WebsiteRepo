@@ -197,10 +197,7 @@ function HowItWorks() {
 
 function Pricing() {
   return (
-    // id="pricing" is what the header's Pricing link targets. scroll-mt-24
-    // keeps the heading clear of the sticky header — the same fix the contact
-    // form needed, for the same reason.
-    <Section id="pricing" tone="surface" className="scroll-mt-24">
+    <Section tone="surface">
       <SectionHeading
         align="center"
         eyebrow="Pricing"
@@ -208,7 +205,15 @@ function Pricing() {
         description={pricingModel.lede}
       />
 
-      <div className="mt-12">
+      {/*
+        The anchor sits on the cards, not on the section. Someone clicking
+        "Pricing" wants the numbers, and targeting the section put the heading
+        and its intro paragraph on screen with the plans still below the fold.
+
+        scroll-mt-28 rather than 24: the "Most popular" badge overhangs the top
+        of the Growth card, and a tighter margin clips it under the header.
+      */}
+      <div id="pricing" className="mt-12 scroll-mt-28">
         <PricingTiers />
       </div>
 
