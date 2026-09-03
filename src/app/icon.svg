@@ -1,5 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <rect width="32" height="32" rx="8" fill="#b9481d"/>
+  <!-- #1c1c1c is carbon-600, the same tile colour the Logo component uses on
+       the page. Keep the two in step: the browser tab is the only place most
+       people see the mark on its own. -->
+  <rect width="32" height="32" rx="8" fill="#1c1c1c"/>
   <g fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
     <path d="M6 12 8.5 6.5h15L26 12"/>
     <path d="M6 12h20"/>

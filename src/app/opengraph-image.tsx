@@ -21,7 +21,9 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "linear-gradient(135deg, #14100d 0%, #7a2f1a 55%, #b9481d 100%)",
+          // Black, matching the site. This card was still on the old warm palette,
+          // so a shared link previewed in colours that appear nowhere on the page.
+          background: "linear-gradient(135deg, #000000 0%, #141414 60%, #2b2b2b 100%)",
           padding: "72px",
           fontFamily: "sans-serif",
         }}
@@ -36,10 +38,17 @@ export default function OpengraphImage() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: "30px",
             }}
           >
-            🏪
+            {/* The storefront mark drawn inline, matching Logo and icon.svg.
+                It was an emoji, which the card renderer has no font for — the
+                tile came out blank white on every shared link. */}
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+              <path d="M3 8.5 5 4h14l2 4.5" stroke="#1c1c1c" strokeWidth="1.8" strokeLinejoin="round" />
+              <path d="M3 8.5h18" stroke="#1c1c1c" strokeWidth="1.8" strokeLinecap="round" />
+              <path d="M4.5 8.5V20h15V8.5" stroke="#1c1c1c" strokeWidth="1.8" strokeLinejoin="round" />
+              <path d="M9.5 20v-6h5v6" stroke="#1c1c1c" strokeWidth="1.8" strokeLinejoin="round" />
+            </svg>
           </div>
           <div style={{ color: "#ffffff", fontSize: "30px", fontWeight: 700 }}>{site.name}</div>
         </div>
@@ -56,12 +65,12 @@ export default function OpengraphImage() {
           >
             Restaurant & gym management systems
           </div>
-          <div style={{ color: "#f3d998", fontSize: "30px", marginTop: "24px", maxWidth: "900px" }}>
+          <div style={{ color: "#cfcfcf", fontSize: "30px", marginTop: "24px", maxWidth: "900px" }}>
             Ordering, menus and kitchen. Memberships, classes and check-in.
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: "28px", color: "#e7dcd0", fontSize: "24px" }}>
+        <div style={{ display: "flex", gap: "28px", color: "#9e9e9e", fontSize: "24px" }}>
           <span>Fixed quotes</span>
           <span>·</span>
           <span>Scoped first</span>
