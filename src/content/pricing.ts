@@ -62,7 +62,7 @@ export const tiers: Tier[] = [
     features: [
       "Everything in Starter, up to 12 pages",
       "Online ordering or class and appointment booking",
-      "Card payments and deposits",
+      "Payment gateway integration for online payments",
       "Live order tracking for customers",
       "Kitchen printer or staff calendar sync",
     ],
