@@ -244,10 +244,9 @@ export function ContactForm() {
 
       <Field
         label="What's going on?"
-        required
         error={errors.message}
         htmlFor={`${formId}-message`}
-        hint="A sentence or two is plenty"
+        hint="Optional — a sentence or two is plenty"
       >
         <textarea
           {...field("message")}

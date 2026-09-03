@@ -62,7 +62,9 @@ function renderEmail(lead: LeadInput): { subject: string; html: string; text: st
           .join("")}
       </table>
       <h3 style="margin:24px 0 8px">Message</h3>
-      <p style="white-space:pre-wrap;line-height:1.6">${escapeHtml(lead.message)}</p>
+      <p style="white-space:pre-wrap;line-height:1.6">${
+        lead.message ? escapeHtml(lead.message) : "<em style=\"color:#757575\">None given</em>"
+      }</p>
     </div>
   `.trim();
 
@@ -70,7 +72,7 @@ function renderEmail(lead: LeadInput): { subject: string; html: string; text: st
     ...rows.map(([label, value]) => `${label}: ${value}`),
     "",
     "Message:",
-    lead.message,
+    lead.message || "None given",
   ].join("\n");
 
   return { subject, html, text };

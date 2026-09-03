@@ -73,9 +73,10 @@ export function validateLead(input: Partial<LeadInput>): ValidationErrors {
   const businessType = input.businessType?.trim() ?? "";
   if (!businessType) errors.businessType = "Please pick the closest match.";
 
+  // Optional — an enquiry with a name, email and business type is enough to
+  // reply to. Still capped, so the endpoint cannot be used to post an essay.
   const message = input.message?.trim() ?? "";
-  if (message.length < 10) errors.message = "A sentence or two about what you need, please.";
-  else if (message.length > 5000) errors.message = "Please keep this under 5,000 characters.";
+  if (message.length > 5000) errors.message = "Please keep this under 5,000 characters.";
 
   return errors;
 }
