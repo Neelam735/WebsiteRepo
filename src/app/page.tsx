@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CheckList, ProductCard } from "@/components/cards";
 import { CtaBanner } from "@/components/cta-banner";
 import { PricingTiers } from "@/components/pricing-tiers";
-import { TrialBanner, TrialLine } from "@/components/trial-banner";
+import { TrialBanner } from "@/components/trial-banner";
 import { HeroScene } from "@/components/hero-scene";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
@@ -117,8 +117,6 @@ function Hero() {
                 See what&rsquo;s in each system
               </ButtonLink>
             </div>
-
-            <TrialLine tone="dark" className="mt-8 max-w-xl" />
 
             <p className="mt-5 text-sm text-ink-400">
               A walkthrough with your own menu or timetable · No obligation

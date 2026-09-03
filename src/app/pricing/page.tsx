@@ -4,7 +4,7 @@ import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
 import { PricingTiers } from "@/components/pricing-tiers";
 import { Reveal } from "@/components/reveal";
-import { TrialLine } from "@/components/trial-banner";
+import { TrialBanner } from "@/components/trial-banner";
 import { ButtonLink } from "@/components/ui/button";
 import { Container, Eyebrow, Section, SectionHeading } from "@/components/ui/section";
 import {
@@ -37,11 +37,11 @@ export default function PricingPage() {
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink-600">
             {pricingModel.lede}
           </p>
-          <TrialLine className="mt-7 max-w-2xl" />
         </Container>
       </header>
 
       <Section className="pt-12 sm:pt-14">
+        <TrialBanner className="mb-10" />
         <PricingTiers />
       </Section>
 

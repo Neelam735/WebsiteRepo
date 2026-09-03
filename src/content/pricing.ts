@@ -41,7 +41,8 @@ export const freeTrial: FreeTrial = {
   days: 14,
   label: "2 weeks free",
   /** The headline promise. Rendered as the highlighted line. */
-  headline: "Try it free for 2 weeks. Pay only if you stay.",
+  headline:
+    "Use our software free of cost for a 2 week trial — without any prepayment. Pay only if you like it.",
   /** The reassurances printed under the headline. Keep them literally true. */
   terms: [
     "No card details to start",
