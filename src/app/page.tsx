@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CheckList, ProductCard } from "@/components/cards";
 import { CtaBanner } from "@/components/cta-banner";
 import { PricingTiers } from "@/components/pricing-tiers";
+import { TrialBanner, TrialLine } from "@/components/trial-banner";
 import { HeroScene } from "@/components/hero-scene";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
@@ -11,7 +12,7 @@ import { Reveal } from "@/components/reveal";
 import { ArrowIcon, ButtonLink } from "@/components/ui/button";
 import { Container, Eyebrow, Section, SectionHeading } from "@/components/ui/section";
 import { faqs } from "@/content/company";
-import { freeTrial, pricingModel } from "@/content/pricing";
+import { pricingModel } from "@/content/pricing";
 import { process, products } from "@/content/products";
 import { primaryCta, site } from "@/content/site";
 import { faqJsonLd } from "@/lib/jsonld";
@@ -117,9 +118,10 @@ function Hero() {
               </ButtonLink>
             </div>
 
+            <TrialLine tone="dark" className="mt-8 max-w-xl" />
+
             <p className="mt-5 text-sm text-ink-400">
-              <span className="font-semibold text-white">{freeTrial.label}</span> · A walkthrough
-              with your own menu or timetable · No obligation
+              A walkthrough with your own menu or timetable · No obligation
             </p>
           </div>
 
@@ -214,11 +216,7 @@ function Pricing() {
         scroll-mt-28 rather than 24: the "Most popular" badge overhangs the top
         of the Growth card, and a tighter margin clips it under the header.
       */}
-      {freeTrial.days > 0 ? (
-        <p className="mt-6 text-center text-[15px] font-medium text-ink-800">
-          {freeTrial.blurb}
-        </p>
-      ) : null}
+      <TrialBanner className="mt-10" />
 
       <div id="pricing" className="mt-10 scroll-mt-28">
         <PricingTiers />

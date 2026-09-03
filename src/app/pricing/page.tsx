@@ -4,11 +4,11 @@ import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
 import { PricingTiers } from "@/components/pricing-tiers";
 import { Reveal } from "@/components/reveal";
+import { TrialLine } from "@/components/trial-banner";
 import { ButtonLink } from "@/components/ui/button";
 import { Container, Eyebrow, Section, SectionHeading } from "@/components/ui/section";
 import {
   alwaysIncluded,
-  freeTrial,
   priceDrivers,
   pricingFaqs,
   pricingModel,
@@ -37,11 +37,7 @@ export default function PricingPage() {
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink-600">
             {pricingModel.lede}
           </p>
-          {freeTrial.days > 0 ? (
-            <p className="mt-5 inline-flex items-center rounded-full bg-carbon-950 px-4 py-2 text-sm font-semibold text-white">
-              {freeTrial.blurb}
-            </p>
-          ) : null}
+          <TrialLine className="mt-7 max-w-2xl" />
         </Container>
       </header>
 
