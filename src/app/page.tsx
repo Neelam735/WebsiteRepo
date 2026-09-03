@@ -11,7 +11,7 @@ import { Reveal } from "@/components/reveal";
 import { ArrowIcon, ButtonLink } from "@/components/ui/button";
 import { Container, Eyebrow, Section, SectionHeading } from "@/components/ui/section";
 import { faqs } from "@/content/company";
-import { pricingModel } from "@/content/pricing";
+import { freeTrial, pricingModel } from "@/content/pricing";
 import { process, products } from "@/content/products";
 import { primaryCta, site } from "@/content/site";
 import { faqJsonLd } from "@/lib/jsonld";
@@ -118,7 +118,8 @@ function Hero() {
             </div>
 
             <p className="mt-5 text-sm text-ink-400">
-              A walkthrough with your own menu or timetable · No obligation
+              <span className="font-semibold text-white">{freeTrial.label}</span> · A walkthrough
+              with your own menu or timetable · No obligation
             </p>
           </div>
 
@@ -213,7 +214,13 @@ function Pricing() {
         scroll-mt-28 rather than 24: the "Most popular" badge overhangs the top
         of the Growth card, and a tighter margin clips it under the header.
       */}
-      <div id="pricing" className="mt-12 scroll-mt-28">
+      {freeTrial.days > 0 ? (
+        <p className="mt-6 text-center text-[15px] font-medium text-ink-800">
+          {freeTrial.blurb}
+        </p>
+      ) : null}
+
+      <div id="pricing" className="mt-10 scroll-mt-28">
         <PricingTiers />
       </div>
 

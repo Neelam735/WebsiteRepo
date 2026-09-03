@@ -1,6 +1,6 @@
 import { CheckoutButton } from "@/components/checkout-button";
 import { ArrowIcon, ButtonLink } from "@/components/ui/button";
-import { tiers } from "@/content/pricing";
+import { freeTrial, tiers } from "@/content/pricing";
 import { site } from "@/content/site";
 import { payableTiers } from "@/lib/razorpay";
 import { cn, formatPrice } from "@/lib/utils";
@@ -62,6 +62,14 @@ export function PricingTiers() {
                 )}
               </p>
               <p className="mt-1 text-sm text-ink-500">{tier.priceNote}</p>
+
+              {/* Only on tiers that carry a price — a trial on a quote-only
+                  plan would promise something with no amount behind it. */}
+              {freeTrial.days > 0 && tier.price !== null ? (
+                <p className="mt-3 inline-flex items-center rounded-full bg-carbon-950 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
+                  {freeTrial.label}
+                </p>
+              ) : null}
             </div>
 
             <p className="mt-6 text-[15px] leading-relaxed text-ink-600">{tier.description}</p>

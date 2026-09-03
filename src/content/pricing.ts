@@ -7,6 +7,20 @@
  * currency (INR) in one place.
  */
 
+/**
+ * Free trial, offered on the priced plans.
+ *
+ * `days` is not just copy — src/lib/razorpay.ts reads it to delay the first
+ * charge by the same amount, so the checkout honours what the page promises.
+ * Change it here and both move together. Set `days: 0` to withdraw the offer
+ * everywhere at once.
+ */
+export const freeTrial = {
+  days: 14,
+  label: "2 weeks free",
+  blurb: "Try it free for 2 weeks. You are only charged when the trial ends.",
+} as const;
+
 export const pricingModel = {
   headline: "You'll know the price before we start",
   lede: "Every business we work with has a different number of locations, a different mess to migrate and a different set of modules switched on. Start with a package below, and anything beyond it is scoped and quoted at a fixed price.",
