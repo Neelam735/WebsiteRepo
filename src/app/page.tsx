@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { CheckList, ProductCard } from "@/components/cards";
 import { CtaBanner } from "@/components/cta-banner";
+import { PricingTiers } from "@/components/pricing-tiers";
 import { HeroScene } from "@/components/hero-scene";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
@@ -10,6 +11,7 @@ import { Reveal } from "@/components/reveal";
 import { ArrowIcon, ButtonLink } from "@/components/ui/button";
 import { Container, Eyebrow, Section, SectionHeading } from "@/components/ui/section";
 import { faqs } from "@/content/company";
+import { pricingModel } from "@/content/pricing";
 import { process, products } from "@/content/products";
 import { primaryCta, site } from "@/content/site";
 import { faqJsonLd } from "@/lib/jsonld";
@@ -34,6 +36,7 @@ export default function HomePage() {
       <Hero />
       <WhatWeDo />
       <HowItWorks />
+      <Pricing />
       <WhyUs />
       <HomeFaq />
       <CtaBanner />
@@ -188,6 +191,33 @@ function HowItWorks() {
           </Reveal>
         ))}
       </ol>
+    </Section>
+  );
+}
+
+function Pricing() {
+  return (
+    // id="pricing" is what the header's Pricing link targets. scroll-mt-24
+    // keeps the heading clear of the sticky header — the same fix the contact
+    // form needed, for the same reason.
+    <Section id="pricing" tone="surface" className="scroll-mt-24">
+      <SectionHeading
+        align="center"
+        eyebrow="Pricing"
+        title={pricingModel.headline}
+        description={pricingModel.lede}
+      />
+
+      <div className="mt-12">
+        <PricingTiers />
+      </div>
+
+      <div className="mt-10 text-center">
+        <ButtonLink href="/pricing" variant="secondary" className="group">
+          What moves the price, and what&rsquo;s always included
+          <ArrowIcon />
+        </ButtonLink>
+      </div>
     </Section>
   );
 }

@@ -126,7 +126,8 @@ export type NavItem = { label: string; href: string };
 export const mainNav: NavItem[] = [
   { label: "Restaurants", href: "/restaurant-management-system" },
   { label: "Gyms", href: "/gym-management-system" },
-  { label: "Pricing", href: "/pricing" },
+  // The plans live on the home page; /pricing carries the detail behind them.
+  { label: "Pricing", href: "/#pricing" },
   { label: "About", href: "/about" },
 ];
 
