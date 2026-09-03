@@ -16,8 +16,6 @@ import {
 } from "@/content/site";
 
 export function SiteFooter() {
-  const year = new Date().getFullYear();
-
   const socials = [
     ["LinkedIn", site.social.linkedin],
     ["Instagram", site.social.instagram],
@@ -110,10 +108,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-4 border-t border-ink-800 pt-6 text-sm text-ink-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            © {year} {site.legalName}. All rights reserved.
-          </p>
+        <div className="mt-12 flex flex-col gap-4 border-t border-ink-800 pt-6 text-sm text-ink-500 sm:flex-row sm:items-center">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
             <Link href="/privacy" className="transition-colors hover:text-white">
               Privacy
