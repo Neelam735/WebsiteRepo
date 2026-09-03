@@ -150,10 +150,16 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
   },
 ];
 
-/** One CTA phrase, used everywhere, so it never drifts. */
+/**
+ * One CTA phrase, used everywhere, so it never drifts.
+ *
+ * Points at the form itself, not the top of the contact page — someone who
+ * clicked "Book a free demo" has already decided, and should not have to
+ * scroll past the page heading to find the thing they came for.
+ */
 export const primaryCta = {
   label: "Book a free demo",
-  href: "/contact",
+  href: "/contact#message",
 } as const;
 
 export const secondaryCta = {

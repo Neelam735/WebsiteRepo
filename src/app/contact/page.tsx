@@ -47,7 +47,17 @@ export default function ContactPage() {
 
       <Section className="py-12 sm:py-16">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-14">
-          <div className="rounded-card border border-line bg-surface p-6 sm:p-8">
+          {/* id="message" so every "Book a free demo" / "Get started" button
+              lands on the form itself rather than the top of the page.
+
+              scroll-mt-24 is on the element rather than relying on the
+              `:target` rule in globals.css — during a client-side navigation
+              the scroll happens before `:target` styles apply, which parked
+              the form's heading underneath the sticky header. */}
+          <div
+            id="message"
+            className="scroll-mt-24 rounded-card border border-line bg-surface p-6 sm:p-8"
+          >
             <DeliveryWarning />
             <h2 className="text-xl font-bold">Send us a message</h2>
             <p className="mt-1.5 text-[15px] text-ink-600">

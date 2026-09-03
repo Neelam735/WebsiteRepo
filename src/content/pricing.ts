@@ -47,7 +47,7 @@ export const tiers: Tier[] = [
       "Menu, service list or product highlights",
     ],
     notIncluded: ["Online payments", "Booking or ordering systems"],
-    cta: { label: "Get started", href: "/contact" },
+    cta: { label: "Get started", href: "/contact#message" },
     highlighted: false,
   },
   {
@@ -62,11 +62,11 @@ export const tiers: Tier[] = [
     features: [
       "Everything in Starter, up to 12 pages",
       "Online ordering or class and appointment booking",
-      "Card payments and deposits",
+      "Payment gateway integration for online payments",
       "Live order tracking for customers",
       "Kitchen printer or staff calendar sync",
     ],
-    cta: { label: "Get started", href: "/contact" },
+    cta: { label: "Get started", href: "/contact#message" },
     highlighted: true,
   },
   {
@@ -85,7 +85,7 @@ export const tiers: Tier[] = [
       "Data migration from spreadsheets or an old system",
       "A dedicated project lead",
     ],
-    cta: { label: "Book a scoping call", href: "/contact" },
+    cta: { label: "Book a scoping call", href: "/contact#message" },
     highlighted: false,
   },
 ];

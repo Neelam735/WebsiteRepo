@@ -27,7 +27,7 @@ export default function NotFound() {
             Call {phoneLabel}
           </ButtonLink>
         ) : (
-          <ButtonLink href="/contact" variant="secondary" size="lg">
+          <ButtonLink href="/contact#message" variant="secondary" size="lg">
             Contact us
           </ButtonLink>
         )}

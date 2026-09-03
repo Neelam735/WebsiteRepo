@@ -63,7 +63,7 @@ export default function AboutPage() {
             </ul>
 
             <div className="mt-6 border-t border-line pt-5">
-              <ButtonLink href="/contact" className="group w-full">
+              <ButtonLink href="/contact#message" className="group w-full">
                 Book a free demo
                 <ArrowIcon />
               </ButtonLink>
