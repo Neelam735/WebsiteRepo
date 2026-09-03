@@ -215,6 +215,17 @@
     opacity: 1;
     transform: none;
   }
+
+  /* Highlighter sweep. Same contract as .reveal: the hidden start state only
+     exists under `.js`, so without scripting the marker is simply painted. */
+  .js .trial-highlight__fill {
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .js .trial-highlight[data-visible="true"] .trial-highlight__fill {
+    clip-path: inset(0 0 0 0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -226,6 +237,13 @@
   .js .reveal[data-visible="true"] {
     opacity: 1;
     transform: none;
+    transition: none;
+  }
+
+  /* No pen stroke — the marker is just there, fully drawn, from the start. */
+  .js .trial-highlight__fill,
+  .js .trial-highlight[data-visible="true"] .trial-highlight__fill {
+    clip-path: none;
     transition: none;
   }
 

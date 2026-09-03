@@ -1,3 +1,4 @@
+import { TrialHighlight } from "@/components/trial-highlight";
 import { freeTrial } from "@/content/pricing";
 import { cn } from "@/lib/utils";
 
@@ -35,8 +36,8 @@ export function TrialBanner({ className }: { className?: string }) {
           {freeTrial.label}
         </p>
 
-        <p className="mx-auto mt-5 max-w-3xl text-balance text-2xl font-extrabold leading-snug tracking-tight text-white sm:text-3xl">
-          {freeTrial.headline}
+        <p className="mx-auto mt-5 w-fit text-2xl font-extrabold leading-relaxed tracking-tight sm:text-3xl">
+          <TrialHighlight text={freeTrial.headline} tone="dark" />
         </p>
 
         <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2.5">
@@ -65,9 +66,9 @@ export function TrialBanner({ className }: { className?: string }) {
  * The same promise as one highlighted line, for places where a full band
  * would be too much weight.
  *
- * `tone` is the colour of the surface behind it, not of the highlight: on a
- * light page the marker is black, and on the dark hero it inverts to white.
- * Both keep the text-to-background contrast well past WCAG AA.
+ * `tone` is the surface behind it, not the marker: on a light page the pen is
+ * black, and on the dark hero it inverts to white. Both keep the text against
+ * its marker well past WCAG AA.
  */
 export function TrialLine({
   tone = "light",
@@ -79,17 +80,8 @@ export function TrialLine({
   if (freeTrial.days === 0) return null;
 
   return (
-    <p className={cn("text-balance text-lg font-bold leading-relaxed sm:text-xl", className)}>
-      {/* box-decoration-clone keeps the highlight unbroken across wrapped
-          lines — without it the marker loses its padding mid-sentence. */}
-      <mark
-        className={cn(
-          "box-decoration-clone rounded px-2 py-1",
-          tone === "dark" ? "bg-white text-carbon-950" : "bg-carbon-950 text-white",
-        )}
-      >
-        {freeTrial.headline}
-      </mark>
+    <p className={cn("w-fit text-lg font-bold leading-relaxed sm:text-xl", className)}>
+      <TrialHighlight text={freeTrial.headline} tone={tone} />
     </p>
   );
 }
