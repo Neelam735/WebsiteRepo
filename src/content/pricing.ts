@@ -45,7 +45,6 @@ export const tiers: Tier[] = [
       "Up to 6 pages, custom designed",
       "Mobile-first build, tested on real phones",
       "Menu, service list or product highlights",
-      "Enquiry form straight to your inbox",
     ],
     notIncluded: ["Online payments", "Booking or ordering systems"],
     cta: { label: "Get started", href: "/contact" },
