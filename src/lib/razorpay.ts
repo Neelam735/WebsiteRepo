@@ -2,6 +2,8 @@ import "server-only";
 
 import crypto from "node:crypto";
 
+import { freeTrial } from "@/content/pricing";
+
 /**
  * Razorpay subscriptions.
  *
@@ -95,6 +97,13 @@ export async function createSubscription({
       // customer can cancel at any point, and the site promises no lock-in.
       total_count: totalCount,
       customer_notify: 1,
+      // The pricing page advertises a free trial, so the first charge is
+      // pushed out by the same number of days. Without this the customer is
+      // billed immediately and the promise on the page is a lie — the kind
+      // that arrives back as a chargeback.
+      ...(freeTrial.days > 0
+        ? { start_at: Math.floor(Date.now() / 1000) + freeTrial.days * 86400 }
+        : {}),
       notes: { tier: tierSlug, ...notes },
     }),
   });
