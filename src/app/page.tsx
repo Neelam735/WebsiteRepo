@@ -260,7 +260,7 @@ function HomeFaq() {
           <p className="mt-4 text-ink-600">
             Can&rsquo;t see yours?{" "}
             <Link
-              href="/contact"
+              href="/contact#message"
               className="font-semibold text-carbon-700 underline underline-offset-4"
             >
               Ask us directly
