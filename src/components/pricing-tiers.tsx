@@ -111,25 +111,45 @@ export function PricingTiers() {
               ))}
             </ul>
 
+            {/*
+              Two ways in, not one. The trial is the lead action on every tier;
+              a priced tier also gets "Pay now" underneath for someone who has
+              already made their mind up and does not want a conversation
+              first. Custom has no amount to charge, so it keeps the single
+              button.
+            */}
             <div className="mt-7">
-              {payable.includes(tier.slug) ? (
-                <CheckoutButton
-                  tier={tier.slug}
-                  label={`Subscribe${tier.price ? ` — ${formatPrice(tier.price)}/mo` : ""}`}
-                  companyName={site.name}
-                  variant={tier.highlighted ? "primary" : "secondary"}
-                />
-              ) : (
-                <ButtonLink
-                  href={tier.cta.href}
-                  variant={tier.highlighted ? "primary" : "secondary"}
-                  size="lg"
-                  className="group w-full"
-                >
-                  {tier.cta.label}
-                  <ArrowIcon />
-                </ButtonLink>
-              )}
+              <ButtonLink
+                href={tier.cta.href}
+                variant={tier.highlighted ? "primary" : "secondary"}
+                size="lg"
+                className="group w-full"
+              >
+                {tier.cta.label}
+                <ArrowIcon />
+              </ButtonLink>
+
+              {tier.price !== null ? (
+                <div className="mt-3">
+                  <CheckoutButton
+                    tier={tier.slug}
+                    label={`Pay now — ${formatPrice(tier.price)}${tier.period ? `/${tier.period}` : ""}`}
+                    companyName={site.name}
+                    variant="ghost"
+                    // An outline so it reads as a button at rest, not just on
+                    // hover — lighter than the tier's own CTA above it, which
+                    // stays the lead action.
+                    className="ring-1 ring-ink-200 hover:ring-ink-300"
+                    configured={payable.includes(tier.slug)}
+                    fallbackHref={tier.cta.href}
+                  />
+                  <p className="mt-2 text-center text-xs text-ink-500">
+                    {/* Said plainly: paying now begins the subscription today,
+                        so it is not the trial by another route. */}
+                    Card, UPI or netbanking via Razorpay · Starts today, skips the trial
+                  </p>
+                </div>
+              ) : null}
             </div>
           </div>
         ))}
