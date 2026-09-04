@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 /**
  * Starts a Razorpay subscription for one tier.
@@ -47,16 +49,37 @@ export function CheckoutButton({
   label,
   companyName,
   variant = "primary",
+  configured,
+  fallbackHref,
+  className,
 }: {
   tier: string;
   label: string;
   companyName: string;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "ghost";
+  /**
+   * Whether a Razorpay plan is actually configured for this tier. Decided on
+   * the server by payableTiers(), because only the server can see the keys.
+   * False means the button explains itself instead of loading a checkout that
+   * cannot complete.
+   */
+  configured: boolean;
+  /** Where to send someone when payments are off. */
+  fallbackHref: string;
+  className?: string;
 }) {
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
 
   async function start() {
+    // No plan behind this tier. Fail here rather than pulling down the
+    // Checkout script and calling an endpoint that can only return a 503.
+    if (!configured) {
+      setMessage("Card payments aren't switched on yet — get in touch and we'll set you up.");
+      setStatus("error");
+      return;
+    }
+
     setStatus("starting");
     setMessage("");
 
@@ -145,13 +168,17 @@ export function CheckoutButton({
         variant={variant}
         size="lg"
         disabled={status === "starting"}
-        className="w-full"
+        className={cn("w-full", className)}
       >
         {status === "starting" ? "Opening…" : label}
       </Button>
       {message ? (
         <p role="alert" className="mt-2 text-sm text-carbon-700">
-          {message}
+          {message}{" "}
+          <Link href={fallbackHref} className="font-semibold underline underline-offset-4">
+            Contact us
+          </Link>
+          .
         </p>
       ) : null}
     </div>
