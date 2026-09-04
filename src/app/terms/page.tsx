@@ -1,5 +1,9 @@
 import { Container, Section } from "@/components/ui/section";
-import { site, tradesUnderAnotherName } from "@/content/site";
+import {
+  legalLastUpdated,
+  site,
+  tradesUnderAnotherName,
+} from "@/content/site";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -18,7 +22,7 @@ export default function TermsPage() {
     <Section>
       <Container className="max-w-3xl px-0 sm:px-0 lg:px-0">
         <h1 className="text-4xl font-extrabold">Terms of use</h1>
-        <p className="mt-3 text-sm text-ink-500">Last updated: 1 January 2026</p>
+        <p className="mt-3 text-sm text-ink-500">Last updated: {legalLastUpdated}</p>
 
         <div className="mt-8 space-y-6 text-[17px] leading-[1.75] text-ink-700">
           <section>
