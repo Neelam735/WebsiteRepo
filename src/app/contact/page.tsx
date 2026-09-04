@@ -5,6 +5,7 @@ import { Container, Eyebrow, Section } from "@/components/ui/section";
 import { faqs } from "@/content/company";
 import { products } from "@/content/products";
 import {
+  addressLines,
   hasAddress,
   hasEmail,
   hasPhone,
@@ -184,13 +185,13 @@ export default function ContactPage() {
 
             {hasAddress ? (
               <div className="rounded-card border border-line bg-surface p-6">
-                <h2 className="text-sm font-bold uppercase tracking-wide text-ink-500">Office</h2>
+                <h2 className="text-sm font-bold uppercase tracking-wide text-ink-500">Where we are</h2>
                 <address className="mt-3 text-[15px] not-italic leading-relaxed text-ink-700">
-                  {site.contact.address.street}
-                  <br />
-                  {site.contact.address.city}
-                  {site.contact.address.region ? `, ${site.contact.address.region}` : ""}{" "}
-                  {site.contact.address.postalCode}
+                  {addressLines.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))}
                 </address>
                 {/*
                   A map embed is deliberately omitted: third-party iframes are

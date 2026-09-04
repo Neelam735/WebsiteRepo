@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { Container } from "@/components/ui/section";
 import {
+  addressLines,
   footerNav,
   hasAddress,
   hasEmail,
@@ -69,16 +70,11 @@ export function SiteFooter() {
 
             {hasAddress || site.contact.hours ? (
               <address className="mt-6 text-sm not-italic leading-relaxed text-ink-400">
-                {hasAddress ? (
-                  <>
-                    {site.contact.address.street}
-                    <br />
-                    {site.contact.address.city}
-                    {site.contact.address.region ? `, ${site.contact.address.region}` : ""}{" "}
-                    {site.contact.address.postalCode}
-                    <br />
-                  </>
-                ) : null}
+                {addressLines.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
                 {site.contact.hours ? (
                   <span className="text-ink-500">{site.contact.hours}</span>
                 ) : null}

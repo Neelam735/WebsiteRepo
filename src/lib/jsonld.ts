@@ -22,15 +22,26 @@ export function organizationJsonLd() {
     description: site.description,
     ...(hasEmail ? { email: site.contact.email } : {}),
     ...(hasPhone ? { telephone: site.contact.phoneE164 } : {}),
+    // Each part only if it exists. A PostalAddress carrying empty strings is
+    // worse than a partial one — validators flag it, and it claims a street we
+    // have deliberately chosen not to publish.
     ...(hasAddress
       ? {
           address: {
             "@type": "PostalAddress",
-            streetAddress: site.contact.address.street,
+            ...(site.contact.address.street
+              ? { streetAddress: site.contact.address.street }
+              : {}),
             addressLocality: site.contact.address.city,
-            addressRegion: site.contact.address.region,
-            postalCode: site.contact.address.postalCode,
-            addressCountry: site.contact.address.country,
+            ...(site.contact.address.region
+              ? { addressRegion: site.contact.address.region }
+              : {}),
+            ...(site.contact.address.postalCode
+              ? { postalCode: site.contact.address.postalCode }
+              : {}),
+            ...(site.contact.address.country
+              ? { addressCountry: site.contact.address.country }
+              : {}),
           },
         }
       : {}),
