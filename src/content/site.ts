@@ -34,13 +34,21 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://bizwisetech.com",
 
   contact: {
-    /** TODO: or set NEXT_PUBLIC_CONTACT_EMAIL. */
-    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
-    /** TODO: E.164, e.g. "+14155551234". Or set NEXT_PUBLIC_CONTACT_PHONE. */
-    phoneE164: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "",
+    /** Override per environment with NEXT_PUBLIC_CONTACT_EMAIL. */
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "support@bizwisetech.com",
+    /**
+     * E.164 — country code, no spaces or punctuation. This is what `tel:` and
+     * the WhatsApp link are built from, so it must stay in this form even
+     * though it is not how the number is displayed.
+     */
+    phoneE164: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "+918861390146",
     /** How the number reads on screen. Falls back to the E.164 value. */
-    phoneDisplay: process.env.NEXT_PUBLIC_CONTACT_PHONE_DISPLAY ?? "",
-    /** Set to true once the number above can receive WhatsApp messages. */
+    phoneDisplay: process.env.NEXT_PUBLIC_CONTACT_PHONE_DISPLAY ?? "+91 88613 90146",
+    /**
+     * Set to true once the number above can receive WhatsApp messages — or set
+     * NEXT_PUBLIC_WHATSAPP_ENABLED=true. Left off deliberately: a WhatsApp
+     * button on a number that does not answer there is worse than no button.
+     */
     whatsappEnabled: process.env.NEXT_PUBLIC_WHATSAPP_ENABLED === "true",
     whatsappMessage:
       "Hi! I'd like to talk about your restaurant/gym management system.",
