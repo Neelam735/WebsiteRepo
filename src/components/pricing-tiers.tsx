@@ -169,8 +169,13 @@ export function PricingTiers() {
       </div>
 
       <p className="mt-8 text-center text-sm text-ink-500">
-        Prices exclude tax. Anything beyond a package is scoped first, then quoted at a fixed
-        price.
+        {/* Only claim tax is extra if it lawfully can be. Not registered for
+            GST means the price shown is the price paid — saying "excludes
+            tax" would promise a bill that cannot be issued. */}
+        {site.gst.registered
+          ? "Prices exclude GST. "
+          : "Prices are the full amount payable — no tax is added. "}
+        Anything beyond a package is scoped first, then quoted at a fixed price.
       </p>
     </>
   );

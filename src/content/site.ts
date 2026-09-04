@@ -18,12 +18,29 @@ export const site = {
   /** Trading name. Appears in the logo, page titles and metadata. */
   name: "BizWise Tech",
   /**
-   * TODO: replace with the registered entity name once you incorporate —
-   * "BizWise Tech" is the trading name, not a legal one. Shown in the footer
-   * copyright line and both legal pages, where it needs to be the entity a
-   * customer would actually be contracting with.
+   * The entity a customer actually contracts with, and the one Razorpay
+   * verifies. Trading as an individual, that is a person, not the brand:
+   * "BizWise Tech" is the name over the shop, "Neelam Srivastava" is who is
+   * liable. Both legal pages and the structured data use this.
+   *
+   * Change it to the company name if you later incorporate.
    */
-  legalName: "BizWise Tech",
+  legalName: "Neelam Srivastava",
+
+  /**
+   * Whether the business is registered for GST.
+   *
+   * This is not a detail — it decides what the pricing page is allowed to
+   * say. Below the registration threshold you cannot collect GST, so
+   * advertising a price that "excludes tax" promises a bill you may not
+   * lawfully issue. Flip this to true and add the GSTIN on the day you
+   * register, and the wording follows.
+   */
+  gst: {
+    registered: false,
+    /** Printed on invoices and shown in the footer once you have one. */
+    gstin: "",
+  },
 
   tagline: "Restaurant and gym management software",
 
@@ -34,13 +51,21 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://bizwisetech.com",
 
   contact: {
-    /** TODO: or set NEXT_PUBLIC_CONTACT_EMAIL. */
-    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
-    /** TODO: E.164, e.g. "+14155551234". Or set NEXT_PUBLIC_CONTACT_PHONE. */
-    phoneE164: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "",
+    /** Override per environment with NEXT_PUBLIC_CONTACT_EMAIL. */
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "support@bizwisetech.com",
+    /**
+     * E.164 — country code, no spaces or punctuation. This is what `tel:` and
+     * the WhatsApp link are built from, so it must stay in this form even
+     * though it is not how the number is displayed.
+     */
+    phoneE164: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "+918861390146",
     /** How the number reads on screen. Falls back to the E.164 value. */
-    phoneDisplay: process.env.NEXT_PUBLIC_CONTACT_PHONE_DISPLAY ?? "",
-    /** Set to true once the number above can receive WhatsApp messages. */
+    phoneDisplay: process.env.NEXT_PUBLIC_CONTACT_PHONE_DISPLAY ?? "+91 88613 90146",
+    /**
+     * Set to true once the number above can receive WhatsApp messages — or set
+     * NEXT_PUBLIC_WHATSAPP_ENABLED=true. Left off deliberately: a WhatsApp
+     * button on a number that does not answer there is worse than no button.
+     */
     whatsappEnabled: process.env.NEXT_PUBLIC_WHATSAPP_ENABLED === "true",
     whatsappMessage:
       "Hi! I'd like to talk about your restaurant/gym management system.",
@@ -76,6 +101,19 @@ export const site = {
  * Derived helpers. Components use these to decide what to render, so  *
  * an unset detail disappears instead of rendering as a broken link.   *
  * ------------------------------------------------------------------ */
+
+/**
+ * True when the brand and the legal entity differ, which they do whenever
+ * someone trades under a name that is not their own. Indian e-commerce rules
+ * expect the customer to be able to find out who they are actually dealing
+ * with, so where this is true the site says so rather than leaving the brand
+ * to imply a company that does not exist.
+ */
+// Widened deliberately: `site` is `as const`, so comparing the two literal
+// types directly is a type error for having "no overlap" — which is exactly
+// the case this flag exists to describe.
+const legalName: string = site.legalName;
+export const tradesUnderAnotherName = legalName !== site.name;
 
 export const hasEmail = site.contact.email.length > 0;
 export const hasPhone = site.contact.phoneE164.length > 0;
@@ -147,6 +185,9 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
       { label: "Contact", href: "/contact" },
       { label: "Privacy", href: "/privacy" },
       { label: "Terms", href: "/terms" },
+      // Razorpay looks for this during account activation, and a customer
+      // looking for how to cancel should not have to ask.
+      { label: "Cancellation & refunds", href: "/refunds" },
     ],
   },
 ];

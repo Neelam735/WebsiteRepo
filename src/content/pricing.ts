@@ -224,6 +224,6 @@ export const pricingFaqs: { question: string; answer: string }[] = [
   {
     question: "What happens if we want to leave?",
     answer:
-      "You take your data with you — customers, members, orders, bookings and history, exported in a usable format. The notice period and handover are written into the agreement so it is never a negotiation later.",
+      "Cancel whenever you like — there is no lock-in and no notice period on a monthly plan. Your access runs to the end of the month you have paid for, and you take your data with you: customers, members, orders, bookings and history, exported in a usable format. The full terms are on the cancellation and refunds page.",
   },
 ];

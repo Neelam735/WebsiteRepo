@@ -12,6 +12,7 @@ import {
   phoneLabel,
   site,
   telUrl,
+  tradesUnderAnotherName,
   whatsappUrl,
 } from "@/content/site";
 
@@ -108,7 +109,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-4 border-t border-ink-800 pt-6 text-sm text-ink-500 sm:flex-row sm:items-center">
+        <div className="mt-12 flex flex-col gap-4 border-t border-ink-800 pt-6 text-sm text-ink-500 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
             <Link href="/privacy" className="transition-colors hover:text-white">
               Privacy
@@ -128,6 +129,16 @@ export function SiteFooter() {
               </a>
             ))}
           </div>
+
+          {/* Who the customer is actually contracting with. Only rendered when
+              the brand and the entity differ — once those are the same name,
+              repeating it reads as a mistake. */}
+          {tradesUnderAnotherName ? (
+            <p className="text-xs text-ink-500">
+              {site.name} is a trading name of {site.legalName}.
+              {site.gst.registered && site.gst.gstin ? ` GSTIN ${site.gst.gstin}.` : ""}
+            </p>
+          ) : null}
         </div>
       </Container>
     </footer>
