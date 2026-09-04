@@ -164,13 +164,69 @@ Three things worth knowing:
   never an amount, so a tampered request cannot change what is charged.
 - **Subscription signatures are `payment_id|subscription_id`** — the reverse of
   the one-off order flow. Backwards produces a signature that never matches.
-- **The pricing page is prerendered**, so which tiers show a Subscribe button
+- **The pricing page is prerendered**, so whether "Pay now" can reach Razorpay
   is decided at build time. Adding keys requires a rebuild, not just a restart
-  — a Vercel redeploy does this for you.
+  — a Vercel redeploy does this for you. Without a plan configured the button
+  still renders, but says payments aren't switched on and links to the form.
 - **There is no database.** Payments succeed and notifications are sent through
   the same channels as contact-form leads, but nothing is stored, so the site
   cannot tell you who is currently subscribed. Razorpay's dashboard is your
   source of truth until you add persistence. See CONTENT.md.
+
+### Trying it in test mode
+
+Test keys charge nothing and need no KYC, so this is the way to exercise the
+whole flow before going live.
+
+**1. Get test keys.** In the Razorpay dashboard, switch the toggle to **Test
+Mode**, then Account & Settings → API Keys → Generate Test Key. You get an
+`rzp_test_...` id and a secret shown exactly once.
+
+**2. Create the two plans, in test mode.** Subscriptions → Plans → New Plan.
+One at ₹999 monthly, one at ₹1,999 monthly, matching `src/content/pricing.ts`.
+Copy the `plan_...` id from each.
+
+> Test-mode and live-mode plans are separate objects with different ids. A live
+> plan id sent with a test key fails, and the error does not say why — if the
+> checkout call is rejected, check you are not mixing the two.
+
+**3. Point the site at them.** Create `.env.local` in the project root — it is
+gitignored, so the secret stays off GitHub:
+
+```bash
+RAZORPAY_KEY_ID=rzp_test_xxxxxxxxxxxx
+RAZORPAY_KEY_SECRET=xxxxxxxxxxxxxxxxxxxx
+RAZORPAY_PLAN_STARTER=plan_xxxxxxxxxxxx
+RAZORPAY_PLAN_GROWTH=plan_xxxxxxxxxxxx
+```
+
+**4. Restart.** `npm run dev` reads `.env.local` at startup, so a running dev
+server will not pick these up — stop it and start it again. If you are testing
+a production build instead (`npm run build && npm start`), rebuild: the tier
+buttons are baked in at build time.
+
+**5. Pay.** Open `/pricing`, click **Pay now**, and use a Razorpay test card at
+the checkout — their current list is in the dashboard under Test Mode, and
+`4111 1111 1111 1111` with any future expiry and any CVV is the usual Visa
+success card. No money moves in test mode.
+
+Two things will not work locally, and neither is a fault:
+
+- **The webhook.** Razorpay cannot reach `localhost`, so
+  `api/razorpay/webhook` never fires. The success screen still appears —
+  that path is `api/checkout/verify`, called by the browser. To exercise the
+  webhook, expose the port with a tunnel (ngrok, cloudflared) and point the
+  dashboard webhook at `https://<tunnel>/api/razorpay/webhook` with
+  `RAZORPAY_WEBHOOK_SECRET` set to match.
+- **Subscriptions on a fresh account.** Recurring payments need Subscriptions
+  enabled on the Razorpay account, and live keys additionally need completed
+  KYC plus e-mandate/UPI AutoPay. If the create call is rejected in test mode,
+  that is what to ask Razorpay support about.
+
+**On Vercel**, the same four variables go in Settings → Environment Variables
+scoped to **Preview** (leave Production unset until you have live keys), then
+redeploy — setting them without a redeploy changes nothing, per the build-time
+note above.
 
 ## Deployment
 
