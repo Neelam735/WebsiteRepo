@@ -3,7 +3,18 @@ import "server-only";
 import crypto from "node:crypto";
 
 /**
- * Razorpay subscriptions.
+ * Razorpay: subscriptions and one-off orders.
+ *
+ * Two flows, deliberately kept apart:
+ *
+ *   Subscriptions  recurring monthly billing against a dashboard PLAN. This is
+ *                  what a "/month" price should really be, and it needs a
+ *                  plan id per tier plus e-mandate/AutoPay on the account.
+ *   Orders         a single charge, Standard Checkout. Needs nothing but the
+ *                  keys, so it works on a fresh test account, and it is the
+ *                  fallback when a tier has no plan configured.
+ *
+ * THE SIGNATURE FIELD ORDER DIFFERS BETWEEN THEM. See each verify function.
  *
  * Called over the REST API with fetch rather than the razorpay npm package —
  * the whole integration is three endpoints and two HMACs, and this avoids
@@ -52,6 +63,14 @@ export function planIdForTier(tierSlug: string): string | undefined {
     growth: process.env.RAZORPAY_PLAN_GROWTH,
   };
   return byTier[tierSlug];
+}
+
+/**
+ * Whether a single charge can be taken. Orders need only the keys — no plan,
+ * no mandate — so this is true wherever `isRazorpayConfigured()` is.
+ */
+export function canTakeOneOffPayment(): boolean {
+  return isRazorpayConfigured();
 }
 
 /** Which tiers can currently be paid for. Safe to call from a server component. */
@@ -111,6 +130,54 @@ export async function createSubscription({
   return (await response.json()) as { id: string; short_url?: string };
 }
 
+export class RazorpayAuthError extends Error {}
+
+/**
+ * Creates a one-off order — Standard Checkout's first step.
+ *
+ * `amountPaise` is passed by the caller but must come from server-side data,
+ * never from a request body: the amount is the one thing a client could
+ * profitably lie about, and unlike the subscription flow there is no dashboard
+ * plan holding the real number.
+ */
+export async function createOrder({
+  amountPaise,
+  receipt,
+  currency = "INR",
+  notes = {},
+}: {
+  amountPaise: number;
+  receipt: string;
+  currency?: string;
+  notes?: Record<string, string>;
+}): Promise<{ id: string; amount: number; currency: string }> {
+  // Razorpay's own floor. Checked here as well as at the route, so the guard
+  // cannot be lost if another caller appears later.
+  if (!Number.isInteger(amountPaise) || amountPaise < 100) {
+    throw new Error(`Order amount must be a whole number of paise, at least 100 (got ${amountPaise})`);
+  }
+
+  const response = await fetch(`${API}/orders`, {
+    method: "POST",
+    headers: {
+      Authorization: authHeader(),
+      "Content-Type": "application/json",
+    },
+    // Receipts are capped at 40 characters by Razorpay and rejected above it.
+    body: JSON.stringify({ amount: amountPaise, currency, receipt: receipt.slice(0, 40), notes }),
+  });
+
+  if (response.status === 401) {
+    throw new RazorpayAuthError("Razorpay rejected the API key");
+  }
+
+  if (!response.ok) {
+    throw new Error(`Razorpay order create failed (${response.status}): ${await response.text()}`);
+  }
+
+  return (await response.json()) as { id: string; amount: number; currency: string };
+}
+
 /** Constant-time compare, so a wrong signature leaks nothing through timing. */
 function safeEqual(a: string, b: string): boolean {
   const left = Buffer.from(a, "utf8");
@@ -133,6 +200,30 @@ export function verifyCheckoutSignature(result: CheckoutSuccess): boolean {
   const expected = crypto
     .createHmac("sha256", secret)
     .update(`${result.razorpay_payment_id}|${result.razorpay_subscription_id}`)
+    .digest("hex");
+
+  return safeEqual(expected, result.razorpay_signature);
+}
+
+/**
+ * Verifies the signature Checkout returns after a one-off order is paid.
+ *
+ * NOTE THE FIELD ORDER, AND THAT IT IS THE OPPOSITE OF SUBSCRIPTIONS ABOVE.
+ * Orders sign `order_id|payment_id`; subscriptions sign
+ * `payment_id|subscription_id`. Swapping them produces a signature that never
+ * matches, with no error explaining why.
+ */
+export function verifyOrderSignature(result: {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+}): boolean {
+  const { secret } = keys();
+  if (!secret) return false;
+
+  const expected = crypto
+    .createHmac("sha256", secret)
+    .update(`${result.razorpay_order_id}|${result.razorpay_payment_id}`)
     .digest("hex");
 
   return safeEqual(expected, result.razorpay_signature);

@@ -2,7 +2,7 @@ import { CheckoutButton } from "@/components/checkout-button";
 import { ArrowIcon, ButtonLink } from "@/components/ui/button";
 import { freeTrial, tiers } from "@/content/pricing";
 import { site } from "@/content/site";
-import { payableTiers } from "@/lib/razorpay";
+import { canTakeOneOffPayment, payableTiers } from "@/lib/razorpay";
 import { cn, formatPrice } from "@/lib/utils";
 
 /**
@@ -22,6 +22,11 @@ export function PricingTiers() {
   // they were — on Vercel a redeploy rebuilds, so the normal flow is fine, but
   // setting the variables alone is not enough.
   const payable = payableTiers();
+
+  // Orders need only the keys; subscriptions also need a dashboard plan per
+  // tier. So a tier with a plan bills monthly, and one without still takes a
+  // single payment rather than showing a button that cannot do anything.
+  const oneOff = canTakeOneOffPayment();
 
   return (
     <>
@@ -140,13 +145,21 @@ export function PricingTiers() {
                     // hover — lighter than the tier's own CTA above it, which
                     // stays the lead action.
                     className="ring-1 ring-ink-200 hover:ring-ink-300"
-                    configured={payable.includes(tier.slug)}
+                    configured={payable.includes(tier.slug) || oneOff}
+                    mode={payable.includes(tier.slug) ? "subscription" : "order"}
                     fallbackHref={tier.cta.href}
                   />
+                  {/*
+                    Says which of the two flows this actually is. A tier with
+                    no dashboard plan takes a single payment, and calling that
+                    "monthly" would be the kind of wrong that ends in a
+                    chargeback.
+                  */}
                   <p className="mt-2 text-center text-xs text-ink-500">
-                    {/* Said plainly: paying now begins the subscription today,
-                        so it is not the trial by another route. */}
-                    Card, UPI or netbanking via Razorpay · Starts today, skips the trial
+                    Card, UPI or netbanking via Razorpay ·{" "}
+                    {payable.includes(tier.slug)
+                      ? "Billed monthly from today, skips the trial"
+                      : "One month, paid once · skips the trial"}
                   </p>
                 </div>
               ) : null}

@@ -144,26 +144,48 @@ configured.
 
 ## Payments (Razorpay)
 
-Optional, and off unless configured — with no keys set, the pricing page keeps
-its "talk to us" buttons and no payment code runs.
+Optional, and off unless configured — with no keys set, "Pay now" says so and
+links to the contact form.
+
+**Two flows, and which one runs is decided per tier:**
+
+| Configured | Flow | What the customer gets |
+|---|---|---|
+| Keys only | One-off **order** (Standard Checkout) | A single charge for one month |
+| Keys **+** a plan id for that tier | Recurring **subscription** | Monthly billing until cancelled |
+
+Orders need nothing but the keys, so they work on a fresh test account.
+Subscriptions are what a "/month" price should really be, but they need a
+dashboard plan per tier and e-mandate/AutoPay enabled on the account. The card
+says which of the two it is under the button, because charging once and
+charging monthly are not the same promise.
 
 | File | Role |
 |---|---|
-| `src/lib/razorpay.ts` | REST calls and both HMACs. `server-only`, so importing it from a client component is a build error rather than a leaked secret |
+| `src/lib/razorpay.ts` | REST calls and all three HMACs. `server-only`, so importing it from a client component is a build error rather than a leaked secret |
+| `api/create-order` | Creates a one-off order from a tier slug |
+| `api/verify-payment` | Verifies the order signature — `order_id\|payment_id` |
 | `api/checkout` | Creates a subscription from a tier slug |
-| `api/checkout/verify` | Verifies the signature Checkout hands the browser |
+| `api/checkout/verify` | Verifies the subscription signature — `payment_id\|subscription_id` |
 | `api/razorpay/webhook` | The reliable record — fires even if the tab is closed |
-| `src/components/checkout-button.tsx` | Loads Checkout on click, not on page load |
+| `src/components/checkout-button.tsx` | Runs either flow. Loads Checkout on click, not on page load |
 
-Set `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET` and a
-plan id per tier — see `.env.example`.
+Set `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET` to take payments at all, plus
+`RAZORPAY_WEBHOOK_SECRET` and a plan id per tier for subscriptions — see
+`.env.example`.
 
-Three things worth knowing:
+Four things worth knowing:
 
 - **Plans live in the Razorpay dashboard.** The client sends a tier slug and
   never an amount, so a tampered request cannot change what is charged.
-- **Subscription signatures are `payment_id|subscription_id`** — the reverse of
-  the one-off order flow. Backwards produces a signature that never matches.
+- **The client never sends an amount.** For subscriptions the price lives on
+  the dashboard plan; for orders it is read from `src/content/pricing.ts` on
+  the server. An order carries its own amount, so that lookup is the only thing
+  between a tampered request and a ₹1 invoice for a ₹1,999 plan.
+- **The two signatures use opposite field orders.** Orders sign
+  `order_id|payment_id`; subscriptions sign `payment_id|subscription_id`.
+  Swapping them produces a signature that never matches, with no error saying
+  why.
 - **The pricing page is prerendered**, so whether "Pay now" can reach Razorpay
   is decided at build time. Adding keys requires a rebuild, not just a restart
   — a Vercel redeploy does this for you. Without a plan configured the button

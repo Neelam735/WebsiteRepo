@@ -7,15 +7,32 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 /**
- * Starts a Razorpay subscription for one tier.
+ * Opens Razorpay Checkout for one tier.
+ *
+ * Two modes, chosen by the server (see pricing-tiers.tsx):
+ *
+ *   "subscription"  recurring monthly billing against a dashboard plan.
+ *   "order"         a single charge. Needs no plan, so it works on a fresh
+ *                   account, and it bills once rather than every month.
+ *
+ * They differ in more than the endpoint: the object handed to Checkout takes
+ * `subscription_id` or `order_id`, and the signature returned afterwards is
+ * built from different fields in a different order. Keeping both in one
+ * component is what stops those four details drifting apart.
  *
  * The Checkout script is loaded on demand, the first time someone actually
  * clicks — visitors who never intend to buy do not pay for it.
  */
 
+type RazorpayInstance = {
+  open: () => void;
+  /** Razorpay emits "payment.failed" here; the modal stays open for a retry. */
+  on: (event: string, handler: (response: { error?: { description?: string } }) => void) => void;
+};
+
 declare global {
   interface Window {
-    Razorpay?: new (options: Record<string, unknown>) => { open: () => void };
+    Razorpay?: new (options: Record<string, unknown>) => RazorpayInstance;
   }
 }
 
@@ -50,6 +67,7 @@ export function CheckoutButton({
   companyName,
   variant = "primary",
   configured,
+  mode,
   fallbackHref,
   className,
 }: {
@@ -64,6 +82,8 @@ export function CheckoutButton({
    * cannot complete.
    */
   configured: boolean;
+  /** Which flow to run. See the note at the top of this file. */
+  mode: "subscription" | "order";
   /** Where to send someone when payments are off. */
   fallbackHref: string;
   className?: string;
@@ -89,7 +109,11 @@ export function CheckoutButton({
         throw new Error("Checkout script did not load");
       }
 
-      const created = await fetch("/api/checkout", {
+      const isOrder = mode === "order";
+      const createPath = isOrder ? "/api/create-order" : "/api/checkout";
+      const verifyPath = isOrder ? "/api/verify-payment" : "/api/checkout/verify";
+
+      const created = await fetch(createPath, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ tier }),
@@ -99,11 +123,15 @@ export function CheckoutButton({
         ok?: boolean;
         error?: string;
         subscriptionId?: string;
+        orderId?: string;
+        amount?: number;
+        currency?: string;
         keyId?: string;
         tierName?: string;
       };
 
-      if (!created.ok || !data.ok || !data.subscriptionId || !data.keyId) {
+      const reference = isOrder ? data.orderId : data.subscriptionId;
+      if (!created.ok || !data.ok || !reference || !data.keyId) {
         setMessage(data.error ?? "We couldn't start the payment. Please get in touch.");
         setStatus("error");
         return;
@@ -111,15 +139,18 @@ export function CheckoutButton({
 
       const checkout = new window.Razorpay({
         key: data.keyId,
-        subscription_id: data.subscriptionId,
+        // One or the other. Sending both makes Checkout ignore the order.
+        ...(isOrder
+          ? { order_id: reference, amount: data.amount, currency: data.currency ?? "INR" }
+          : { subscription_id: reference }),
         name: companyName,
-        description: `${data.tierName ?? tier} — monthly`,
+        description: `${data.tierName ?? tier}${isOrder ? " — one month" : " — monthly"}`,
         theme: { color: "#000000" },
         handler: async (result: Record<string, string>) => {
           // Confirms the browser is telling the truth. The webhook is what
           // actually records the payment, so a failure here is not the end of
           // the world — the money has already moved.
-          const verified = await fetch("/api/checkout/verify", {
+          const verified = await fetch(verifyPath, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ...result, tier }),
@@ -137,8 +168,22 @@ export function CheckoutButton({
           }
         },
         modal: {
+          // Closed without paying. Back to idle silently — a cancellation is
+          // a decision, not an error, and does not deserve a red message.
           ondismiss: () => setStatus("idle"),
         },
+      });
+
+      // A declined card. The modal stays open so they can try another method,
+      // so this only records why, rather than tearing the checkout down.
+      checkout.on("payment.failed", (response) => {
+        console.error("[checkout] payment.failed", response?.error);
+        setMessage(
+          response?.error?.description
+            ? `Payment failed: ${response.error.description} You can try another method.`
+            : "That payment didn't go through. You can try another method.",
+        );
+        setStatus("error");
       });
 
       checkout.open();
