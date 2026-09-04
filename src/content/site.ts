@@ -147,6 +147,9 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
       { label: "Contact", href: "/contact" },
       { label: "Privacy", href: "/privacy" },
       { label: "Terms", href: "/terms" },
+      // Razorpay looks for this during account activation, and a customer
+      // looking for how to cancel should not have to ask.
+      { label: "Cancellation & refunds", href: "/refunds" },
     ],
   },
 ];
