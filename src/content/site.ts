@@ -69,13 +69,26 @@ export const site = {
     whatsappEnabled: process.env.NEXT_PUBLIC_WHATSAPP_ENABLED === "true",
     whatsappMessage:
       "Hi! I'd like to talk about your restaurant/gym management system.",
-    /** TODO: leave blank to hide the address entirely. */
+    /**
+     * Every field is optional and rendered only if set, so you can publish as
+     * much or as little as you want. CITY is the minimum that shows anything:
+     *
+     *   city + region                 → "Bengaluru, Karnataka"
+     *   city + region + country       → adds "India" on the next line
+     *   street + city + … + postcode  → the full postal form
+     *
+     * A city on its own is a deliberate option, not a half-filled mistake.
+     * Trading from home under your own name, publishing the street puts your
+     * house on the internet; a city still tells a customer where you are.
+     *
+     * TODO: set at least `city`.
+     */
     address: {
       street: "",
       city: "",
       region: "",
       postalCode: "",
-      country: "",
+      country: "India",
     },
     /** TODO: e.g. "Mon–Fri, 9am–6pm". Blank hides it. */
     hours: "",
@@ -118,7 +131,35 @@ export const tradesUnderAnotherName = legalName !== site.name;
 export const hasEmail = site.contact.email.length > 0;
 export const hasPhone = site.contact.phoneE164.length > 0;
 export const hasWhatsapp = hasPhone && site.contact.whatsappEnabled;
-export const hasAddress = site.contact.address.street.length > 0;
+/**
+ * Whether there is an address worth showing. Keyed on the city rather than the
+ * street: keying it on the street meant filling in a city and nothing else
+ * hid the address entirely, with no error and no clue why.
+ */
+export const hasAddress = site.contact.address.city.length > 0;
+
+/**
+ * The address as display lines, with anything unset left out.
+ *
+ * Shared so the contact page, the footer and the structured data cannot
+ * disagree about how a partial address is formatted.
+ */
+export const addressLines: string[] = (() => {
+  const { street, city, region, postalCode, country } = site.contact.address;
+  const lines: string[] = [];
+
+  if (street) lines.push(street);
+
+  // "City, Region  Postcode" — the comma only appears when both sides exist,
+  // so a city on its own never renders a stray leading or trailing comma.
+  const locality = [city, region].filter(Boolean).join(", ");
+  const withPostcode = [locality, postalCode].filter(Boolean).join(" ");
+  if (withPostcode) lines.push(withPostcode);
+
+  if (country) lines.push(country);
+
+  return lines;
+})();
 export const hasSocial = Object.values(site.social).some((url) => url.length > 0);
 
 /** What to print for the phone number: the display form, else the raw number. */
