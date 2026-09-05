@@ -200,6 +200,19 @@ export function fallbackSentence(
   return retryable ? `${lead} Please try again in a few minutes.` : lead;
 }
 
+/**
+ * The date printed on the terms, privacy and cancellation pages.
+ *
+ * Deliberately a fixed string and NOT derived from `new Date()`. A date that
+ * follows the clock would claim the policy changed on every deploy, which
+ * makes the line worthless — its only job is to tell a customer whether the
+ * terms have moved since they last read them.
+ *
+ * Bump it by hand when you change the wording of any of those pages, and only
+ * then.
+ */
+export const legalLastUpdated = "4 September 2026";
+
 export type NavItem = { label: string; href: string };
 
 export const mainNav: NavItem[] = [

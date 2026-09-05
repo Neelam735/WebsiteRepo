@@ -2,7 +2,12 @@ import Link from "next/link";
 
 import { Container, Section } from "@/components/ui/section";
 import { freeTrial } from "@/content/pricing";
-import { hasEmail, mailtoUrl, site } from "@/content/site";
+import {
+  hasEmail,
+  legalLastUpdated,
+  mailtoUrl,
+  site,
+} from "@/content/site";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -42,7 +47,7 @@ export default function RefundsPage() {
     <Section>
       <Container className="max-w-3xl px-0 sm:px-0 lg:px-0">
         <h1 className="text-4xl font-extrabold">Cancellation &amp; refunds</h1>
-        <p className="mt-3 text-sm text-ink-500">Last updated: 4 September 2026</p>
+        <p className="mt-3 text-sm text-ink-500">Last updated: {legalLastUpdated}</p>
 
         <div className="mt-8 space-y-6 text-[17px] leading-[1.75] text-ink-700">
           <section>
