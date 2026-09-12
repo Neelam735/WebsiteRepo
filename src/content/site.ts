@@ -90,8 +90,8 @@ export const site = {
       postalCode: "",
       country: "India",
     },
-    /** TODO: e.g. "Mon–Fri, 9am–6pm". Blank hides it. */
-    hours: "",
+    /** Shown on the contact page and in the footer. Blank hides it. */
+    hours: "9am–6pm",
     /** Only promise what you will actually hit. */
     responsePromise: "We reply to every enquiry within one business day.",
   },
