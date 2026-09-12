@@ -48,24 +48,32 @@ export default function PrivacyPage() {
           </section>
 
           <section>
+            <h2 className="text-2xl font-bold text-ink-950">Payment details</h2>
+            <p className="mt-2">
+              Payments are handled by Razorpay. Your card number, UPI PIN, CVV and bank credentials
+              are entered on Razorpay&rsquo;s own secure checkout and are never sent to us, seen by
+              us or stored on our systems. What we receive back is confirmation that a payment
+              succeeded, the plan it was for, and Razorpay&rsquo;s reference numbers, which we keep
+              as the record of your purchase. Razorpay processes that data under its own privacy
+              policy as well as this one.
+            </p>
+          </section>
+
+          <section>
             <h2 className="text-2xl font-bold text-ink-950">Who processes it</h2>
             <p className="mt-2">
-              Enquiries are delivered by our email provider and, where configured, stored in our
-              CRM. Our website is hosted by our hosting provider. Each processes data on our
-              instructions only.{" "}
-              <span className="font-medium text-ink-900">
-                Name your actual providers here (for example Resend, HubSpot, Vercel).
-              </span>
+              This site is hosted by Vercel. Enquiry emails are delivered by Resend. Payments are
+              processed by Razorpay. Each of them processes data on our instructions only, and we
+              do not share your details with anyone else.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-bold text-ink-950">Analytics and cookies</h2>
             <p className="mt-2">
-              If analytics is enabled on this site, it sets cookies to measure how pages are used.
-              No analytics or advertising script loads unless it has been explicitly configured. If
-              you serve visitors in the EU or UK, add a consent banner and gate those scripts behind
-              it.
+              We set no advertising cookies and run no advertising trackers. Where analytics is
+              switched on, it measures aggregate page usage only — which pages are visited and how
+              often — and never anything that identifies you personally.
             </p>
           </section>
 

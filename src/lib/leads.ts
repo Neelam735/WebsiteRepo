@@ -78,10 +78,30 @@ function renderEmail(lead: LeadInput): { subject: string; html: string; text: st
   return { subject, html, text };
 }
 
+/**
+ * The email channel's settings, in one place so the three callers below cannot
+ * disagree about whether it is configured.
+ *
+ * The addresses default in code because losing an environment variable should
+ * not silently disconnect the enquiry form. The API KEY has no default and
+ * never will — it is a secret, and a secret with a fallback is a secret that
+ * ends up in a repository.
+ *
+ * NOTE ON `from`: Resend will only send from a domain verified in YOUR Resend
+ * account. If bizwisetech.com is not verified there, this address is rejected
+ * and the enquiry is lost — verify the domain, or override LEAD_FROM_EMAIL
+ * with an address on a domain that is.
+ */
+function emailChannel() {
+  return {
+    apiKey: process.env.RESEND_API_KEY,
+    to: process.env.LEAD_TO_EMAIL ?? "support@bizwisetech.com",
+    from: process.env.LEAD_FROM_EMAIL ?? "support@bizwisetech.com",
+  };
+}
+
 async function sendViaResend(lead: LeadInput): Promise<void> {
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.LEAD_TO_EMAIL;
-  const from = process.env.LEAD_FROM_EMAIL;
+  const { apiKey, to, from } = emailChannel();
 
   if (!apiKey || !to || !from) throw new Error("Resend is not fully configured");
 
@@ -135,16 +155,16 @@ async function sendViaWebhook(lead: LeadInput): Promise<void> {
 
 /** True when at least one delivery channel is fully configured. */
 export function hasDeliveryChannel(): boolean {
-  const emailReady = Boolean(
-    process.env.RESEND_API_KEY && process.env.LEAD_TO_EMAIL && process.env.LEAD_FROM_EMAIL,
-  );
+  const { apiKey, to, from } = emailChannel();
+  const emailReady = Boolean(apiKey && to && from);
   return emailReady || Boolean(process.env.LEAD_WEBHOOK_URL);
 }
 
 export async function deliverLead(lead: LeadInput): Promise<DeliveryResult> {
   const tasks: { channel: string; run: () => Promise<void> }[] = [];
 
-  if (process.env.RESEND_API_KEY && process.env.LEAD_TO_EMAIL && process.env.LEAD_FROM_EMAIL) {
+  const email = emailChannel();
+  if (email.apiKey && email.to && email.from) {
     tasks.push({ channel: "email", run: () => sendViaResend(lead) });
   }
 
@@ -160,10 +180,10 @@ export async function deliverLead(lead: LeadInput): Promise<DeliveryResult> {
     const seen = (name: string) => (process.env[name] ? "set" : "MISSING");
     console.warn(
       "[leads] No delivery channel configured, so this enquiry was not sent.\n" +
-        "  Email channel needs all three:\n" +
+        "  Email channel needs the key; the addresses default in code:\n" +
         `    RESEND_API_KEY   ${seen("RESEND_API_KEY")}\n` +
-        `    LEAD_TO_EMAIL    ${seen("LEAD_TO_EMAIL")}\n` +
-        `    LEAD_FROM_EMAIL  ${seen("LEAD_FROM_EMAIL")}\n` +
+        `    LEAD_TO_EMAIL    ${seen("LEAD_TO_EMAIL")} (defaults to ${emailChannel().to})\n` +
+        `    LEAD_FROM_EMAIL  ${seen("LEAD_FROM_EMAIL")} (defaults to ${emailChannel().from})\n` +
         "  Or the webhook channel needs:\n" +
         `    LEAD_WEBHOOK_URL ${seen("LEAD_WEBHOOK_URL")}\n` +
         "  Note: these are server-side variables — a NEXT_PUBLIC_ prefix will " +

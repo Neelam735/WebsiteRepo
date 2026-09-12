@@ -7,6 +7,7 @@ import {
   legalLastUpdated,
   mailtoUrl,
   site,
+  tradesUnderAnotherName,
 } from "@/content/site";
 import { buildMetadata } from "@/lib/seo";
 
@@ -150,6 +151,13 @@ export default function RefundsPage() {
             <p className="mt-2">
               For anything on this page — cancelling, a refund, or a charge you don&rsquo;t
               recognise — {contactRoute}. We reply to every message within one business day.
+            </p>
+            {/* Names the entity behind the policy. A refunds page that never
+                says whose policy it is leaves the reader — and the payment
+                provider reviewing it — guessing. */}
+            <p className="mt-2">
+              This policy is operated by {site.legalName}
+              {tradesUnderAnotherName ? `, trading as ${site.name}` : ""}.
             </p>
           </section>
         </div>
