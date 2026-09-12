@@ -251,9 +251,8 @@ function DeliveryWarning() {
 }
 
 /**
- * Booking widget slot. Set NEXT_PUBLIC_BOOKING_URL to a Calendly/Cal.com link
- * and this becomes a live embed; until then it's an honest placeholder rather
- * than a broken widget.
+ * Booking widget. Set NEXT_PUBLIC_BOOKING_URL to a Calendly/Cal.com link and
+ * this becomes a live embed; with nothing set it renders nothing at all.
  */
 function BookingCard() {
   if (site.bookingUrl) {
@@ -275,17 +274,9 @@ function BookingCard() {
     );
   }
 
-  return (
-    <div className="rounded-card border border-dashed border-carbon-300 bg-carbon-50/60 p-6">
-      <h2 className="text-sm font-bold uppercase tracking-wide text-carbon-700">
-        Booking widget slot
-      </h2>
-      <p className="mt-2 text-[15px] leading-relaxed text-ink-700">
-        Set{" "}
-        <code className="rounded bg-white px-1.5 py-0.5 text-[13px]">NEXT_PUBLIC_BOOKING_URL</code>{" "}
-        to your Calendly or Cal.com link and a live scheduler appears here.
-      </p>
-      <p className="mt-3 text-sm text-ink-600">Until then, the form works fine.</p>
-    </div>
-  );
+  // Nothing configured: render nothing. This used to be a dashed box telling
+  // the reader to set NEXT_PUBLIC_BOOKING_URL — a note to the developer,
+  // printed on a public page, where a customer or a payment provider
+  // reviewing the site reads it as an unfinished website.
+  return null;
 }
