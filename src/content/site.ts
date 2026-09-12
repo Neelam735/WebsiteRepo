@@ -25,7 +25,7 @@ export const site = {
    *
    * Change it to the company name if you later incorporate.
    */
-  legalName: "Neelam Srivastava",
+  legalName: "Sarabjeet Singh",
 
   /**
    * Whether the business is registered for GST.
@@ -58,9 +58,9 @@ export const site = {
      * the WhatsApp link are built from, so it must stay in this form even
      * though it is not how the number is displayed.
      */
-    phoneE164: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "+918861390146",
+    phoneE164: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "+919886508382",
     /** How the number reads on screen. Falls back to the E.164 value. */
-    phoneDisplay: process.env.NEXT_PUBLIC_CONTACT_PHONE_DISPLAY ?? "+91 88613 90146",
+    phoneDisplay: process.env.NEXT_PUBLIC_CONTACT_PHONE_DISPLAY ?? "+91 98865 08382",
     /**
      * Set to true once the number above can receive WhatsApp messages — or set
      * NEXT_PUBLIC_WHATSAPP_ENABLED=true. Left off deliberately: a WhatsApp
@@ -84,8 +84,8 @@ export const site = {
      * TODO: set at least `city`.
      */
     address: {
-      street: "",
-      city: "",
+      street: "Sarjapur Road",
+      city: "Bangalore",
       region: "",
       postalCode: "",
       country: "India",
@@ -211,7 +211,7 @@ export function fallbackSentence(
  * Bump it by hand when you change the wording of any of those pages, and only
  * then.
  */
-export const legalLastUpdated = "4 September 2026";
+export const legalLastUpdated = "12 September 2026";
 
 export type NavItem = { label: string; href: string };
 
