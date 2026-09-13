@@ -134,7 +134,6 @@ export const tiers: Tier[] = [
       "Multi-location support with per-site setup",
       "Integrations with your existing tools",
       "Data migration from spreadsheets or an old system",
-      "A dedicated project lead",
     ],
     cta: { label: "Book a scoping call", href: "/contact#message" },
     highlighted: false,
