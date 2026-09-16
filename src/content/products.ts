@@ -17,6 +17,18 @@ export type Module = {
 
 export type Product = {
   slug: string;
+  /**
+   * Whether this system is currently offered.
+   *
+   * GYM-PAUSED: the gym system is set false while we focus on restaurants.
+   * Unpublished products keep their content and their page file, but drop out
+   * of the cards, the nav, the sitemap and the forms, and their route 404s.
+   * Flip it back to true and all of that returns on its own.
+   *
+   * The prose that named both trades was also reworded. Every such edit is
+   * marked GYM-PAUSED — `grep -rn GYM-PAUSED src/` lists them all.
+   */
+  published: boolean;
   /** Full name, used in headings and metadata. */
   name: string;
   /** Short label for nav, chips and cards. */
@@ -46,6 +58,7 @@ export type Product = {
 export const products: Product[] = [
   {
     slug: "restaurant-management-system",
+    published: true,
     name: "Restaurant management system",
     shortName: "Restaurants",
     glyph: "🍽️",
@@ -197,6 +210,8 @@ export const products: Product[] = [
   },
   {
     slug: "gym-management-system",
+    // GYM-PAUSED: everything below is kept, just not offered right now.
+    published: false,
     name: "Gym management system",
     shortName: "Gyms",
     glyph: "🏋️",
@@ -325,6 +340,12 @@ export const products: Product[] = [
   },
 ];
 
+/**
+ * The systems actually on sale. Anything that renders a list of what we do
+ * reads this, not `products`, so pausing one is a single boolean.
+ */
+export const publishedProducts: Product[] = products.filter((p) => p.published);
+
 export function getProduct(slug: string): Product | undefined {
   return products.find((product) => product.slug === slug);
 }
@@ -344,7 +365,8 @@ export const process = [
     step: "02",
     name: "Configure",
     description:
-      "We set the system up around your menu, timetable, plans and staff — with your real data, not a demo dataset — and you review it before anyone builds anything bespoke.",
+      // GYM-PAUSED: was "your menu, timetable, plans and staff".
+      "We set the system up around your menu, prices, tables and staff — with your real data, not a demo dataset — and you review it before anyone builds anything bespoke.",
   },
   {
     step: "03",
@@ -356,6 +378,7 @@ export const process = [
     step: "04",
     name: "Launch & support",
     description:
-      "We train your team, stand by through the first service or the first week of classes, and stay reachable afterwards. Support is month-to-month, never a lock-in.",
+      // GYM-PAUSED: was "the first service or the first week of classes".
+      "We train your team, stand by through the first service and the first full weekend, and stay reachable afterwards. Support is month-to-month, never a lock-in.",
   },
 ];

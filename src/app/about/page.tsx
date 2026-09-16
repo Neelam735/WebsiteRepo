@@ -5,14 +5,15 @@ import { Reveal } from "@/components/reveal";
 import { ArrowIcon, ButtonLink } from "@/components/ui/button";
 import { Container, Eyebrow, Section, SectionHeading } from "@/components/ui/section";
 import { about, faqs, values } from "@/content/company";
-import { process, products } from "@/content/products";
+import { process, publishedProducts } from "@/content/products";
 import { site } from "@/content/site";
 import { faqJsonLd } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "About Us — How We Work",
-  description: `${site.name} builds two systems: a restaurant management system and a gym management system. Fixed quotes, plain English, and your data stays yours.`,
+  // GYM-PAUSED: was "builds two systems: ... and a gym management system".
+  description: `${site.name} builds a restaurant management system. Fixed quotes, plain English, and your data stays yours.`,
   path: "/about",
 });
 
@@ -44,7 +45,7 @@ export default function AboutPage() {
               What we build
             </h2>
             <ul className="mt-4 space-y-4">
-              {products.map((product) => (
+              {publishedProducts.map((product) => (
                 <li key={product.slug}>
                   <a
                     href={`/${product.slug}`}

@@ -18,8 +18,9 @@ import {
  * Phone and WhatsApp buttons appear only when those details are configured.
  */
 export function CtaBanner({
-  title = "See it running on your own menu or timetable",
-  description = "Book a free demo and we'll walk through the system with your dishes, your classes and your plans in it — not a generic sandbox. No obligation, no pitch.",
+  // GYM-PAUSED: was "your own menu or timetable".
+  title = "See it running on your own menu",
+  description = "Book a free demo and we'll walk through the system with your own dishes, prices and tables in it — not a generic sandbox. No obligation, no pitch.",
   primaryLabel = primaryCta.label,
 }: {
   title?: string;

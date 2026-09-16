@@ -9,16 +9,17 @@
  * fields, and this keeps the client bundle free of a validation dependency.
  */
 
+// GYM-PAUSED: "Gym, studio or fitness business" and "Both" removed. Offering
+// a business type we do not currently serve collects leads we cannot answer.
 export const businessTypes = [
   "Restaurant, cafe or bar",
-  "Gym, studio or fitness business",
-  "Both",
+  "Cloud kitchen or food truck",
   "Something else",
 ] as const;
 
+// GYM-PAUSED: "Gym management system" removed.
 export const interestOptions = [
   "Restaurant management system",
-  "Gym management system",
   "Moving off our current system",
   "Adding a module to what we run today",
   "Not sure yet — need advice",

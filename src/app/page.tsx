@@ -7,27 +7,28 @@ import { TrialBanner } from "@/components/trial-banner";
 import { HeroScene } from "@/components/hero-scene";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
-import { ClassScheduleMockup, OrderingMockup } from "@/components/mockups";
+import { DashboardMockup, OrderingMockup } from "@/components/mockups";
 import { Reveal } from "@/components/reveal";
 import { ArrowIcon, ButtonLink } from "@/components/ui/button";
 import { Container, Eyebrow, Section, SectionHeading } from "@/components/ui/section";
 import { faqs } from "@/content/company";
 import { pricingModel } from "@/content/pricing";
-import { process, products } from "@/content/products";
+import { process, publishedProducts } from "@/content/products";
 import { primaryCta, site } from "@/content/site";
 import { faqJsonLd } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: `${site.name} — Restaurant & gym management systems`,
+  // GYM-PAUSED: was "Restaurant & gym management systems"
+  title: `${site.name} — Restaurant management system`,
   description: site.description,
   path: "/",
   keywords: [
+    // GYM-PAUSED: gym, class-booking and membership keywords parked.
     "restaurant management system",
-    "gym management system",
     "online ordering system",
-    "class booking software",
-    "membership management software",
+    "restaurant billing software",
+    "kot software",
   ],
 });
 
@@ -72,7 +73,8 @@ function Hero() {
           <div>
             <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-sm font-medium text-white ring-1 ring-white/20 backdrop-blur-sm">
               <span className="h-2 w-2 rounded-full bg-white" />
-              Two systems. Nothing else.
+              {/* GYM-PAUSED: was "Two systems. Nothing else." */}
+              One system. Built properly.
             </p>
 
             {/* text-white is load-bearing: the base stylesheet colours headings
@@ -99,9 +101,10 @@ function Hero() {
             </h1>
 
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-300 sm:text-xl">
-              A restaurant management system for orders, menus, tables and the kitchen. A gym
-              management system for memberships, classes and check-in. Set up around how you
-              already work, with a fixed quote before we start.
+              {/* GYM-PAUSED: the second sentence named the gym system. */}
+              A restaurant management system for orders, menus, tables, billing and the kitchen —
+              from the counter to the KOT to the GST return. Set up around how you already work,
+              with a fixed quote before we start.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -119,21 +122,26 @@ function Hero() {
             </div>
 
             <p className="mt-5 text-sm text-ink-400">
-              A walkthrough with your own menu or timetable · No obligation
+              {/* GYM-PAUSED: was "your own menu or timetable" */}
+              A walkthrough with your own menu · No obligation
             </p>
           </div>
 
           {/*
-            One mockup per system. The phone overlaps the timetable's right
-            edge — the half carrying the least information — and overhangs into
-            the page margin, so both stay legible instead of one smothering the
-            other. It only appears from lg up: below that there isn't room to
-            render a phone at a width where its rows are readable.
+            GYM-PAUSED: the back layer was ClassScheduleMockup, one mockup per
+            system. With the gym parked it is the reporting dashboard, which is
+            trade-neutral, so the composition is unchanged.
+
+            The phone overlaps the right edge — the half carrying the least
+            information — and overhangs into the page margin, so both stay
+            legible instead of one smothering the other. It only appears from
+            lg up: below that there isn't room to render a phone at a width
+            where its rows are readable.
           */}
           <div className="scene scene-floor relative mx-auto w-full max-w-lg lg:max-w-none">
             <Reveal>
               <div className="scene-layer scene-back">
-                <ClassScheduleMockup />
+                <DashboardMockup />
               </div>
             </Reveal>
             <Reveal delay={120}>
@@ -153,14 +161,16 @@ function Hero() {
 function WhatWeDo() {
   return (
     <Section id="what-we-do" tone="surface">
+      {/* GYM-PAUSED: title was "Two systems, built for two trades", and the
+          description named both. */}
       <SectionHeading
         eyebrow="What we do"
-        title="Two systems, built for two trades"
-        description="We don't do a bit of everything. These are the two systems we build, and both go deep enough to run the business rather than just decorate it."
+        title="One system, built for one trade"
+        description="We don't do a bit of everything. This is the system we build, and it goes deep enough to run the restaurant rather than just decorate it."
       />
 
       <ul className="mt-12 grid gap-6 md:grid-cols-2">
-        {products.map((product, index) => (
+        {publishedProducts.map((product, index) => (
           <Reveal key={product.slug} delay={index * 80} className="h-full">
             <ProductCard product={product} />
           </Reveal>
@@ -261,7 +271,7 @@ function WhyUs() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          {products.map((product) => (
+          {publishedProducts.map((product) => (
             <Link
               key={product.slug}
               href={`/${product.slug}`}

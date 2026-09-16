@@ -8,7 +8,7 @@ import { DashboardMockup, Mockup } from "@/components/mockups";
 import { Reveal } from "@/components/reveal";
 import { ArrowIcon, ButtonLink } from "@/components/ui/button";
 import { Container, Eyebrow, Section, SectionHeading } from "@/components/ui/section";
-import { products, type Product } from "@/content/products";
+import { publishedProducts, type Product } from "@/content/products";
 import { primaryCta } from "@/content/site";
 import { breadcrumbJsonLd, faqJsonLd, softwareJsonLd } from "@/lib/jsonld";
 
@@ -18,7 +18,10 @@ import { breadcrumbJsonLd, faqJsonLd, softwareJsonLd } from "@/lib/jsonld";
  * drift apart.
  */
 export function ProductPage({ product }: { product: Product }) {
-  const other = products.find((item) => item.slug !== product.slug);
+  // Only ever offer a system we are actually selling. Reading `products` here
+  // linked the restaurant page straight at the paused gym page, which 404s.
+  // With one product published this is undefined and the block below hides.
+  const other = publishedProducts.find((item) => item.slug !== product.slug);
 
   return (
     <>

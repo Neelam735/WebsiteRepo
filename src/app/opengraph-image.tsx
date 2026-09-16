@@ -63,10 +63,11 @@ export default function OpengraphImage() {
               letterSpacing: "-0.02em",
             }}
           >
-            Restaurant & gym management systems
+            {/* GYM-PAUSED: was "Restaurant & gym management systems" */}
+            Restaurant management system
           </div>
           <div style={{ color: "#cfcfcf", fontSize: "30px", marginTop: "24px", maxWidth: "900px" }}>
-            Ordering, menus and kitchen. Memberships, classes and check-in.
+            Ordering, menus, tables, billing and the kitchen.
           </div>
         </div>
 

@@ -3,7 +3,7 @@ import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
 import { Container, Eyebrow, Section } from "@/components/ui/section";
 import { faqs } from "@/content/company";
-import { products } from "@/content/products";
+import { publishedProducts } from "@/content/products";
 import {
   addressLines,
   hasAddress,
@@ -24,7 +24,8 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Contact — Book a Free Demo",
   description:
-    "Tell us how you run today and we'll show you the system with your own menu or timetable in it. Free demo, no obligation.",
+    // GYM-PAUSED: was "your own menu or timetable".
+    "Tell us how you run today and we'll show you the system with your own menu in it. Free demo, no obligation.",
   path: "/contact",
 });
 
@@ -40,7 +41,8 @@ export default function ContactPage() {
             Tell us how you run today
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink-600">
-            We&rsquo;ll show you the system with your own dishes, classes or plans in it, and give
+            {/* GYM-PAUSED: was "your own dishes, classes or plans". */}
+            We&rsquo;ll show you the system with your own dishes and prices in it, and give
             you a straight answer on whether it fits. If it doesn&rsquo;t, we&rsquo;ll say so.
           </p>
         </Container>
@@ -142,7 +144,7 @@ export default function ContactPage() {
                 What we build
               </h2>
               <ul className="mt-4 space-y-3">
-                {products.map((product) => (
+                {publishedProducts.map((product) => (
                   <li key={product.slug}>
                     <a
                       href={`/${product.slug}`}

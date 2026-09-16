@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { products } from "@/content/products";
+import { publishedProducts } from "@/content/products";
 import { site } from "@/content/site";
 
 /**
@@ -21,7 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: url("/refunds"), lastModified: now, changeFrequency: "yearly", priority: 0.2 },
   ];
 
-  const productRoutes: MetadataRoute.Sitemap = products.map((product) => ({
+  const productRoutes: MetadataRoute.Sitemap = publishedProducts.map((product) => ({
     url: url(`/${product.slug}`),
     lastModified: now,
     changeFrequency: "monthly",

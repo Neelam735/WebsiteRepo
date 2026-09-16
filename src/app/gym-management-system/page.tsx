@@ -6,7 +6,11 @@ import { buildMetadata } from "@/lib/seo";
 
 const product = getProduct("gym-management-system");
 
-export const metadata = product
+// GYM-PAUSED: unpublished products emit no metadata and their route 404s,
+// so the page stops being indexed rather than lingering as a thin page for a
+// system we are not selling. Flip `published` back and this returns.
+export const metadata =
+  product?.published
   ? buildMetadata({
       title: product.seo.title,
       description: product.seo.description,
@@ -23,6 +27,6 @@ export const metadata = product
   : {};
 
 export default function GymSystemPage() {
-  if (!product) notFound();
+  if (!product?.published) notFound();
   return <ProductPage product={product} />;
 }
