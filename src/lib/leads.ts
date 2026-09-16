@@ -221,6 +221,47 @@ export async function deliverLead(lead: LeadInput): Promise<DeliveryResult> {
  * no database in this project, so a notification is how anyone finds out that
  * something happened. Returns true if at least one channel accepted it.
  */
+/**
+ * Sends one transactional email to a CUSTOMER, rather than to us.
+ *
+ * Separate from deliverNotice on purpose: that one always goes to our own
+ * inbox, and quietly reusing it would mean a receipt intended for a customer
+ * silently arriving at support@ instead. Returns false rather than throwing —
+ * a receipt that fails to send must never fail a payment that has already
+ * succeeded.
+ */
+export async function sendCustomerEmail({
+  to,
+  subject,
+  html,
+  text,
+}: {
+  to: string;
+  subject: string;
+  html: string;
+  text: string;
+}): Promise<boolean> {
+  const { apiKey, from } = emailChannel();
+  if (!apiKey || !from || !to) return false;
+
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ from, to, subject, html, text }),
+    });
+
+    if (!response.ok) {
+      console.error(`[receipt] Resend rejected the send (${response.status}): ${await response.text()}`);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("[receipt] Could not send:", error);
+    return false;
+  }
+}
+
 export async function deliverNotice({
   subject,
   lines,
@@ -232,9 +273,10 @@ export async function deliverNotice({
 }): Promise<boolean> {
   const tasks: Promise<void>[] = [];
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.LEAD_TO_EMAIL;
-  const from = process.env.LEAD_FROM_EMAIL;
+  // Same settings as the enquiry path. Reading process.env directly here meant
+  // payment notices ignored the defaults enquiries honour, so the two could
+  // end up at different addresses the moment one variable was unset.
+  const { apiKey, to, from } = emailChannel();
 
   if (apiKey && to && from) {
     const html = `
