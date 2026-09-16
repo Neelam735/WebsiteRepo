@@ -14,14 +14,15 @@ import {
   pricingModel,
   runningCosts,
 } from "@/content/pricing";
-import { products } from "@/content/products";
+import { publishedProducts } from "@/content/products";
 import { faqJsonLd } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Pricing — Fixed Quotes, Scoped First",
   description:
-    "How pricing works for our restaurant and gym management systems: scoped first, then a fixed quote. What drives the cost, what's always included, and the running costs itemised.",
+    // GYM-PAUSED: was "our restaurant and gym management systems".
+    "How pricing works for our restaurant management system: scoped first, then a fixed quote. What drives the cost, what's always included, and the running costs itemised.",
   path: "/pricing",
 });
 
@@ -102,11 +103,11 @@ export default function PricingPage() {
           align="center"
           eyebrow="Get a number"
           title="A quote takes one call and a look at your setup"
-          description="Tell us which system you need and roughly how you operate. You'll get a fixed price, in writing, with the scope it covers spelled out."
+          description="Tell us roughly how you operate. You'll get a fixed price, in writing, with the scope it covers spelled out."
         />
 
         <div className="mx-auto mt-10 grid max-w-3xl gap-5 sm:grid-cols-2">
-          {products.map((product) => (
+          {publishedProducts.map((product) => (
             <div
               key={product.slug}
               className="rounded-card border border-line bg-canvas p-6 text-center"

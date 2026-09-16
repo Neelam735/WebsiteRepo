@@ -252,7 +252,8 @@ export function ContactForm() {
           {...field("message")}
           rows={5}
           className={cn(inputClass(errors.message), "resize-y")}
-          placeholder="e.g. We run three studios on a spreadsheet and keep missing failed membership payments."
+          /* GYM-PAUSED: the example used to describe a three-studio gym. */
+          placeholder="e.g. We run two outlets on a spreadsheet and keep losing aggregator orders in the rush."
         />
       </Field>
 

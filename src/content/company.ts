@@ -8,9 +8,11 @@
 
 export const about = {
   headline: "Two systems, built properly",
-  lede: "We do two things: a restaurant management system and a gym management system. Both are the kind of software a business runs on all day, so both are built to be dependable rather than impressive.",
+  // GYM-PAUSED: was "We do two things: ... and a gym management system."
+  lede: "We do one thing: a restaurant management system. It is the kind of software a business runs on all day, so it is built to be dependable rather than impressive.",
   paragraphs: [
-    "Most software sold to restaurants and gyms falls into one of two traps. It is either a cheap tool that does one thing and refuses to talk to anything else, or it is built for chains with an IT department and priced accordingly. Independents end up stitching four products together with a spreadsheet in the middle.",
+    // GYM-PAUSED: was "sold to restaurants and gyms".
+    "Most software sold to restaurants falls into one of two traps. It is either a cheap tool that does one thing and refuses to talk to anything else, or it is built for chains with an IT department and priced accordingly. Independents end up stitching four products together with a spreadsheet in the middle.",
     "We work in the gap between those. One system per business, set up around how you already operate, with the modules you need switched on and the ones you don't left off.",
     "Before we design anything, we spend time in the business — a dinner service, a Monday evening class block. Watching what actually happens tells us more than any requirements document, and it is where nearly every good decision on a project comes from.",
   ],
@@ -32,7 +34,8 @@ export const values: { title: string; body: string }[] = [
   },
   {
     title: "We show up for launch",
-    body: "Go-live is the risky part — first service, first week of classes. We are there for it, not on the end of a ticketing system.",
+    // GYM-PAUSED: was "first service, first week of classes".
+    body: "Go-live is the risky part — first service, first full weekend. We are there for it, not on the end of a ticketing system.",
   },
 ];
 
@@ -70,6 +73,7 @@ export const faqs: { question: string; answer: string }[] = [
   {
     question: "We only need part of this. Is that a problem?",
     answer:
-      "No, and it is common. The systems are modular — take ordering without inventory, or memberships without personal training. You pay for what you switch on.",
+      // GYM-PAUSED: the second example was memberships without personal training.
+      "No, and it is common. The system is modular — take ordering without inventory, or billing without table management. You pay for what you switch on.",
   },
 ];

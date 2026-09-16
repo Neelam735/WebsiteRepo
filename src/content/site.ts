@@ -42,10 +42,12 @@ export const site = {
     gstin: "",
   },
 
-  tagline: "Restaurant and gym management software",
+  // GYM-PAUSED: was "Restaurant and gym management software"
+  tagline: "Restaurant management software",
 
   description:
-    "We build and run two systems: a restaurant management system for ordering, menus, tables and kitchen operations, and a gym management system for memberships, classes and check-in.",
+    // GYM-PAUSED: the gym half of this sentence is parked with the product.
+    "We build and run a restaurant management system: ordering, menus, tables, billing and kitchen operations, set up around how you already work.",
 
   /** Canonical origin, no trailing slash. Set NEXT_PUBLIC_SITE_URL in production. */
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://bizwisetech.com",
@@ -68,7 +70,8 @@ export const site = {
      */
     whatsappEnabled: process.env.NEXT_PUBLIC_WHATSAPP_ENABLED === "true",
     whatsappMessage:
-      "Hi! I'd like to talk about your restaurant/gym management system.",
+      // GYM-PAUSED: was "your restaurant/gym management system".
+      "Hi! I'd like to talk about your restaurant management system.",
     /**
      * Every field is optional and rendered only if set, so you can publish as
      * much or as little as you want. CITY is the minimum that shows anything:
@@ -217,7 +220,7 @@ export type NavItem = { label: string; href: string };
 
 export const mainNav: NavItem[] = [
   { label: "Restaurants", href: "/restaurant-management-system" },
-  { label: "Gyms", href: "/gym-management-system" },
+  // GYM-PAUSED: { label: "Gyms", href: "/gym-management-system" },
   // The plans live on the home page; /pricing carries the detail behind them.
   { label: "Pricing", href: "/#pricing" },
   { label: "About", href: "/about" },
@@ -228,7 +231,7 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
     title: "What we do",
     items: [
       { label: "Restaurant management system", href: "/restaurant-management-system" },
-      { label: "Gym management system", href: "/gym-management-system" },
+      // GYM-PAUSED: { label: "Gym management system", href: "/gym-management-system" },
       { label: "How pricing works", href: "/pricing" },
     ],
   },

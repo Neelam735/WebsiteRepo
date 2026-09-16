@@ -54,7 +54,8 @@ export const freeTrial: FreeTrial = {
   terms: [
     "No card details to start",
     "No auto-charge when it ends",
-    "Set up with your own menu or timetable",
+    // GYM-PAUSED: was "your own menu or timetable".
+    "Set up with your own menu and prices",
   ],
 };
 
@@ -104,18 +105,21 @@ export const tiers: Tier[] = [
   {
     slug: "growth",
     name: "Growth",
-    audience: "Businesses taking orders or bookings every day.",
+    audience: "Restaurants taking orders every day.",
     price: 1999,
     period: "month",
     priceNote: "billed monthly",
     description:
-      "Everything in Starter, plus the system that takes the orders or the bookings — the part that pays for itself.",
+      // GYM-PAUSED: was "the orders or the bookings".
+      "Everything in Starter, plus the system that takes the orders — the part that pays for itself.",
     features: [
       "Everything in Starter, up to 12 pages",
-      "Online ordering or class and appointment booking",
+      // GYM-PAUSED: was "Online ordering or class and appointment booking".
+      "Online ordering and table reservations",
       "Payment gateway integration for online payments",
       "Live order tracking for customers",
-      "Kitchen printer or staff calendar sync",
+      // GYM-PAUSED: was "Kitchen printer or staff calendar sync".
+      "Kitchen printer and KOT",
     ],
     cta: { label: "Get started", href: "/contact#message" },
     highlighted: true,
@@ -127,10 +131,11 @@ export const tiers: Tier[] = [
     price: null,
     priceNote: "quoted after a scoping call",
     description:
-      "The complete restaurant or gym management system — every module you need, across as many sites as you run.",
+      // GYM-PAUSED: was "restaurant or gym management system".
+      "The complete restaurant management system — every module you need, across as many sites as you run.",
     features: [
       "Everything in Growth, no page limit",
-      "The full restaurant or gym management system",
+      "The full restaurant management system",
       "Multi-location support with per-site setup",
       "Integrations with your existing tools",
       "Data migration from spreadsheets or an old system",
@@ -148,11 +153,12 @@ export const priceDrivers: { title: string; body: string }[] = [
   },
   {
     title: "How many locations",
-    body: "A second site with its own menu, timetable and staff adds setup and training; the tenth adds much less than the second.",
+    body: "A second outlet with its own menu, prices and staff adds setup and training; the tenth adds much less than the second.",
   },
   {
     title: "What has to be migrated",
-    body: "Moving members, balances and booking history from an existing system is real work. Starting from a spreadsheet is usually quicker than starting from a closed platform.",
+    // GYM-PAUSED: was "members, balances and booking history".
+    body: "Moving your menu, customers and order history from an existing system is real work. Starting from a spreadsheet is usually quicker than starting from a closed platform.",
   },
   {
     title: "Integrations",
@@ -167,7 +173,7 @@ export const priceDrivers: { title: string; body: string }[] = [
 /** True of every project regardless of size. */
 export const alwaysIncluded: string[] = [
   "A scoping session and a written summary of what we agreed",
-  "Configuration around your real menu, timetable, plans and staff",
+  "Configuration around your real menu, prices, tables and staff",
   "Data migration from your current system or spreadsheets",
   "Training for the people who will use it daily",
   "Someone present for go-live",
