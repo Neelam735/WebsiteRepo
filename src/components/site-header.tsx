@@ -70,10 +70,12 @@ export function SiteHeader() {
                   href={item.href}
                   aria-current={isActive(item.href) ? "page" : undefined}
                   className={cn(
-                    "rounded-full px-3.5 py-2 text-[15px] font-medium transition-colors",
+                    // See .nav-link in globals.css — a rule that grows from the
+                    // centre. A filled pill shouted for a link merely hovered.
+                    "nav-link rounded-full px-3.5 py-2 text-[15px] font-medium transition-colors",
                     isActive(item.href)
-                      ? "bg-carbon-50 text-carbon-700"
-                      : "text-ink-700 hover:bg-ink-100 hover:text-ink-950",
+                      ? "text-ink-950"
+                      : "text-ink-600 hover:text-ink-950",
                   )}
                 >
                   {item.label}
