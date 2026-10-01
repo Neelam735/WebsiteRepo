@@ -268,7 +268,7 @@ const bars = [38, 52, 44, 68, 84, 61, 96];
 
 export function DashboardMockup({ className }: { className?: string }) {
   return (
-    <BrowserFrame url="app.bizwisetech.com/dashboard" className={className}>
+    <BrowserFrame url="app.bizwisetech.com" className={className}>
       <div
         role="img"
         aria-label="Mockup of the reporting dashboard: three summary tiles, a seven-day bar chart and two alerts"

@@ -17,6 +17,7 @@ import { process, publishedProducts } from "@/content/products";
 import { primaryCta, site } from "@/content/site";
 import { faqJsonLd } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
+import { cn } from "@/lib/utils";
 
 export const metadata = buildMetadata({
   // GYM-PAUSED: was "Restaurant & gym management systems"
@@ -50,6 +51,21 @@ export default function HomePage() {
 function Hero() {
   return (
     <section className="relative overflow-hidden bg-carbon-950 pt-12 text-white sm:pt-16 lg:pt-20">
+      {/*
+        Ambient light behind the scene. Two soft radials on a very slow drift —
+        at 22s it reads as light moving rather than an element animating, and it
+        stops the black panel being a flat rectangle.
+      */}
+      <div
+        aria-hidden="true"
+        className="ambient-drift pointer-events-none absolute -left-1/4 top-0 h-[36rem] w-[36rem] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.10),transparent_65%)] blur-2xl"
+      />
+      <div
+        aria-hidden="true"
+        className="ambient-drift pointer-events-none absolute right-0 top-1/3 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.07),transparent_65%)] blur-2xl"
+        style={{ animationDelay: "-11s" }}
+      />
+
       {/* Soft falloff so the black panel doesn't end as a hard band. */}
       <div
         aria-hidden="true"
@@ -87,13 +103,13 @@ function Hero() {
                   aria-hidden="true"
                   viewBox="0 0 300 12"
                   preserveAspectRatio="none"
-                  className="absolute -bottom-1 left-0 h-2.5 w-full text-white/45"
+                  className="underline-draw absolute -bottom-1 left-0 h-2.5 w-full text-white/35"
                 >
                   <path
                     d="M2 8c60-5 120-6 180-4s90 4 116 2"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="4"
+                    strokeWidth="2.5"
                     strokeLinecap="round"
                   />
                 </svg>
@@ -115,7 +131,7 @@ function Hero() {
               <ButtonLink
                 href="#what-we-do"
                 size="lg"
-                className="bg-white/10 text-white ring-1 ring-white/25 hover:bg-white/15"
+                className="bg-white/[0.12] text-white ring-1 ring-white/30 backdrop-blur-sm transition-colors hover:bg-white/20 hover:ring-white/50"
               >
                 See what&rsquo;s in each system
               </ButtonLink>
@@ -138,14 +154,14 @@ function Hero() {
             lg up: below that there isn't room to render a phone at a width
             where its rows are readable.
           */}
-          <div className="scene scene-floor relative mx-auto w-full max-w-lg lg:max-w-none">
+          <div className="scene scene-floor relative mx-auto w-full max-w-lg lg:max-w-none lg:pr-10">
             <Reveal>
               <div className="scene-layer scene-back">
                 <DashboardMockup />
               </div>
             </Reveal>
             <Reveal delay={120}>
-              <div className="scene-layer scene-front absolute -bottom-14 right-0 hidden w-60 lg:block">
+              <div className="scene-layer scene-front absolute -bottom-14 -right-4 hidden w-60 lg:block">
                 <OrderingMockup className="max-w-none" />
               </div>
             </Reveal>
@@ -169,7 +185,17 @@ function WhatWeDo() {
         description="We don't do a bit of everything. This is the system we build, and it goes deep enough to run the restaurant rather than just decorate it."
       />
 
-      <ul className="mt-12 grid gap-6 md:grid-cols-2">
+      {/*
+        The column count follows how many systems are actually published. With
+        one, a two-column grid left the right half of the row empty, which
+        reads as a page that failed to load rather than a deliberate layout.
+      */}
+      <ul
+        className={cn(
+          "mt-12 grid gap-6",
+          publishedProducts.length > 1 ? "md:grid-cols-2" : "mx-auto max-w-xl",
+        )}
+      >
         {publishedProducts.map((product, index) => (
           <Reveal key={product.slug} delay={index * 80} className="h-full">
             <ProductCard product={product} />
@@ -270,7 +296,12 @@ function WhyUs() {
           </ButtonLink>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div
+          className={cn(
+            "grid gap-4",
+            publishedProducts.length > 1 ? "sm:grid-cols-2" : "",
+          )}
+        >
           {publishedProducts.map((product) => (
             <Link
               key={product.slug}

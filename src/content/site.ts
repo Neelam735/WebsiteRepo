@@ -36,6 +36,18 @@ export const site = {
    * lawfully issue. Flip this to true and add the GSTIN on the day you
    * register, and the wording follows.
    */
+  /**
+   * Who pays Razorpay's processing fee.
+   *
+   * MUST MATCH the fee-bearer setting in the Razorpay dashboard. With
+   * "customer" selected there, Razorpay adds its fee on top of the plan price
+   * at checkout — the customer is charged ₹999 + fee, and ₹999 settles to us —
+   * so the receipt itemises the fee. Set this false if you ever switch the
+   * dashboard back to merchant-borne, or the receipt will invoice the customer
+   * for a charge they did not pay.
+   */
+  customerBearsGatewayFee: true,
+
   gst: {
     registered: false,
     /** Printed on invoices and shown in the footer once you have one. */
